@@ -5,14 +5,28 @@ g = p.Gnuplot()
 typealias Pos Tuple{Int, Int}
 typealias PosVal Tuple{Pos, Float64}
 
+type DBM
+    size::Int
+    grid::Array{Float64, 2}
+    b::Array{Bool, 2}
+    stick::Set{Pos}
+    function DBM(size::Int)
+        grid = zeros(Float64, (SIZE, SIZE))
+        b = zeros(Bool, (SIZE, SIZE))
+        stick = Set{Pos}()
+        new(size, grid, b, stick)
+    end
+end
+
+
 # Init grid, boundary, stick
-function init(g, b, stick)
-    const c = round(Int, (size(g)[1])/2)
+function init(dbm::DBM)
+    const c = round(Int, dbm.size/2)
     const r = c-2
     # seed
-    g[c, c] = 0
-    b[c, c] = true
-    push!(stick, (c, c))
+    dbm.grid[c, c] = 0
+    dbm.b[c, c] = true
+    push!(dbm.stick, (c, c))
     # DEBUG
 #    g[c+1, c] = 0
 #    b[c+1, c] = true
@@ -44,19 +58,19 @@ function init(g, b, stick)
 #    g[c, c+2] = 0
 #    b[c, c+2] = true
 #    push!(stick, (c+2, c))
-    for j in 1:size(g,2)
-        for i in 1:size(g, 1)
+    for j in 1:dbm.size
+        for i in 1:dbm.size
             r2 = (j-c)^2 + (i-c)^2
             if r2 >= r^2
-                g[i, j] = 1
-                b[i, j] = true
+                dbm.grid[i, j] = 1
+                dbm.b[i, j] = true
             end
         end
     end
 end
 
 # one step SOR method
-function solve(g, b)
+function solve!(g, b)
     const omega = 1.5
     for j in 2:size(g,2)-1
         for i in 2:size(g, 1)-1
@@ -68,16 +82,22 @@ function solve(g, b)
     end
 end
 
+function calc_potential(dbm::DBM, n)
+    for i in 1:n
+        solve!(dbm.grid, dbm.b)
+    end
+end
+
 # 
-function get_perimeter(g, b, stick, r)
+function get_perimeter(dbm::DBM, r::Pos)
     i,j = r
     nbhd_r = [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]
-    reduce((res, r) -> get(b, r, true)? res:push!(res, (r, get(g, r, nothing))), Set{PosVal}(), nbhd_r)
+    reduce((res, r) -> get(dbm.b, r, true)? res:push!(res, (r, get(dbm.grid, r, nothing))), Set{PosVal}(), nbhd_r)
 end
 
 
-function perimeter(g, b, stick)
-    reduce((res, x) -> union(res, get_perimeter(grid, b, stick, x)), Set{PosVal}(), stick)
+function perimeter(dbm::DBM)
+    reduce((res, x) -> union(res, get_perimeter(dbm, x)), Set{PosVal}(), dbm.stick)
 end
 
 function plist(peri)
@@ -108,31 +128,13 @@ function select(pl)
     end
 end
 
-function select_debug(pl)
-    p = rand()
+
+function add!(dbm::DBM, p)
     println(p)
-    s = 0
-    for i in 1:length(pl)
-        s += pl[i][2]
-        if s >= p
-            return (i, pl[i])
-        end
-    end
+    dbm.b[p...] = true
+    push!(dbm.stick, p)
+    dbm.grid[p...] = 0
 end
-
-
-function add!(g, b, stick, p)
-    println(p)
-    b[p...] = true
-    push!(stick, p)
-    g[p...] = 0
-end
-
-function detect_loop(g, b, stick, p)
-    get_perimeter(g, b, stick, p)
-end
-
-detect_loop(grid, b, stick, (200, 200))
 
 function print_matrix(mat, f)
     row,col = size(mat)
@@ -146,62 +148,62 @@ end
 
 
 SIZE = 200
-grid = zeros(Float64, (SIZE, SIZE))
-b = zeros(Bool, (SIZE, SIZE))
-stick = Set{Pos}()
-init(grid, b, stick)
-stick
-@time for i in 1:1000
-    solve(grid, b)
-end
+dbm = DBM(SIZE)
+init(dbm)
+
+@time calc_potential(dbm, 1000)
 
 p.com(g, "set size square")
 p.com(g, "set grid")
 p.xrange(g, (SIZE/2-20, SIZE/2+20))
 p.yrange(g, (SIZE/2-20, SIZE/2+20))
+#p.com(g, "set palette grey")
 
-for j in 1:500
-    particle = select(plist(perimeter(grid, b, stick)))
-    add!(grid, b, stick, particle[1])
-    for i in 1:50
-        solve(grid, b)
-    end
+for j in 1:200
+    particle = select(plist(perimeter(dbm)))
+    add!(dbm, particle[1])
+    calc_potential(dbm, 100)
 end
-p.splot(g, map( x -> x? 0:1, b), "matrix with image")
-#p.splot_heatmap(g, grid)
-#print_matrix(b[int(SIZE/2):int(SIZE/2)+2, int(SIZE/2):int(SIZE/2)+1], x->x? "X":"o")
-#print_matrix(grid[int(SIZE/2):int(SIZE/2)+2, int(SIZE/2):int(SIZE/2)+1], x->string(x, " "))
-#sort(plist(perimeter(grid, b, stick)), lt=(x,y)->x[2]<y[2])
+p.splot(g, map( x -> x? 0:1, dbm.b), "matrix with image")
+
+p.splot_heatmap(g, dbm.grid)
 
 
+# Fast Calculation
+function rij(ri, rj)
+    delta = map(-, ri, rj)
+    sqrt(reduce((acc, v)->acc+v^2, 0, delta))
+end
 
-# DEBUG
-##pl = Vector{Float64}(map(x->x[2], sort(plist(perimeter(grid, b, stick)), lt=(x,y)->x[2]<y[2])))
-#peri = perimeter(grid, b, stick)
-#pl = plist(peri)
-#count = Vector{Int}(zeros(length(pl)))
-#SAMPLE = 50000
-#for i in 1:SAMPLE
-#    s = select_debug(pl)[1]
-#    count[s] = count[s] + 1
-#end
-#p.com(g, "set style fill solid")
-#pl
-#count
-#p.plot(g, Vector{Float64}(map(x->x[2], pl)), "using 0:1:xtic(1) w boxes")
-#p.plot(g, map(x->x/SAMPLE, count), "using 0:1:xtic(1) w boxes")
+function phi_j2i(ri, rj)
+    R1 = 0.5
+    1 - R1/rij(ri, rj)
+end
 
-print_matrix(b[200:203, 200:203], x->x? "@":" ")
-print_matrix(grid[200:203, 200:203], x->string(round(x, 2), " "))
+function phi_i(ri::Pos, charges)
+    sum(map(rj->phi_j2i(ri, rj), charges))
+end
 
-p.splot_heatmap(g, grid)
+SIZE = 200
+dbm = DBM(SIZE)
+init(dbm)
+dbm.stick
+perimeter(dbm)
+get_perimeter(dbm, (30, 40))
 
-p.reset(g)
-p.com(g, "set palette grey")
-p.splot(g, map(x->ceil(Int, x), grid), "matrix with image")
-p.splot_heatmap(g, grid)
 
-p.reset(g)
-#p.xrange(g, (0, 40))
-#p.yrange(g, (0, 40))
-#p.splot(g, grid, "matrix w l")
+function get_perimeterDICT(dbm::DBM, r::Pos)
+    i,j = r
+    nbhd_r = [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]
+    reduce((res, r) -> get(dbm.b, r, true)? res:push!(res, (r, get(dbm.grid, r, nothing))), Set{PosVal}(), nbhd_r)
+end
+
+
+function perimeterDICT(dbm::DBM)
+    reduce((res, x) -> union(res, get_perimeterDICT(dbm, x)), Set{PosVal}(), dbm.stick)
+end
+
+
+for peri in perimeter(dbm)
+    updated = (peri[1], phi_i(peri[1], dbm.stick))
+end
