@@ -10,11 +10,12 @@ type DBM
     grid::Array{Float64, 2}
     b::Array{Bool, 2}
     stick::Set{Pos}
+    perimeters::Dict{Pos, Float64}
     function DBM(size::Int)
         grid = zeros(Float64, (SIZE, SIZE))
         b = zeros(Bool, (SIZE, SIZE))
         stick = Set{Pos}()
-        new(size, grid, b, stick)
+        new(size, grid, b, stick, Dict{Pos, Float64}())
     end
 end
 
@@ -27,37 +28,6 @@ function init(dbm::DBM)
     dbm.grid[c, c] = 0
     dbm.b[c, c] = true
     push!(dbm.stick, (c, c))
-    # DEBUG
-#    g[c+1, c] = 0
-#    b[c+1, c] = true
-#    push!(stick, (c+1, c))
-#    g[c+2, c] = 0
-#    b[c+2, c] = true
-#    push!(stick, (c+2, c))
-#    g[c+3, c] = 0
-#    b[c+3, c] = true
-#    push!(stick, (c+3, c))
-#    g[c+3, c+1] = 0
-#    b[c+3, c+1] = true
-#    push!(stick, (c+3, c+1))
-#    g[c+3, c+2] = 0
-#    b[c+3, c+2] = true
-#    push!(stick, (c+3, c+2))
-#    g[c+3, c+3] = 0
-#    b[c+3, c+3] = true
-#    push!(stick, (c+3, c+3))
-#    g[c+2, c+3] = 0
-#    b[c+2, c+3] = true
-#    push!(stick, (c+2, c+3))
-#    g[c+1, c+3] = 0
-#    b[c+1, c+3] = true
-#    push!(stick, (c+1, c+3))
-#    g[c, c+1] = 0
-#    b[c, c+1] = true
-#    push!(stick, (c+1, c))
-#    g[c, c+2] = 0
-#    b[c, c+2] = true
-#    push!(stick, (c+2, c))
     for j in 1:dbm.size
         for i in 1:dbm.size
             r2 = (j-c)^2 + (i-c)^2
@@ -67,6 +37,15 @@ function init(dbm::DBM)
             end
         end
     end
+    # 初期のperimeterは系の中心にあるとするので、periがboundaryかどうかの
+    # checkはしない
+    # eight site!!!
+    perimeter_site = [(c-1, c), (c+1, c), (c, c-1), (c, c+1)]
+#    perimeter_site = [(c+i, c+j) for i in -1:1, j in -1:1]
+    for peri in perimeter_site
+        dbm.perimeters[peri] = 0.0
+    end
+    delete!(dbm.perimeters, (c, c))
 end
 
 # one step SOR method
@@ -159,7 +138,7 @@ p.xrange(g, (SIZE/2-20, SIZE/2+20))
 p.yrange(g, (SIZE/2-20, SIZE/2+20))
 #p.com(g, "set palette grey")
 
-for j in 1:200
+for j in 1:100
     particle = select(plist(perimeter(dbm)))
     add!(dbm, particle[1])
     calc_potential(dbm, 100)
@@ -184,26 +163,101 @@ function phi_i(ri::Pos, charges)
     sum(map(rj->phi_j2i(ri, rj), charges))
 end
 
+# calc potential at new perimeter site
+function calc_perimeters(dbm::DBM, perimeters)
+    for (peri, _) in perimeters
+        new_phi = phi_i(peri, dbm.stick)
+        perimeters[peri] = new_phi
+    end
+    return perimeters
+end
+
+function get_new_perimeters(dbm::DBM, r::Pos)
+    function set_element(dict, dbm, r)
+#        isboundary = get(dbm.b, r, true)
+        isboundary = dbm.b[r...]
+        if (!isboundary && !(r in keys(dbm.perimeters)))
+            dict[r] = 0.0
+        end
+        return dict
+    end
+    i,j = r
+    peri_pos = [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]
+# eight site!!!
+#    peri_pos = [(i+_i, j+_j) for _i in -1:1, _j in -1:1]
+    new_peri = Dict{Pos, Float64}()
+    reduce((d, pos)->set_element(d, dbm, pos), new_peri, peri_pos)
+end
+
+function update_perimeters(dbm::DBM, new_charge_pos)
+    delete!(dbm.perimeters, new_charge_pos)
+    for (peri, phi) in dbm.perimeters
+        dbm.perimeters[peri] = phi + phi_j2i(new_charge_pos, peri)
+    end
+end
+
+function add_charge_and_perimeters!(dbm::DBM, p)
+#    println(p)
+    dbm.b[p...] = true
+    push!(dbm.stick, p)
+    dbm.grid[p...] = 0
+    update_perimeters(dbm, p)
+    new_perimeters = calc_perimeters(dbm, get_new_perimeters(dbm, p))
+#    println(dbm.perimeters)
+#    println(new_perimeters)
+    merge!(dbm.perimeters, new_perimeters)
+end
+
+#n = get_new_perimeters(dbm, (int(dbm.size/2+1), int(dbm.size/2+1)))
+#dbm.perimeters
+
+function plist2(peri)
+    ita = 4.0
+    phi_min = min(values(peri)...)
+    phi_max = max(values(peri)...)
+    delta = phi_max-phi_min
+    map(x->(x[1], ((x[2]-phi_min)/delta)^ita), peri)
+    C = sum(x->x[2], peri)
+    map(x->(x[1], x[2]/C), peri)
+end
+
+function iterate(dbm::DBM, n::Int)
+    for i in 1:n
+        pl = plist2(dbm.perimeters)
+        new_charge = select(pl)
+        add_charge_and_perimeters!(dbm, new_charge[1])
+    end
+end
+
 SIZE = 200
 dbm = DBM(SIZE)
 init(dbm)
 dbm.stick
-perimeter(dbm)
-get_perimeter(dbm, (30, 40))
+# init perimeters
+dbm.perimeters = calc_perimeters(dbm, dbm.perimeters)
+# add new charge
 
 
-function get_perimeterDICT(dbm::DBM, r::Pos)
-    i,j = r
-    nbhd_r = [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]
-    reduce((res, r) -> get(dbm.b, r, true)? res:push!(res, (r, get(dbm.grid, r, nothing))), Set{PosVal}(), nbhd_r)
+function writef(f, stick)
+    for s in stick
+        write(f, string(s[1], ", ", s[2], "\n"))
+    end
+    write(f, "\n")
 end
 
+pl = plist2(dbm.perimeters)
+#new_charge = select(pl)
+#add_charge_and_perimeters!(dbm, new_charge[1])
+iterate(dbm, 100)
+vec = Pos[s for s in dbm.stick]
+#p._plot_data(g, "plot", writef, vec, "w p  ps 2.0 pt 5")
+p.splot(g, map( x -> x? 0:1, dbm.b), "matrix with image")
+#p.com(g, "set size square")
+#p.splot_heatmap(g, dbm.grid)
 
-function perimeterDICT(dbm::DBM)
-    reduce((res, x) -> union(res, get_perimeterDICT(dbm, x)), Set{PosVal}(), dbm.stick)
-end
+pl = plist2(dbm.perimeters)
+dbm.perimeters
+p.reset(g)
 
-
-for peri in perimeter(dbm)
-    updated = (peri[1], phi_i(peri[1], dbm.stick))
-end
+iterate(dbm, 1)
+p.plot(g, Float64[phi for (p, phi) in dbm.perimeters], "w lp")
