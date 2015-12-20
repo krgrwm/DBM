@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.3)
+add_executable(main ${PROJECT_SOURCE_DIR}/src/main.cpp)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_COMPILER_ID Clang)
+add_definitions( -std=c++11 -Wall )

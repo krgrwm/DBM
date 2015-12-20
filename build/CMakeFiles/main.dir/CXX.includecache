@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/t.sato/Work/DBM/src/main.cpp
+iostream
+-
+cmath
+-
+vector
+-
+map
+-
+set
+-
+functional
+-
+numeric
+-
+algorithm
+-
+random
+-
+
