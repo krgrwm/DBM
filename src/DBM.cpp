@@ -30,9 +30,12 @@ const bool DBM::check_bound(Pos p) {
 Perimeter DBM::get_perimeter(Pos p) {
   int i = p.first;
   int j = p.second;
-  vector<Pos> candidates = { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
+
+  // neumann neighborhood
+  const vector<Pos> candidates = { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
   Perimeter peris;
 
+  // if pos is not boundary and inside grid -> add site as candidate
   auto f = [&](Perimeter& acc, const Pos& pos) 
   {
     const int i = pos.first;
@@ -43,7 +46,7 @@ Perimeter DBM::get_perimeter(Pos p) {
     if (ok) {
       add = !(this->b[i][j]);
     }
-//    cout << add << endl;
+
     if (add) {
       acc.insert(pos);
     }
@@ -60,10 +63,12 @@ void DBM::init()
   const auto r = c-2;
   double r2=0;
 
+  // set seed at center (phi=0)
   this->grid[c][c] = 0.0;
   this->b[c][c] = true;
   (this->stick).insert(Pos(c, c));
 
+  // set circular boundary (phi=1)
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
       r2 = pow(j-c, 2) + pow(i-c, 2);
@@ -75,7 +80,6 @@ void DBM::init()
   }
   // add perimeters at (c, c)
   auto peris = get_perimeter(Pos(c, c));
-//  cout << peris.size() << endl;
   (this->peri).insert(peris.begin(), peris.end());
 
 //  clock_t begin = clock();
@@ -84,6 +88,7 @@ void DBM::init()
 //  cout << double(end-begin)/CLOCKS_PER_SEC << endl;
 }
 
+// SOR method
 void DBM::solve(int N) {
   const auto omega = 1.5;
   double gij = 0.0;
@@ -102,6 +107,7 @@ void DBM::solve(int N) {
   }
 }
 
+// calculate probability from potencial
 vector<PosVal> DBM::plist(Perimeter& peri) {
   double eta=1.0;
   double C = 0.0;
@@ -140,8 +146,6 @@ void DBM::update_perimeters(const Pos& pos) {
 
 void DBM::add_particle(const PosVal& pv) {
   const Pos& p = pv.first;
-
-//  cout << pv.first.first << ", " << pv.first.second << endl;
 
   this->b[p.first][p.second] = true;
   this->grid[p.first][p.second] = 0;

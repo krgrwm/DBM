@@ -15,7 +15,11 @@ class DBM {
     Perimeter      get_perimeter(Pos p);
     const bool     check_bound(Pos p);
     vector<PosVal> plist(Perimeter& peri);
+
+    // select site to stick according to rule
     PosVal         select(const vector<PosVal>& ps);
+
+    // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);
     void           add_particle(const PosVal& pv);
 
@@ -30,8 +34,8 @@ class DBM {
     int         size;
     Grid        grid;
     Boundary    b;
-    Stick       stick;
-    Perimeter   peri;
+    Stick       stick; // stuck particle set
+    Perimeter   peri;  // candidates to stick
     Rand01      r;
 
 };
