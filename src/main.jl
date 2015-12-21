@@ -131,7 +131,7 @@ SIZE = 200
 dbm = DBM(SIZE)
 init(dbm)
 
-@time calc_potential(dbm, 1000)
+@time calc_potential(dbm, 1400)
 
 p.com(g, "set size square")
 p.com(g, "set grid")
@@ -144,6 +144,7 @@ for j in 1:100
     add!(dbm, particle[1])
     calc_potential(dbm, 100)
 end
+
 p.splot(g, map( x -> x? 0:1, dbm.b), "matrix with image")
 
 p.splot_heatmap(g, dbm.grid)

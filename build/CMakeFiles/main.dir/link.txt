@@ -1,1 +1,1 @@
-/usr/bin/CC   -g   CMakeFiles/main.dir/src/main.cpp.o  -o main  
+/usr/bin/CC   -O3 -DNDEBUG   CMakeFiles/main.dir/src/main.cpp.o CMakeFiles/main.dir/src/DBM.cpp.o  -o main  
