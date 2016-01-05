@@ -26,10 +26,6 @@ int main(int argc, char const* argv[])
 
   dbm.grow();
 
-//  for (int i=0; i<N; i++ ) {
-//    dbm.step();
-//  }
-
   dbm.write(file);
   return 0;
 }

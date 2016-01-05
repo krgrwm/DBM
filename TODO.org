@@ -1,0 +1,4 @@
+* DONE
+  output file no 1gyoume ni parameter wo syuturyoku
+* DONE
+  output file no namae wo parameter file to taiou saseru
