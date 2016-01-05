@@ -1,7 +1,11 @@
 #!/usr/local/bin/zsh -u
 
-FILE=$1
+FILE=$(readlink -f $1)
 WITH=$2
 cd `dirname $0`
 
-gnuplot -p <(cat ./plot.pl <(./gen $FILE $WITH))
+SCRIPT=$(cat <(cat _plot/plot.pl) <(_plot/gen $FILE $WITH))
+echo $SCRIPT
+#gnuplot -p <(cat _plot/plot.pl <(_plot/gen $FILE $WITH))
+echo "$SCRIPT" | gnuplot -p
+#./_plot/gen $FILE $WITH | gnuplot -p

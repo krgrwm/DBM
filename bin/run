@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash -u
+
+./bin/runout $1 ./data/result

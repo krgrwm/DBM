@@ -1,0 +1,12 @@
+#!/usr/local/bin/bash -u
+
+param_file=$1
+outdir=${2%/} # remove trailing slash
+echo "param file:" $param_file
+source $param_file
+
+#output_file=$outdir"/S"$size"_N"$N"_eta"$eta
+output_file=$outdir"/"$(basename $param_file)".dat"
+echo "output:" $output_file
+
+./build/main $size $N $eta $output_file

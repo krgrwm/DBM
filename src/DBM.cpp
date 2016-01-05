@@ -10,14 +10,16 @@
 #include <algorithm>
 
 
-DBM::DBM(int size)
+DBM::DBM(const int size, const double eta, const int N)
 {
+  this->eta   = eta;
   this->size  = size;
   this->grid  = Grid(size, vector<double>(size, 0.0));
   this->b     = Boundary(size, vector<bool>(size, false));
   this->stick = Stick();
   this->peri  = Perimeter();
   this->r     = Rand01();
+  this->N     = N;
 }
 
 const bool DBM::check_bound(Pos p) {
@@ -109,7 +111,6 @@ void DBM::solve(int N) {
 
 // calculate probability from potencial
 vector<PosVal> DBM::plist(Perimeter& peri) {
-  double eta=1.0;
   double C = 0.0;
   vector<PosVal> plist(peri.size());
   // calc normalization constant C
@@ -155,9 +156,13 @@ void DBM::add_particle(const PosVal& pv) {
 
 void DBM::write(const string& f) {
   const string gridfile = f + ".grid";
-  const string boundaryfile = f + ".b";
+  const string boundaryfile = f + ".boundary";
   ofstream gofs(gridfile);
   ofstream bofs(boundaryfile);
+
+  // write header
+  gofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
+  bofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
 
   // write grid data
   for(auto& row : this->grid ) {
@@ -179,4 +184,10 @@ void DBM::write(const string& f) {
 void DBM::step() {
   this->add_particle(this->select(this->plist(this->peri)));
   this->solve(50);
+}
+
+void DBM::grow() {
+  for (int i=0; i<this->N; i++ ) {
+    this->step();
+  }
 }

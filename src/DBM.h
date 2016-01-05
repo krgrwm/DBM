@@ -24,19 +24,21 @@ class DBM {
     void           add_particle(const PosVal& pv);
 
   public:
-    DBM(int size);
+    DBM(const int size, const double eta, const int N);
     void  init();
     void  solve(int n);
     void  write(const string& f);
     void  step();
+    void  grow();   // N step
 
-  public:
+  private:
     int         size;
     Grid        grid;
     Boundary    b;
     Stick       stick; // stuck particle set
     Perimeter   peri;  // candidates to stick
     Rand01      r;
-
+    double      eta;
+    int         N;     // loop time
 };
 

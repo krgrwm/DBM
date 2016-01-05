@@ -39,9 +39,11 @@ random
 -
 
 /home/t.sato/Work/DBM/src/main.cpp
-ctime
+time.h
 -
 iostream
+-
+string
 -
 DBM.h
 /home/t.sato/Work/DBM/src/DBM.h
