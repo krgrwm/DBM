@@ -13,4 +13,4 @@ bin/run data/param/parameter_file
 shell script
 * size: system size (size x size)
 * N:    step
-* eta:  $$ \nabla x $$
+* eta:  p = C * \nabla \phi ^ \eta
