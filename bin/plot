@@ -1,8 +1,15 @@
 #!/usr/local/bin/zsh -u
 
+if [[ $# -lt 5 ]]; then
+    echo 'file with lattice output'
+    exit 1
+fi
+
 file=$(readlink -f $1)
 with=$2
-output=$3
+lattice=$3
+output=$4
+size=$5
 
 cd `dirname $0`
 
@@ -15,6 +22,7 @@ case "$output" in
         ;;
     *)
         echo "<|1|> Didn't match anything"
+        exit 1
 esac
 
-cat <(./$output $file $with) _plot/plot.pl <(_plot/gen $file $with) | gnuplot -p
+cat <(./$output $file $with) <(./plot_script $file $with $lattice $size) | gnuplot -p

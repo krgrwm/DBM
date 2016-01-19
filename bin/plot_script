@@ -1,0 +1,42 @@
+#!/usr/local/bin/zsh -u
+
+file="$1"
+with="$2"
+lattice="$3"
+size=$4
+
+param=$(head -n 1 $file)
+
+
+case "$lattice" in
+    square)
+        plot="splot '$file' matrix w $with notitle"
+        set_view="set view map"
+        ;;
+    hex)
+        plot="plot '$file' pt 6 ps $size notitle"
+        set_view=""
+        ;;
+    *)
+        echo "$lattice Didn't match anything" >2
+        exit 1
+esac
+
+
+config=$(cat << EOF
+$set_view
+set size square
+#set xtics 1
+#set ytics 1
+#set grid ytics lc rgb "#bbbbbb" lw 1 lt 1
+#set grid xtics lc rgb "#bbbbbb" lw 1 lt 1
+set xrange[-0.25:]
+set yrange[-0.25:]
+EOF
+)
+
+cat << EOF
+$config
+set title '$param'
+$plot
+EOF

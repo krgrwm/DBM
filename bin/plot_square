@@ -1,0 +1,8 @@
+#!/usr/local/bin/zsh -u
+
+cd `dirname $0`
+
+file=$1
+size=1
+
+./plot $file image square x $size
