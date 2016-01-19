@@ -10,23 +10,16 @@
 #include <algorithm>
 
 
-DBM::DBM(const int size, const double eta, const int N)
+DBM::DBM(const int size, const double eta, const int N): grid(size, 0.0), b(size, false)
 {
   this->eta   = eta;
   this->size  = size;
-  this->grid  = Grid(size, vector<double>(size, 0.0));
-  this->b     = Boundary(size, vector<bool>(size, false));
+//  this->grid  = Grid(size, 0.0);
+//  this->b     = Boundary(size, vector<bool>(size, false));
   this->stick = Stick();
   this->peri  = Perimeter();
   this->r     = Rand01();
   this->N     = N;
-}
-
-const bool DBM::check_bound(Pos p) {
-  int i = p.first;
-  int j = p.second;
-  int size = this->size;
-  return (0 <= i) && (i < size) && (0 <= j) && (j < size);
 }
 
 Perimeter DBM::get_perimeter(Pos p) {
@@ -34,7 +27,7 @@ Perimeter DBM::get_perimeter(Pos p) {
   int j = p.second;
 
   // neumann neighborhood
-  const vector<Pos> candidates = { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
+  const vector<Pos> candidates = this->grid.get_neighborhood(i, j);
   Perimeter peris;
 
   // if pos is not boundary and inside grid -> add site as candidate
@@ -42,11 +35,11 @@ Perimeter DBM::get_perimeter(Pos p) {
   {
     const int i = pos.first;
     const int j = pos.second;
-    const bool ok = check_bound(pos);
+    const bool ok = this->grid.check_array_bound(i, j);
     bool add = false;
 
     if (ok) {
-      add = !(this->b[i][j]);
+      add = !(this->b(i, j));
     }
 
     if (add) {
@@ -66,8 +59,8 @@ void DBM::init()
   double r2=0;
 
   // set seed at center (phi=0)
-  this->grid[c][c] = 0.0;
-  this->b[c][c] = true;
+  this->grid(c, c, 0.0);
+  this->b(c, c, true);
   (this->stick).insert(Pos(c, c));
 
   // set circular boundary (phi=1)
@@ -75,8 +68,8 @@ void DBM::init()
     for (int j = 0; j < this->size; j++) {
       r2 = pow(j-c, 2) + pow(i-c, 2);
       if (r2 >= r*r) {
-        this->grid[i][j] = 1.0;
-        this->b[i][j] = true;
+        this->grid(i, j, 1.0);
+        this->b(i, j, true);
       }
     }
   }
@@ -94,33 +87,36 @@ void DBM::init()
 void DBM::solve(int N) {
   const auto omega = 1.5;
   double gij = 0.0;
+  double tmp = 0.0;
 
   for (int n = 0; n < N; n++) {
     for (int i = 1; i < this->size-1; i++) {
       for (int j = 1; j < this->size-1; j++) {
-        if ( !this->b[i][j] ) {
-          gij = this->grid[i][j];
-          this->grid[i][j] = gij + omega * ( 
-              (this->grid[i+1][j] + this->grid[i-1][j] + this->grid[i][j+1] + this->grid[i][j-1])/4.0 - gij
+        if ( !this->b(i, j)) {
+          gij = this->grid(i, j);
+          tmp = gij + omega * ( 
+              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
               );
+          this->grid(i, j, tmp);
         }
       }
     }
   }
 }
 
-// calculate probability from potencial
+// calculate probability from potential
 vector<PosVal> DBM::plist(Perimeter& peri) {
-  double C = 0.0;
+  double C = 0.0; // Normalization constant
   vector<PosVal> plist(peri.size());
+
   // calc normalization constant C
   for (const auto& pos : peri) {
-    C += pow(this->grid[pos.first][pos.second], eta);
+    C += pow(this->grid(pos.first, pos.second), eta);
   }
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
-    double p = pow(this->grid[pos.first][pos.second], eta) / C ;
+    double p = pow(this->grid(pos.first, pos.second), eta) / C ;
     plist[i] = PosVal(pos, p);
     i++;
   }
@@ -148,8 +144,8 @@ void DBM::update_perimeters(const Pos& pos) {
 void DBM::add_particle(const PosVal& pv) {
   const Pos& p = pv.first;
 
-  this->b[p.first][p.second] = true;
-  this->grid[p.first][p.second] = 0;
+  this->b(p.first, p.second, true);
+  this->grid(p.first, p.second, 0.0);
   this->stick.insert(p);
   update_perimeters(p);
 }
@@ -165,17 +161,17 @@ void DBM::write(const string& f) {
   bofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
 
   // write grid data
-  for(auto& row : this->grid ) {
-    for(auto& var : row ) {
-      gofs << var << " ";
+  for (int i = 0; i < this->size; i++) {
+    for (int j = 0; j < this->size; j++) {
+      gofs << this->grid(i, j) << " ";
     }
     gofs << endl;
   }
 
 // write boudary data
-  for(const auto& row : this->b) {
-    for(const auto& var : row ) {
-      bofs << var << " ";
+  for (int i = 0; i < this->size; i++) {
+    for (int j = 0; j < this->size; j++) {
+      bofs << this->grid(i, j) << " ";
     }
     bofs << endl;
   }
@@ -184,10 +180,4 @@ void DBM::write(const string& f) {
 void DBM::step() {
   this->add_particle(this->select(this->plist(this->peri)));
   this->solve(50);
-}
-
-void DBM::grow() {
-  for (int i=0; i<this->N; i++ ) {
-    this->step();
-  }
 }

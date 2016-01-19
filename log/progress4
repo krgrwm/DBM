@@ -1,0 +1,15 @@
+param file: data/param/_eta4
+output: ./data/result/_eta4.dat
+./build/main 800 3500 4 ./data/result/_eta4.dat
+Initialize DBM
+0 - 3500
+67146: 0
+67146: 10
+67146: 20
+67146: 30
+67146: 40
+67146: 50
+67146: 60
+67146: 70
+67146: 80
+67146: 90

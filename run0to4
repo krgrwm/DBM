@@ -1,0 +1,7 @@
+#!/usr/local/bin/bash
+
+logdir="log"
+if [ ! -e ./$logdir ]; then
+    mkdir $logdir
+fi
+for i in {0..4}; do (bin/run data/param/_eta$i &) > ./$logdir/progress$i; done

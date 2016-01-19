@@ -9,4 +9,5 @@ source $param_file
 output_file=$outdir"/"$(basename $param_file)".dat"
 echo "output:" $output_file
 
+echo "./build/main $size $N $eta $output_file"
 ./build/main $size $N $eta $output_file

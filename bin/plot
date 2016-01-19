@@ -1,11 +1,20 @@
 #!/usr/local/bin/zsh -u
 
-FILE=$(readlink -f $1)
-WITH=$2
+file=$(readlink -f $1)
+with=$2
+output=$3
+
 cd `dirname $0`
 
-SCRIPT=$(cat <(cat _plot/plot.pl) <(_plot/gen $FILE $WITH))
-echo $SCRIPT
-#gnuplot -p <(cat _plot/plot.pl <(_plot/gen $FILE $WITH))
-echo "$SCRIPT" | gnuplot -p
-#./_plot/gen $FILE $WITH | gnuplot -p
+case "$output" in
+    x)
+        output="gen_x_plot"
+        ;;
+    pdf)
+        output="gen_eps_plot"
+        ;;
+    *)
+        echo "<|1|> Didn't match anything"
+esac
+
+cat <(./$output $file $with) _plot/plot.pl <(_plot/gen $file $with) | gnuplot -p

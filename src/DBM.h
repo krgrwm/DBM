@@ -1,19 +1,17 @@
 #include "Rand01.h"
+#include "Grid.h"
 #include <set>
 
 using namespace std;
 
 using Pos       = pair<int, int>;
 using PosVal    = pair<Pos, double>;
-using Grid      = vector< vector<double> >;
-using Boundary  = vector< vector<bool> >;
 using Stick     = set<Pos>;
 using Perimeter = set<Pos>;
 
 class DBM {
   private:
     Perimeter      get_perimeter(Pos p);
-    const bool     check_bound(Pos p);
     vector<PosVal> plist(Perimeter& peri);
 
     // select site to stick according to rule
@@ -29,16 +27,15 @@ class DBM {
     void  solve(int n);
     void  write(const string& f);
     void  step();
-    void  grow();   // N step
 
   private:
     int         size;
-    Grid        grid;
-    Boundary    b;
+    Grid<double>  grid;
+    Grid<bool>        b;
     Stick       stick; // stuck particle set
     Perimeter   peri;  // candidates to stick
     Rand01      r;
     double      eta;
-    int         N;     // loop time
+    int         N;     // steps
 };
 

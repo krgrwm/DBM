@@ -1,5 +1,0 @@
-#!/usr/local/bin/zsh -u
-
-size=300
-N=10
-eta=4.0

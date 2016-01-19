@@ -1,0 +1,10 @@
+#!/usr/local/bin/zsh -u
+
+file=$(readlink -f $1)
+cd `dirname $0`
+
+cat << EOF
+set terminal postscript eps enhanced
+set output '| epstopdf -f -o=$file.pdf'
+EOF
+#$(cat <(cat _plot/plot.pl) <(_plot/gen $file $with))

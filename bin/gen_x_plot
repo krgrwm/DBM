@@ -1,0 +1,9 @@
+#!/usr/local/bin/zsh -u
+
+file=$(readlink -f $1)
+#WITH=$2
+#cd `dirname $0`
+
+#SCRIPT=$(cat <(cat _plot/plot.pl) <(_plot/gen $FILE $WITH))
+#echo "$SCRIPT"
+echo ''

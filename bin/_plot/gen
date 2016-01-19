@@ -1,6 +1,11 @@
-#!/usr/local/bin/bash -u
-PLOT="splot"
-FILE=$1
-WITH="$2"
+#!/usr/local/bin/zsh -u
+plot="splot"
+file="$1"
+with="$2"
 
-echo $PLOT "'$FILE'" "matrix w" $WITH
+param=$(head -n 1 $file)
+
+cat << EOF
+set title '$param'
+$plot '$file' matrix w $with notitle
+EOF
