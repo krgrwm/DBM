@@ -171,7 +171,7 @@ void DBM::write(const string& f) {
 // write boudary data
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
-      bofs << this->grid(i, j) << " ";
+      bofs << this->b(i, j) << " ";
     }
     bofs << endl;
   }
