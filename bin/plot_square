@@ -1,8 +1,8 @@
 #!/usr/local/bin/zsh -u
 
-cd `dirname $0`
 
-file=$1
+file=$(readlink -f $1)
 size=1
 
+cd `dirname $0`
 ./plot $file image square x $size

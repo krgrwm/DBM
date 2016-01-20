@@ -26,12 +26,8 @@ esac
 config=$(cat << EOF
 $set_view
 set size square
-#set xtics 1
-#set ytics 1
-#set grid ytics lc rgb "#bbbbbb" lw 1 lt 1
-#set grid xtics lc rgb "#bbbbbb" lw 1 lt 1
-set xrange[-0.25:]
-set yrange[-0.25:]
+set xrange[0:]
+set yrange[0:]
 EOF
 )
 

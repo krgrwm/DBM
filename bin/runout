@@ -9,5 +9,16 @@ source $param_file
 output_file=$outdir"/"$(basename $param_file)".dat"
 echo "output:" $output_file
 
-echo "./build/main $size $N $eta $output_file"
-./build/main $size $N $eta $output_file
+echo "./build/main $size $N $eta $threshold $output_file"
+
+
+logdir="log"
+if [ ! -e ./$logdir ]; then
+    mkdir $logdir
+fi
+logfile=$logdir/$(basename $param_file).log
+touch $logfile
+
+date > $logfile
+./build/main $size $N $eta $threshold $output_file >> $logdir/$(basename $param_file).log
+date >> $logfile
