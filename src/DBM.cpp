@@ -12,14 +12,12 @@
 
 DBM::DBM(const int size, const double eta, const int N, const int threshold): grid(size, 0.0), b(size, false)
 {
-  this->eta   = eta;
-  this->size  = size;
-//  this->grid  = Grid(size, 0.0);
-//  this->b     = Boundary(size, vector<bool>(size, false));
-  this->stick = Stick();
-  this->peri  = Perimeter();
-  this->r     = Rand01();
-  this->N     = N;
+  this->eta       = eta;
+  this->size      = size;
+  this->stick     = Stick();
+  this->peri      = Perimeter();
+  this->r         = Rand01();
+  this->N         = N;
   this->threshold = threshold;
 }
 
@@ -27,7 +25,6 @@ Perimeter DBM::get_perimeter(Pos p) {
   int i = p.first;
   int j = p.second;
 
-  // neumann neighborhood
   const vector<Pos> candidates = this->grid.get_neighborhood(i, j);
   Perimeter peris;
 
@@ -106,9 +103,9 @@ void DBM::solve(int N) {
 }
 
 // calculate probability from potential
-vector<PosVal> DBM::plist(Perimeter& peri) {
+PList DBM::plist(Perimeter& peri) {
   double C = 0.0; // Normalization constant
-  vector<PosVal> plist(peri.size());
+  PList plist(peri.size());
 
   // calc normalization constant C
   for (const auto& pos : peri) {
@@ -118,33 +115,25 @@ vector<PosVal> DBM::plist(Perimeter& peri) {
   int i=0;
   for (const auto& pos : peri) {
     double p = pow(this->grid(pos.first, pos.second), eta) / C ;
-    plist[i] = PosVal(pos, p);
+    plist.append(i, PosVal(pos, p));
     i++;
   }
   return plist;
 }
 
-PosVal DBM::select(const vector<PosVal>& pl) {
-//  for (int i=0; i < pl.size(); i++) {
-//    sum += pl[i].second;
-//    if (sum >= p) {
-//      return pl[i];
-//    }
-//  }
-//  return pl[pl.size()-1];
-
+PosVal DBM::select(const PList& pl) {
   while (true) {
     double p = this->r.rand();
     double sum = 0;
     bool count=false;
 
     for (int i=0; i < pl.size() && !count; i++) {
-      sum += pl[i].second;
+      sum += pl.p(i);
       if (sum >= p) {
-        this->counter[pl[i].first] += 1;
-        if (this->counter[pl[i].first] >= this->threshold) {
-          this->counter[pl[i].first] = 0;
-          return pl[i];
+        this->counter[pl.pos(i)] += 1;
+        if (this->counter[pl.pos(i)] >= this->threshold) {
+          this->counter[pl.pos(i)] = 0;
+          return pl.at(i);
         }
         count = true;
       }

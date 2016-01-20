@@ -1,5 +1,7 @@
 #include "Rand01.h"
 #include "Grid.h"
+#include "plist.h"
+
 #include <set>
 #include <map>
 
@@ -13,10 +15,10 @@ using Perimeter = set<Pos>;
 class DBM {
   private:
     Perimeter      get_perimeter(Pos p);
-    vector<PosVal> plist(Perimeter& peri);
+    PList          plist(Perimeter& peri);
 
     // select site to stick according to rule
-    PosVal         select(const vector<PosVal>& ps);
+    PosVal         select(const PList& ps);
 
     // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);

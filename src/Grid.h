@@ -45,13 +45,13 @@ const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   bool even = i%2 == 0;
 
   // hexagonal grid
-//  if (even) {
-//    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
-//  } else {
-//    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j), Pos(i-1, j+1), Pos(i+1, j), Pos(i+1, j+1) };
-//  }
+  if (even) {
+    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
+  } else {
+    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j), Pos(i-1, j+1), Pos(i+1, j), Pos(i+1, j+1) };
+  }
   // square grid
-  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
+//  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
 }
 
 //template<typename Val>

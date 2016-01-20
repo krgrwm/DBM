@@ -177,6 +177,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/plist.o: src/plist.cpp.o
+
+.PHONY : src/plist.o
+
+# target to build an object file
+src/plist.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.o
+.PHONY : src/plist.cpp.o
+
+src/plist.i: src/plist.cpp.i
+
+.PHONY : src/plist.i
+
+# target to preprocess a source file
+src/plist.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.i
+.PHONY : src/plist.cpp.i
+
+src/plist.s: src/plist.cpp.s
+
+.PHONY : src/plist.s
+
+# target to generate assembly for a file
+src/plist.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.s
+.PHONY : src/plist.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/plist.o"
+	@echo "... src/plist.i"
+	@echo "... src/plist.s"
 .PHONY : help
 
 
