@@ -1,3 +1,4 @@
 size=800
 N=3500
 eta=2
+threshold=1

@@ -1,6 +1,7 @@
 #include "Rand01.h"
 #include "Grid.h"
 #include <set>
+#include <map>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ class DBM {
     void           add_particle(const PosVal& pv);
 
   public:
-    DBM(const int size, const double eta, const int N);
+    DBM(const int size, const double eta, const int N, const int threshold);
     void  init();
     void  solve(int n);
     void  write(const string& f);
@@ -37,5 +38,9 @@ class DBM {
     Rand01      r;
     double      eta;
     int         N;     // steps
+
+    // noise-reduction
+    int   threshold;
+    map<Pos, int> counter;
 };
 

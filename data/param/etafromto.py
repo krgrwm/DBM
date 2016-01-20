@@ -13,9 +13,11 @@ if _from >= _to:
 size = 800
 N = 3500
 eta = range(_from, _to+1)
+threshold = 1
 
 for i in range(_from, _to+1):
     with open('_eta'+str(i), 'w') as f:
         f.write('size=' + str(size) + '\n')
         f.write('N=' + str(N) + '\n')
         f.write('eta=' + str(eta[i]) + '\n')
+        f.write('threshold=' + str(threshold) + '\n')

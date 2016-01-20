@@ -14,6 +14,7 @@ class Grid {
     void operator()(int i, int j, const Val &v);
     bool check_array_bound(int i, int j);
     const vector<Pos> get_neighborhood(int i, int j);
+//    void clear(Val v);
 };
 
 
@@ -44,10 +45,18 @@ const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   bool even = i%2 == 0;
 
   // hexagonal grid
-  if (even) {
-    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
-  } else {
-    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j), Pos(i-1, j+1), Pos(i+1, j), Pos(i+1, j+1) };
-  }
-//  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
+//  if (even) {
+//    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
+//  } else {
+//    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j), Pos(i-1, j+1), Pos(i+1, j), Pos(i+1, j+1) };
+//  }
+  // square grid
+  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
 }
+
+//template<typename Val>
+//void Grid<Val>::clear(Val v) {
+//  for (int i=0; i < this->size; i++) {
+//    std::fill(this->grid[i].begin(), this->grid[i].end(), Val(v));
+//  }
+//}

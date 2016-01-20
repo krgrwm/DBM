@@ -1,0 +1,4 @@
+size=1000
+N=300
+eta=1
+threshold=20

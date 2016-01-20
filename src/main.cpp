@@ -18,9 +18,10 @@ int main(int argc, char const* argv[])
   const int    size = atoi(argv[1]);
   const int    N    = atoi(argv[2]);
   const double eta  = atoi(argv[3]);
-  const string file = string(argv[4]);
+  const int  threshold  = atoi(argv[4]);
+  const string file = string(argv[5]);
 
-  auto dbm = DBM(size, eta, N);
+  auto dbm = DBM(size, eta, N, threshold);
 
   cout << "Initialize DBM" << endl;
   dbm.init();

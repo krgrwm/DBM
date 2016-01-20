@@ -10,7 +10,7 @@
 #include <algorithm>
 
 
-DBM::DBM(const int size, const double eta, const int N): grid(size, 0.0), b(size, false)
+DBM::DBM(const int size, const double eta, const int N, const int threshold): grid(size, 0.0), b(size, false)
 {
   this->eta   = eta;
   this->size  = size;
@@ -20,6 +20,7 @@ DBM::DBM(const int size, const double eta, const int N): grid(size, 0.0), b(size
   this->peri  = Perimeter();
   this->r     = Rand01();
   this->N     = N;
+  this->threshold = threshold;
 }
 
 Perimeter DBM::get_perimeter(Pos p) {
@@ -124,16 +125,31 @@ vector<PosVal> DBM::plist(Perimeter& peri) {
 }
 
 PosVal DBM::select(const vector<PosVal>& pl) {
-  const double p = this->r.rand();
-  double sum=0;
+//  for (int i=0; i < pl.size(); i++) {
+//    sum += pl[i].second;
+//    if (sum >= p) {
+//      return pl[i];
+//    }
+//  }
+//  return pl[pl.size()-1];
 
-  for (int i=0; i < pl.size(); i++) {
-    sum += pl[i].second;
-    if (sum >= p) {
-      return pl[i];
+  while (true) {
+    double p = this->r.rand();
+    double sum = 0;
+    bool count=false;
+
+    for (int i=0; i < pl.size() && !count; i++) {
+      sum += pl[i].second;
+      if (sum >= p) {
+        this->counter[pl[i].first] += 1;
+        if (this->counter[pl[i].first] >= this->threshold) {
+          this->counter[pl[i].first] = 0;
+          return pl[i];
+        }
+        count = true;
+      }
     }
   }
-  return pl[pl.size()-1];
 }
 
 void DBM::update_perimeters(const Pos& pos) {

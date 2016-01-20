@@ -1,9 +1,10 @@
 #!/usr/local/bin/zsh -u
 
 if [[ $# -lt 5 ]]; then
-    echo 'file with lattice output'
+    echo 'file with lattice output size'
     exit 1
 fi
+
 
 file=$(readlink -f $1)
 with=$2
