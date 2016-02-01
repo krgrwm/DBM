@@ -36,7 +36,7 @@ int main(int argc, char const* argv[])
     }
   }
   cout << getpid() << ": " << "DONE" << endl;
-  dbm.write(file);
+  dbm.write_hex(file);
 
   return 0;
 }

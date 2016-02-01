@@ -1,4 +1,4 @@
 size=500
 N=300
 eta=1
-threshold=20
+threshold=100
