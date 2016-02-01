@@ -75,10 +75,7 @@ void DBM::init()
   auto peris = get_perimeter(Pos(c, c));
   (this->peri).insert(peris.begin(), peris.end());
 
-//  clock_t begin = clock();
   this->solve(1400);
-//  clock_t end = clock();
-//  cout << double(end-begin)/CLOCKS_PER_SEC << endl;
 }
 
 // SOR method
@@ -86,6 +83,7 @@ void DBM::solve(int N) {
   const auto omega = 1.5;
   double gij = 0.0;
   double tmp = 0.0;
+  double sum = 0.0;
 
   for (int n = 0; n < N; n++) {
     for (int i = 1; i < this->size-1; i++) {
@@ -95,8 +93,22 @@ void DBM::solve(int N) {
 //          tmp = gij + omega * ( 
 //              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
 //              );
+          // (i-1, j), (i, j-1), (i-1, j-1) : calculated value x^{k+1}
+          // (i+1, j), (i, j+1), (i+1, j+1) : old value        x^{k}
+          sum = 0.0;
+          for(auto& var : this->grid.get_neighborhood(i, j) ) {
+            sum += this->grid(var.first, var.second);
+          }
           tmp = gij + omega * ( 
-              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
+              (
+               sum
+//               this->grid(i-1, j)   +
+//               this->grid(i,   j-1) +
+//               this->grid(i-1, j-1) +
+//               this->grid(i+1, j)   +
+//               this->grid(i,   j+1) +
+//               this->grid(i+1, j+1)
+               )/6.0 - gij
               );
           this->grid(i, j, tmp);
         }

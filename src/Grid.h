@@ -44,7 +44,15 @@ template<typename Val>
 const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   bool even = i%2 == 0;
 
-  // hexagonal grid
+  /* hexagonal grid
+   ___ ___ ___ ___ ___
+  [___|___|___|___|___|
+    [___|___|___|___|___|
+  [___|___|___|___|___|
+    [___|___|___|___|___|
+  [___|___|___|___|___|
+
+  */
   if (even) {
     return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
   } else {
@@ -53,10 +61,3 @@ const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   // square grid
 //  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
 }
-
-//template<typename Val>
-//void Grid<Val>::clear(Val v) {
-//  for (int i=0; i < this->size; i++) {
-//    std::fill(this->grid[i].begin(), this->grid[i].end(), Val(v));
-//  }
-//}
