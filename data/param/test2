@@ -1,4 +1,4 @@
-size=1000
-N=600
+size=500
+N=500
 eta=1
 threshold=100

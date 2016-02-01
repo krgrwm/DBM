@@ -29,6 +29,7 @@ class DBM {
     void  init();
     void  solve(int n);
     void  write(const string& f);
+    void  write_hex(const string& f);
     void  step();
 
   private:

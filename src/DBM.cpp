@@ -75,10 +75,7 @@ void DBM::init()
   auto peris = get_perimeter(Pos(c, c));
   (this->peri).insert(peris.begin(), peris.end());
 
-//  clock_t begin = clock();
   this->solve(1400);
-//  clock_t end = clock();
-//  cout << double(end-begin)/CLOCKS_PER_SEC << endl;
 }
 
 // SOR method
@@ -86,14 +83,32 @@ void DBM::solve(int N) {
   const auto omega = 1.5;
   double gij = 0.0;
   double tmp = 0.0;
+  double sum = 0.0;
 
   for (int n = 0; n < N; n++) {
     for (int i = 1; i < this->size-1; i++) {
       for (int j = 1; j < this->size-1; j++) {
         if ( !this->b(i, j)) {
           gij = this->grid(i, j);
+//          tmp = gij + omega * ( 
+//              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
+//              );
+          // (i-1, j), (i, j-1), (i-1, j-1) : calculated value x^{k+1}
+          // (i+1, j), (i, j+1), (i+1, j+1) : old value        x^{k}
+          sum = 0.0;
+          for(auto& var : this->grid.get_neighborhood(i, j) ) {
+            sum += this->grid(var.first, var.second);
+          }
           tmp = gij + omega * ( 
-              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
+              (
+               sum
+//               this->grid(i-1, j)   +
+//               this->grid(i,   j-1) +
+//               this->grid(i-1, j-1) +
+//               this->grid(i+1, j)   +
+//               this->grid(i,   j+1) +
+//               this->grid(i+1, j+1)
+               )/6.0 - gij
               );
           this->grid(i, j, tmp);
         }
@@ -132,6 +147,8 @@ PosVal DBM::select(const PList& pl) {
       if (sum >= p) {
         this->counter[pl.pos(i)] += 1;
         if (this->counter[pl.pos(i)] >= this->threshold) {
+          // 0にする必要はない
+          // boundaryとなり候補に加わらなくなるため
           this->counter[pl.pos(i)] = 0;
           return pl.at(i);
         }
@@ -153,6 +170,9 @@ void DBM::add_particle(const PosVal& pv) {
   this->grid(p.first, p.second, 0.0);
   this->stick.insert(p);
   update_perimeters(p);
+
+  // delete site to stick from perimeters
+  this->peri.erase(p);
 }
 
 void DBM::write(const string& f) {
@@ -165,20 +185,33 @@ void DBM::write(const string& f) {
   gofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
   bofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
 
-  // write grid data
+  // write data
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
       gofs << this->grid(i, j) << " ";
-    }
-    gofs << endl;
-  }
-
-// write boudary data
-  for (int i = 0; i < this->size; i++) {
-    for (int j = 0; j < this->size; j++) {
       bofs << this->b(i, j) << " ";
     }
+    gofs << endl;
     bofs << endl;
+  }
+}
+
+void DBM::write_hex(const string& f) {
+  const string hexfile = f + ".hex";
+  ofstream hofs(hexfile);
+  double newj = 0;
+
+  // write header
+  hofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta << endl;
+
+  // write data
+  for (int i = 0; i < this->size; i++) {
+    for (int j = 0; j < this->size; j++) {
+      if (this->b(i, j)) {
+        newj = j + ((i%2)-0.5)/2.0;
+          hofs << newj << " " << i << endl;
+      }
+    }
   }
 }
 
