@@ -1,0 +1,25 @@
+#!/usr/local/bin/python3
+
+import sys
+
+if len(sys.argv) < 3:
+    print("param file size")
+    exit(1)
+
+file = sys.argv[1]
+size = int(sys.argv[2])
+
+with open(file) as f:
+    header = f.readline()
+    lines = f.read().splitlines()
+data = list(map(lambda l: list(map(float, l.split())), lines))
+
+center=int(size/2)
+R = center - 2
+
+def r2(ij, c):
+    return (ij[0]-c)**2 + (ij[1]-c)**2
+
+data = list(filter(lambda ij: R**2 > r2(ij, center), data))
+for ij in data:
+    print("{0} {1}".format(ij[1], ij[0]))

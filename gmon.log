@@ -1,0 +1,1477 @@
+	None
+
+
+
+
+call graph profile:
+          The sum of self and descendents is the major sort
+          for this listing.
+
+          function entries:
+
+index     the index of the function in the call graph
+          listing, as an aid to locating it (see below).
+
+%time     the percentage of the total time of the program
+          accounted for by this function and its
+          descendents.
+
+self      the number of seconds spent in this function
+          itself.
+
+descendents
+          the number of seconds spent in the descendents of
+          this function on behalf of this function.
+
+called    the number of times this function is called (other
+          than recursive calls).
+
+self      the number of times this function calls itself
+          recursively.
+
+name      the name of the function, with an indication of
+          its membership in a cycle, if any.
+
+index     the index of the function in the call graph
+          listing, as an aid to locating it.
+
+
+
+          parent listings:
+
+self*     the number of seconds of this function's self time
+          which is due to calls from this parent.
+
+descendents*
+          the number of seconds of this function's
+          descendent time which is due to calls from this
+          parent.
+
+called**  the number of times this function is called by
+          this parent.  This is the numerator of the
+          fraction which divides up the function's time to
+          its parents.
+
+total*    the number of times this function was called by
+          all of its parents.  This is the denominator of
+          the propagation fraction.
+
+parents   the name of this parent, with an indication of the
+          parent's membership in a cycle, if any.
+
+index     the index of this parent in the call graph
+          listing, as an aid in locating it.
+
+
+
+          children listings:
+
+self*     the number of seconds of this child's self time
+          which is due to being called by this function.
+
+descendent*
+          the number of seconds of this child's descendent's
+          time which is due to being called by this
+          function.
+
+called**  the number of times this child is called by this
+          function.  This is the numerator of the
+          propagation fraction for this child.
+
+total*    the number of times this child is called by all
+          functions.  This is the denominator of the
+          propagation fraction.
+
+children  the name of this child, and an indication of its
+          membership in a cycle, if any.
+
+index     the index of this child in the call graph listing,
+          as an aid to locating it.
+
+
+
+          * these fields are omitted for parents (or
+          children) in the same cycle as the function.  If
+          the function (or child) is a member of a cycle,
+          the propagated times and propagation denominator
+          represent the self time and descendent time of the
+          cycle as a whole.
+
+          ** static-only parents and children are indicated
+          by a call count of 0.
+
+
+
+          cycle listings:
+          the cycle as a whole is listed with the same
+          fields as a function entry.  Below it are listed
+          the members of the cycle, and their contributions
+          to the time and call counts of the cycle.
+
+
+granularity: each sample hit covers 4 byte(s) for 0.00% of 92.36 seconds
+
+                                  called/total       parents 
+index  %time    self descendents  called+self    name    	index
+                                  called/total       children
+
+                                                     <spontaneous>
+[1]     80.5   74.36        0.00                 _mcount [1]
+
+-----------------------------------------------
+
+                0.00       18.00     100/100         _start [3]
+[2]     19.5    0.00       18.00     100         main [2]
+                0.00       16.92     400/400         _ZN3DBM4stepEv [5]
+                0.00        1.07   45210/45210       _ZN3DBM4initEv [10]
+                0.00        0.00   80976/80976       _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+                0.00        0.00     143/30096       _ZNSt3__124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m [23]
+                0.00        0.00      29/29          _ZN3DBMC2Eidii [42]
+                0.00        0.00     713/714         _ZNSt3__113__vector_baseINS_6vectorIdNS_9allocatorIdEEEENS2_IS4_EEED2Ev [755]
+                0.00        0.00      27/27          _ZN3DBMD2Ev [761]
+                0.00        0.00      20/20          strtol_l [54]
+                0.00        0.00      11/11          getpid [55]
+                0.00        0.00       8/8           strtol [57]
+                0.00        0.00       4/4           atoi [59]
+                0.00        0.00       1/2           strlen [63]
+
+-----------------------------------------------
+
+                                                     <spontaneous>
+[3]     19.5    0.00       18.00                 _start [3]
+                0.00       18.00     100/100         main [2]
+                0.00        0.00       1/1           exit [65]
+
+-----------------------------------------------
+
+                0.42        0.65 621574801/10431490713     _ZN3DBM4initEv [10]
+                6.66       10.26 9809915912/10431490713     _ZN3DBM4stepEv [5]
+[4]     19.5    7.08       10.91 10431490713         _ZN3DBM5solveEv [4]
+                1.98        5.75 4168951392/4168957824     _ZN4GridIdE16get_neighborhoodEii [6]
+                3.18        0.00 7165385205/7165396260     _ZNSt3__113__vector_baseINS_4pairIiiEENS_9allocatorIS2_EEED2Ev [8]
+
+-----------------------------------------------
+
+                0.00       16.92     400/400         main [2]
+[5]     18.3    0.00       16.92     400         _ZN3DBM4stepEv [5]
+                6.66       10.26 9809915912/10431490713     _ZN3DBM5solveEv [4]
+                0.00        0.00  689694/689694      _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+                0.00        0.00    3200/3200        _ZN3DBM12add_particleERKNSt3__14pairINS1_IiiEEdEE [21]
+                0.00        0.00  210458/210458      _ZNSt3__113__vector_baseINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEED2Ev [704]
+                0.00        0.00    2000/2000        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE14__erase_uniqueIS2_EEmRKT_ [742]
+                0.00        0.00     200/200         _ZN3DBM6selectERK5PList [757]
+
+-----------------------------------------------
+
+                0.00        0.00    6432/4168957824     _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                1.98        5.75 4168951392/4168957824     _ZN3DBM5solveEv [4]
+[6]      8.4    1.98        5.75 4168957824         _ZN4GridIdE16get_neighborhoodEii [6]
+                3.68        0.00 8337915648/8337915648     _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE18__construct_at_endIPKS2_EENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeESA_SA_ [7]
+                1.29        0.00 2866158504/2866158504     _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE8allocateEm [9]
+                0.79        0.00 2475318708/2475318708     _ZNKSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE14__annotate_newEm [11]
+
+-----------------------------------------------
+
+                3.68        0.00 8337915648/8337915648     _ZN4GridIdE16get_neighborhoodEii [6]
+[7]      4.0    3.68        0.00 8337915648         _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE18__construct_at_endIPKS2_EENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeESA_SA_ [7]
+
+-----------------------------------------------
+
+                0.00        0.00   11055/7165396260     _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                3.18        0.00 7165385205/7165396260     _ZN3DBM5solveEv [4]
+[8]      3.4    3.18        0.00 7165396260         _ZNSt3__113__vector_baseINS_4pairIiiEENS_9allocatorIS2_EEED2Ev [8]
+
+-----------------------------------------------
+
+                1.29        0.00 2866158504/2866158504     _ZN4GridIdE16get_neighborhoodEii [6]
+[9]      1.4    1.29        0.00 2866158504         _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE8allocateEm [9]
+
+-----------------------------------------------
+
+                0.00        1.07   45210/45210       main [2]
+[10]     1.2    0.00        1.07   45210         _ZN3DBM4initEv [10]
+                0.42        0.65 621574801/10431490713     _ZN3DBM5solveEv [4]
+                0.00        0.00     524/97394       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                0.00        0.00      96/60396       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+                0.00        0.00      21/21          _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+                0.00        0.00      10/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.79        0.00 2475318708/2475318708     _ZN4GridIdE16get_neighborhoodEii [6]
+[11]     0.9    0.79        0.00 2475318708         _ZNKSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE14__annotate_newEm [11]
+
+-----------------------------------------------
+
+                0.00        0.00  689694/689694      _ZN3DBM4stepEv [5]
+[12]     0.0    0.00        0.00  689694         _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+                0.00        0.00   59388/59388       pow [20]
+                0.00        0.00  238352/238352      _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE18__construct_at_endEm [703]
+                0.00        0.00  118776/118776      _ZN5PList6appendEiNSt3__14pairINS1_IiiEEdEE [705]
+                0.00        0.00    1800/1800        _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEEC2Em [745]
+                0.00        0.00     200/200         _ZN5PListC1Ei [758]
+
+-----------------------------------------------
+
+                                                     <spontaneous>
+[13]     0.0    0.00        0.00                 snprintf_l [13]
+                0.00        0.00   71960/71960       __vfprintf [14]
+                0.00        0.00    6009/6011        memset [46]
+
+-----------------------------------------------
+
+                0.00        0.00   71960/71960       snprintf_l [13]
+[14]     0.0    0.00        0.00   71960         __vfprintf [14]
+                0.00        0.00    6009/9137        __sfvwrite [19]
+                0.00        0.00    2993/2993        __dtoa [34]
+                0.00        0.00   12018/12018       localeconv_l [45]
+                0.00        0.00    2993/5986        __Bfree_D2A [722]
+                0.00        0.00    2993/2993        __freedtoa [736]
+
+-----------------------------------------------
+
+                0.00        0.00   80976/80976       main [2]
+[15]     0.0    0.00        0.00   80976         _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+                0.00        0.00       1/1           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEED2Ev [17]
+                0.00        0.00   29953/30096       _ZNSt3__124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m [23]
+                0.00        0.00      33/33          _ZNSt3__1plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EERKS9_PKS6_ [759]
+                0.00        0.00       6/6           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEEC2Ev [774]
+                0.00        0.00       1/1           fopen [66]
+
+-----------------------------------------------
+
+                0.00        0.00      20/20          _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEED2Ev [17]
+[16]     0.0    0.00        0.00      20         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE5closeEv [16]
+                0.00        0.00       4/4           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+                0.00        0.00       1/1           fclose [30]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+[17]     0.0    0.00        0.00       1         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEED2Ev [17]
+                0.00        0.00      20/20          _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE5closeEv [16]
+
+-----------------------------------------------
+
+                0.00        0.00       4/4           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE5closeEv [16]
+[18]     0.0    0.00        0.00       4         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+                0.00        0.00    2994/2994        fflush [28]
+                0.00        0.00   44895/44895       _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE8overflowEi [40]
+                0.00        0.00    2994/5988        fwrite [26]
+
+-----------------------------------------------
+
+                0.00        0.00    3128/9137        fwrite [26]
+                0.00        0.00    6009/9137        __vfprintf [14]
+[19]     0.0    0.00        0.00    9137         __sfvwrite [19]
+                0.00        0.00   15171/15174       memcpy [27]
+                0.00        0.00       2/2           __swsetup [784]
+
+-----------------------------------------------
+
+                0.00        0.00   59388/59388       _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+[20]     0.0    0.00        0.00   59388         pow [20]
+
+-----------------------------------------------
+
+                0.00        0.00    3200/3200        _ZN3DBM4stepEv [5]
+[21]     0.0    0.00        0.00    3200         _ZN3DBM12add_particleERKNSt3__14pairINS1_IiiEEdEE [21]
+                0.00        0.00   12680/12680       _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+                0.00        0.00    3800/21318       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+
+-----------------------------------------------
+
+                0.00        0.00   12680/12680       _ZN3DBM12add_particleERKNSt3__14pairINS1_IiiEEdEE [21]
+[22]     0.0    0.00        0.00   12680         _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+                0.00        0.00   96870/97394       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                0.00        0.00    8524/60396       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+                0.00        0.00    2000/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.00        0.00     143/30096       main [2]
+                0.00        0.00   29953/30096       _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+[23]     0.0    0.00        0.00   30096         _ZNSt3__124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m [23]
+                0.00        0.00   12036/12036       _ZNSt3__116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_ [717]
+
+-----------------------------------------------
+
+                0.00        0.00     524/97394       _ZN3DBM4initEv [10]
+                0.00        0.00   96870/97394       _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+[24]     0.0    0.00        0.00   97394         _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                0.00        0.00   51776/60396       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+                0.00        0.00   17518/21318       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+                0.00        0.00    6432/4168957824     _ZN4GridIdE16get_neighborhoodEii [6]
+                0.00        0.00   11055/7165396260     _ZNSt3__113__vector_baseINS_4pairIiiEENS_9allocatorIS2_EEED2Ev [8]
+                0.00        0.00   65391/65449       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__move_assignERS7_NS_17integral_constantIbLb1EEE [709]
+                0.00        0.00   36582/36582       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS7_ [712]
+                0.00        0.00    6231/6231        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2EOS7_ [720]
+                0.00        0.00    3417/3485        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS4_ [729]
+                0.00        0.00    1608/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.00        0.00      96/60396       _ZN3DBM4initEv [10]
+                0.00        0.00    8524/60396       _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+                0.00        0.00   51776/60396       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[25]     0.0    0.00        0.00   60396         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+                0.00        0.00  115320/150102      _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJRKS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISE_EEEEEEDpOT_ [31]
+                0.00        0.00   51294/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEESD_RKT_ [32]
+                0.00        0.00   89298/89298       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_SA_EElEESD_RKT_ [707]
+                0.00        0.00   39584/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+
+-----------------------------------------------
+
+                0.00        0.00    2994/5988        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+                0.00        0.00    2994/5988        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE8overflowEi [40]
+[26]     0.0    0.00        0.00    5988         fwrite [26]
+                0.00        0.00    3128/9137        __sfvwrite [19]
+
+-----------------------------------------------
+
+                0.00        0.00       1/15174       _ZN3DBMC2Eidii [42]
+                0.00        0.00       2/15174       _ZN6Rand01C2Ev [44]
+                0.00        0.00   15171/15174       __sfvwrite [19]
+[27]     0.0    0.00        0.00   15174         memcpy [27]
+
+-----------------------------------------------
+
+                0.00        0.00    2994/2994        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+[28]     0.0    0.00        0.00    2994         fflush [28]
+                0.00        0.00    3007/3008        __sflush [730]
+
+-----------------------------------------------
+
+                0.00        0.00      62/62          __jemalloc_arena_dalloc_large [37]
+[29]     0.0    0.00        0.00      62         arena_purge [29]
+                0.00        0.00       1/1           __jemalloc_pages_purge [38]
+                0.00        0.00      45/77          arena_run_dalloc [48]
+                0.00        0.00      15/76          arena_run_split [49]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE5closeEv [16]
+[30]     0.0    0.00        0.00       1         fclose [30]
+                0.00        0.00      24/24          __free [36]
+                0.00        0.00       1/3008        __sflush [730]
+                0.00        0.00       1/1           __sys_close [800]
+                0.00        0.00       1/1           __sclose [795]
+
+-----------------------------------------------
+
+                0.00        0.00   34782/150102      _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+                0.00        0.00  115320/150102      _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+[31]     0.0    0.00        0.00  150102         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJRKS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISE_EEEEEEDpOT_ [31]
+
+-----------------------------------------------
+
+                0.00        0.00      12/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+                0.00        0.00   30294/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+                0.00        0.00   51294/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+[32]     0.0    0.00        0.00   81600         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEESD_RKT_ [32]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __dtoa [34]
+[33]     0.0    0.00        0.00    2993         __d2b_D2A [33]
+                0.00        0.00    2993/2993        __lo0bits_D2A [35]
+                0.00        0.00    2993/5986        __Balloc_D2A [721]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __vfprintf [14]
+[34]     0.0    0.00        0.00    2993         __dtoa [34]
+                0.00        0.00    2993/2993        __d2b_D2A [33]
+                0.00        0.00    2993/2993        __flt_rounds [735]
+                0.00        0.00    2993/2993        __rv_alloc_D2A [737]
+                0.00        0.00    2993/5986        __Bfree_D2A [722]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __d2b_D2A [33]
+[35]     0.0    0.00        0.00    2993         __lo0bits_D2A [35]
+
+-----------------------------------------------
+
+                0.00        0.00      24/24          fclose [30]
+[36]     0.0    0.00        0.00      24         __free [36]
+                0.00        0.00       3/3           __jemalloc_arena_dalloc_large [37]
+
+-----------------------------------------------
+
+                0.00        0.00       3/3           __free [36]
+[37]     0.0    0.00        0.00       3         __jemalloc_arena_dalloc_large [37]
+                0.00        0.00      62/62          arena_purge [29]
+                0.00        0.00      32/77          arena_run_dalloc [48]
+                0.00        0.00       5/5           __jemalloc_arena_dalloc_large_locked [776]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           arena_purge [29]
+[38]     0.0    0.00        0.00       1         __jemalloc_pages_purge [38]
+                0.00        0.00       1/1           _madvise [39]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           __jemalloc_pages_purge [38]
+[39]     0.0    0.00        0.00       1         _madvise [39]
+
+-----------------------------------------------
+
+                0.00        0.00   44895/44895       _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+[40]     0.0    0.00        0.00   44895         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE8overflowEi [40]
+                0.00        0.00    2994/5988        fwrite [26]
+                0.00        0.00    2996/2996        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE12__write_modeEv [734]
+
+-----------------------------------------------
+
+                0.00        0.00    3800/21318       _ZN3DBM12add_particleERKNSt3__14pairINS1_IiiEEdEE [21]
+                0.00        0.00   17518/21318       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[41]     0.0    0.00        0.00   21318         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+                0.00        0.00   30294/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEESD_RKT_ [32]
+                0.00        0.00   34782/150102      _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJRKS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISE_EEEEEEDpOT_ [31]
+                0.00        0.00   12040/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+
+-----------------------------------------------
+
+                0.00        0.00      29/29          main [2]
+[42]     0.0    0.00        0.00      29         _ZN3DBMC2Eidii [42]
+                0.00        0.00    2522/2522        _ZN6Rand01C2Ev [44]
+                0.00        0.00       1/15174       memcpy [27]
+                0.00        0.00      68/3485        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS4_ [729]
+                0.00        0.00      58/65449       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__move_assignERS7_NS_17integral_constantIbLb1EEE [709]
+                0.00        0.00      17/17          _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEEC2ERKS8_ [768]
+                0.00        0.00      11/11          _ZN4GridIbEC2Eib [770]
+                0.00        0.00      10/10          _ZN4GridIdEC2Eid [772]
+                0.00        0.00       2/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.00        0.00      21/21          _ZN3DBM4initEv [10]
+[43]     0.0    0.00        0.00      21         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+                0.00        0.00      12/81600       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEESD_RKT_ [32]
+                0.00        0.00      30/30          _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISC_EEEEEEDpOT_ [760]
+                0.00        0.00      12/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+
+-----------------------------------------------
+
+                0.00        0.00    2522/2522        _ZN3DBMC2Eidii [42]
+[44]     0.0    0.00        0.00    2522         _ZN6Rand01C2Ev [44]
+                0.00        0.00       2/15174       memcpy [27]
+
+-----------------------------------------------
+
+                0.00        0.00   12018/12018       __vfprintf [14]
+[45]     0.0    0.00        0.00   12018         localeconv_l [45]
+                0.00        0.00       1/1           __get_current_monetary_locale [792]
+                0.00        0.00       1/1           __get_current_numeric_locale [793]
+
+-----------------------------------------------
+
+                0.00        0.00       1/6011        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEEC2Ev [774]
+                0.00        0.00       1/6011        _ZNSt3__114__fill_n_falseINS_6vectorIbNS_9allocatorIbEEEEEEvNS_14__bit_iteratorIT_Lb0EXLi0EEEENS6_9size_typeE [781]
+                0.00        0.00    6009/6011        snprintf_l [13]
+[46]     0.0    0.00        0.00    6011         memset [46]
+
+-----------------------------------------------
+
+                0.00        0.00     100/100         _ZNSt3__114__copy_alignedINS_6vectorIbNS_9allocatorIbEEEELb1EEENS_14__bit_iteratorIT_Lb0EXLi0EEEENS5_IS6_XT0_EXLi0EEEES8_S7_ [756]
+[47]     0.0    0.00        0.00     100         memmove [47]
+
+-----------------------------------------------
+
+                0.00        0.00      32/77          __jemalloc_arena_dalloc_large [37]
+                0.00        0.00      45/77          arena_purge [29]
+[48]     0.0    0.00        0.00      77         arena_run_dalloc [48]
+                0.00        0.00      31/54          arena_avail_insert [50]
+                0.00        0.00       9/52          arena_avail_remove [51]
+
+-----------------------------------------------
+
+                0.00        0.00      15/76          arena_purge [29]
+                0.00        0.00      29/76          arena_run_alloc_helper [58]
+                0.00        0.00      32/76          arena_run_alloc [62]
+[49]     0.0    0.00        0.00      76         arena_run_split [49]
+                0.00        0.00      43/52          arena_avail_remove [51]
+                0.00        0.00      16/54          arena_avail_insert [50]
+
+-----------------------------------------------
+
+                0.00        0.00       7/54          arena_chunk_alloc [56]
+                0.00        0.00      16/54          arena_run_split [49]
+                0.00        0.00      31/54          arena_run_dalloc [48]
+[50]     0.0    0.00        0.00      54         arena_avail_insert [50]
+                0.00        0.00       1/1           arena_chunk_dirty_insert [64]
+
+-----------------------------------------------
+
+                0.00        0.00       9/52          arena_run_dalloc [48]
+                0.00        0.00      43/52          arena_run_split [49]
+[51]     0.0    0.00        0.00      52         arena_avail_remove [51]
+                0.00        0.00       2/2           arena_chunk_dirty_remove [61]
+
+-----------------------------------------------
+
+                0.00        0.00      23/23          getenv [220]
+[52]     0.0    0.00        0.00      23         strncmp [52]
+
+-----------------------------------------------
+
+                0.00        0.00      22/22          __smakebuf [778]
+[53]     0.0    0.00        0.00      22         malloc [53]
+                0.00        0.00       6/6           __jemalloc_arena_malloc_large [775]
+                0.00        0.00       4/4           __jemalloc_choose_arena_hard [777]
+
+-----------------------------------------------
+
+                0.00        0.00      20/20          main [2]
+[54]     0.0    0.00        0.00      20         strtol_l [54]
+                0.00        0.00       8/8           __runes_for_locale [773]
+
+-----------------------------------------------
+
+                0.00        0.00      11/11          main [2]
+[55]     0.0    0.00        0.00      11         getpid [55]
+
+-----------------------------------------------
+
+                0.00        0.00       9/9           arena_run_alloc [62]
+[56]     0.0    0.00        0.00       9         arena_chunk_alloc [56]
+                0.00        0.00       7/54          arena_avail_insert [50]
+                0.00        0.00       3/3           __jemalloc_chunk_alloc [780]
+
+-----------------------------------------------
+
+                0.00        0.00       8/8           main [2]
+[57]     0.0    0.00        0.00       8         strtol [57]
+
+-----------------------------------------------
+
+                0.00        0.00       5/5           arena_run_alloc [62]
+[58]     0.0    0.00        0.00       5         arena_run_alloc_helper [58]
+                0.00        0.00      29/76          arena_run_split [49]
+
+-----------------------------------------------
+
+                0.00        0.00       4/4           main [2]
+[59]     0.0    0.00        0.00       4         atoi [59]
+
+-----------------------------------------------
+
+                0.00        0.00       3/3           __jemalloc_chunk_alloc [780]
+[60]     0.0    0.00        0.00       3         chunk_recycle [60]
+                0.00        0.00       1/1           __jemalloc_extent_tree_szad_nsearch [794]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           arena_avail_remove [51]
+[61]     0.0    0.00        0.00       2         arena_chunk_dirty_remove [61]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           __jemalloc_arena_malloc_large [775]
+[62]     0.0    0.00        0.00       2         arena_run_alloc [62]
+                0.00        0.00      32/76          arena_run_split [49]
+                0.00        0.00       9/9           arena_chunk_alloc [56]
+                0.00        0.00       5/5           arena_run_alloc_helper [58]
+
+-----------------------------------------------
+
+                0.00        0.00       1/2           main [2]
+                0.00        0.00       1/2           _ZNSt3__1plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EERKS9_PKS6_ [759]
+[63]     0.0    0.00        0.00       2         strlen [63]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           arena_avail_insert [50]
+[64]     0.0    0.00        0.00       1         arena_chunk_dirty_insert [64]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _start [3]
+[65]     0.0    0.00        0.00       1         exit [65]
+                0.00        0.00       1/1           __cxa_finalize [789]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+[66]     0.0    0.00        0.00       1         fopen [66]
+                0.00        0.00       1/1           __sflags [796]
+                0.00        0.00       1/1           __sfp [797]
+                0.00        0.00       1/1           __sys_open [801]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           __jemalloc_chunk_alloc_mmap [783]
+[67]     0.0    0.00        0.00       1         mmap [67]
+                0.00        0.00       2/2           __getosreldate [782]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _mcleanup (786)
+[68]     0.0    0.00        0.00       1         sysctl [68]
+                0.00        0.00       1/1           __sys___sysctl [799]
+
+-----------------------------------------------
+
+                0.00        0.00  238352/238352      _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+[703]    0.0    0.00        0.00  238352         _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE18__construct_at_endEm [703]
+
+-----------------------------------------------
+
+                0.00        0.00  210458/210458      _ZN3DBM4stepEv [5]
+[704]    0.0    0.00        0.00  210458         _ZNSt3__113__vector_baseINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEED2Ev [704]
+
+-----------------------------------------------
+
+                0.00        0.00  118776/118776      _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+[705]    0.0    0.00        0.00  118776         _ZN5PList6appendEiNSt3__14pairINS1_IiiEEdEE [705]
+
+-----------------------------------------------
+
+                0.00        0.00   90400/90400       _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+[706]    0.0    0.00        0.00   90400         _ZNSt3__16vectorIdNS_9allocatorIdEEE18__construct_at_endIPdEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES7_S7_ [706]
+
+-----------------------------------------------
+
+                0.00        0.00   89298/89298       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+[707]    0.0    0.00        0.00   89298         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_SA_EElEESD_RKT_ [707]
+
+-----------------------------------------------
+
+                0.00        0.00     713/72013       _ZN4GridIdEC2Eid [772]
+                0.00        0.00   71300/72013       _ZNSt3__113__vector_baseINS_6vectorIdNS_9allocatorIdEEEENS2_IS4_EEED2Ev [755]
+[708]    0.0    0.00        0.00   72013         _ZNSt3__113__vector_baseIdNS_9allocatorIdEEED2Ev [708]
+
+-----------------------------------------------
+
+                0.00        0.00      58/65449       _ZN3DBMC2Eidii [42]
+                0.00        0.00   65391/65449       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[709]    0.0    0.00        0.00   65449         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__move_assignERS7_NS_17integral_constantIbLb1EEE [709]
+                0.00        0.00   11894/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.00        0.00      12/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+                0.00        0.00   12040/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+                0.00        0.00   39584/51636       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+[710]    0.0    0.00        0.00   51636         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+                0.00        0.00   11539/12322       _ZNSt3__127__tree_balance_after_insertIPNS_16__tree_node_baseIPvEEEEvT_S5_ [716]
+
+-----------------------------------------------
+
+                0.00        0.00   43151/43151       _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+[711]    0.0    0.00        0.00   43151         _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE16__find_equal_keyERPNS_16__tree_node_baseIPvEERS6_ [711]
+
+-----------------------------------------------
+
+                0.00        0.00   36582/36582       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[712]    0.0    0.00        0.00   36582         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS7_ [712]
+
+-----------------------------------------------
+
+                0.00        0.00   31004/31004       _ZN3DBM6selectERK5PList [757]
+[713]    0.0    0.00        0.00   31004         _ZNK5PList1pEi [713]
+
+-----------------------------------------------
+
+                0.00        0.00   31004/31004       _ZN3DBM6selectERK5PList [757]
+[714]    0.0    0.00        0.00   31004         _ZNK5PList4sizeEv [714]
+
+-----------------------------------------------
+
+                                   38761             _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+                0.00        0.00       2/15534       _ZN3DBMC2Eidii [42]
+                0.00        0.00      10/15534       _ZN3DBM4initEv [10]
+                0.00        0.00      20/15534       _ZN3DBMD2Ev [761]
+                0.00        0.00    1608/15534       _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+                0.00        0.00    2000/15534       _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+                0.00        0.00   11894/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__move_assignERS7_NS_17integral_constantIbLb1EEE [709]
+[715]    0.0    0.00        0.00   15534+38761   _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+                                   38761             _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+
+-----------------------------------------------
+
+                0.00        0.00     783/12322       _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSF_SF_ [740]
+                0.00        0.00   11539/12322       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+[716]    0.0    0.00        0.00   12322         _ZNSt3__127__tree_balance_after_insertIPNS_16__tree_node_baseIPvEEEEvT_S5_ [716]
+
+-----------------------------------------------
+
+                0.00        0.00   12036/12036       _ZNSt3__124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m [23]
+[717]    0.0    0.00        0.00   12036         _ZNSt3__116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_ [717]
+
+-----------------------------------------------
+
+                0.00        0.00    8090/8090        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE4findIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_ [723]
+[718]    0.0    0.00        0.00    8090         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__lower_boundIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_SD_SD_ [718]
+
+-----------------------------------------------
+
+                0.00        0.00    8000/8000        _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+[719]    0.0    0.00        0.00    8000         _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE25__construct_node_with_keyEOS2_ [719]
+
+-----------------------------------------------
+
+                0.00        0.00    6231/6231        _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[720]    0.0    0.00        0.00    6231         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2EOS7_ [720]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/5986        __d2b_D2A [33]
+                0.00        0.00    2993/5986        __rv_alloc_D2A [737]
+[721]    0.0    0.00        0.00    5986         __Balloc_D2A [721]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/5986        __vfprintf [14]
+                0.00        0.00    2993/5986        __dtoa [34]
+[722]    0.0    0.00        0.00    5986         __Bfree_D2A [722]
+
+-----------------------------------------------
+
+                0.00        0.00    5400/5400        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE14__erase_uniqueIS2_EEmRKT_ [742]
+[723]    0.0    0.00        0.00    5400         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE4findIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_ [723]
+                0.00        0.00    8090/8090        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__lower_boundIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_SD_SD_ [718]
+
+-----------------------------------------------
+
+                0.00        0.00    4849/4849        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE14__erase_uniqueIS2_EEmRKT_ [742]
+[724]    0.0    0.00        0.00    4849         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE5eraseENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEE [724]
+                0.00        0.00     835/835         _ZNSt3__113__tree_removeIPNS_16__tree_node_baseIPvEEEEvT_S5_ [751]
+
+-----------------------------------------------
+
+                0.00        0.00    4600/4600        _ZN3DBM6selectERK5PList [757]
+[725]    0.0    0.00        0.00    4600         _ZN6Rand014randEv [725]
+
+-----------------------------------------------
+
+                0.00        0.00    4400/4400        _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEEC2Em [745]
+[726]    0.0    0.00        0.00    4400         _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE8allocateEm [726]
+
+-----------------------------------------------
+
+                0.00        0.00    3800/3800        _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEEC2Em [745]
+[727]    0.0    0.00        0.00    3800         _ZNKSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE14__annotate_newEm [727]
+
+-----------------------------------------------
+
+                0.00        0.00    3600/3600        _ZN3DBM6selectERK5PList [757]
+[728]    0.0    0.00        0.00    3600         _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+                0.00        0.00   43151/43151       _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE16__find_equal_keyERPNS_16__tree_node_baseIPvEERS6_ [711]
+                0.00        0.00    8000/8000        _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE25__construct_node_with_keyEOS2_ [719]
+                0.00        0.00    2054/2054        _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSF_SF_ [740]
+
+-----------------------------------------------
+
+                0.00        0.00      68/3485        _ZN3DBMC2Eidii [42]
+                0.00        0.00    3417/3485        _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+[729]    0.0    0.00        0.00    3485         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS4_ [729]
+
+-----------------------------------------------
+
+                0.00        0.00       1/3008        fclose [30]
+                0.00        0.00    3007/3008        fflush [28]
+[730]    0.0    0.00        0.00    3008         __sflush [730]
+                0.00        0.00    3006/3006        _swrite [733]
+
+-----------------------------------------------
+
+                0.00        0.00    3006/3006        _swrite [733]
+[731]    0.0    0.00        0.00    3006         __swrite [731]
+
+-----------------------------------------------
+
+                0.00        0.00    3006/3006        _swrite [733]
+[732]    0.0    0.00        0.00    3006         __sys_write [732]
+
+-----------------------------------------------
+
+                0.00        0.00    3006/3006        __sflush [730]
+[733]    0.0    0.00        0.00    3006         _swrite [733]
+                0.00        0.00    3006/3006        __sys_write [732]
+                0.00        0.00    3006/3006        __swrite [731]
+
+-----------------------------------------------
+
+                0.00        0.00    2996/2996        _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE8overflowEi [40]
+[734]    0.0    0.00        0.00    2996         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE12__write_modeEv [734]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __dtoa [34]
+[735]    0.0    0.00        0.00    2993         __flt_rounds [735]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __vfprintf [14]
+[736]    0.0    0.00        0.00    2993         __freedtoa [736]
+
+-----------------------------------------------
+
+                0.00        0.00    2993/2993        __dtoa [34]
+[737]    0.0    0.00        0.00    2993         __rv_alloc_D2A [737]
+                0.00        0.00    2993/5986        __Balloc_D2A [721]
+
+-----------------------------------------------
+
+                0.00        0.00      22/2222        _ZNSt3__16vectorIdNS_9allocatorIdEEEC2EmRKd [750]
+                0.00        0.00    2200/2222        _ZNSt3__16vectorIdNS_9allocatorIdEEEC2ERKS3_ [746]
+[738]    0.0    0.00        0.00    2222         _ZNSt3__16vectorIdNS_9allocatorIdEEE8allocateEm [738]
+
+-----------------------------------------------
+
+                0.00        0.00    2100/2100        _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+[739]    0.0    0.00        0.00    2100         _ZNSt3__16vectorIbNS_9allocatorIbEEEC2ERKS3_ [739]
+                0.00        0.00    2000/2020        _ZNSt3__16vectorIbNS_9allocatorIbEEE8allocateEm [741]
+
+-----------------------------------------------
+
+                0.00        0.00    2054/2054        _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+[740]    0.0    0.00        0.00    2054         _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSF_SF_ [740]
+                0.00        0.00     783/12322       _ZNSt3__127__tree_balance_after_insertIPNS_16__tree_node_baseIPvEEEEvT_S5_ [716]
+
+-----------------------------------------------
+
+                0.00        0.00      20/2020        _ZNSt3__16vectorIbNS_9allocatorIbEEEC2EmRKb [769]
+                0.00        0.00    2000/2020        _ZNSt3__16vectorIbNS_9allocatorIbEEEC2ERKS3_ [739]
+[741]    0.0    0.00        0.00    2020         _ZNSt3__16vectorIbNS_9allocatorIbEEE8allocateEm [741]
+
+-----------------------------------------------
+
+                0.00        0.00    2000/2000        _ZN3DBM4stepEv [5]
+[742]    0.0    0.00        0.00    2000         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE14__erase_uniqueIS2_EEmRKT_ [742]
+                0.00        0.00    5400/5400        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE4findIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_ [723]
+                0.00        0.00    4849/4849        _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE5eraseENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEE [724]
+
+-----------------------------------------------
+
+                0.00        0.00      19/1919        _ZNSt3__16vectorIdNS_9allocatorIdEEEC2EmRKd [750]
+                0.00        0.00    1900/1919        _ZNSt3__16vectorIdNS_9allocatorIdEEEC2ERKS3_ [746]
+[743]    0.0    0.00        0.00    1919         _ZNKSt3__16vectorIdNS_9allocatorIdEEE14__annotate_newEm [743]
+
+-----------------------------------------------
+
+                0.00        0.00    1800/1800        _ZN3DBM6selectERK5PList [757]
+[744]    0.0    0.00        0.00    1800         _ZNK5PList3posEi [744]
+
+-----------------------------------------------
+
+                0.00        0.00    1800/1800        _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+[745]    0.0    0.00        0.00    1800         _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEEC2Em [745]
+                0.00        0.00    4400/4400        _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE8allocateEm [726]
+                0.00        0.00    3800/3800        _ZNKSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE14__annotate_newEm [727]
+
+-----------------------------------------------
+
+                0.00        0.00    1600/1600        _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+[746]    0.0    0.00        0.00    1600         _ZNSt3__16vectorIdNS_9allocatorIdEEEC2ERKS3_ [746]
+                0.00        0.00    2200/2222        _ZNSt3__16vectorIdNS_9allocatorIdEEE8allocateEm [738]
+                0.00        0.00    1900/1919        _ZNKSt3__16vectorIdNS_9allocatorIdEEE14__annotate_newEm [743]
+
+-----------------------------------------------
+
+                0.00        0.00      10/1010        _ZN4GridIbEC2Eib [770]
+                0.00        0.00    1000/1010        _ZNSt3__113__vector_baseINS_6vectorIbNS_9allocatorIbEEEENS2_IS4_EEED2Ev [752]
+[747]    0.0    0.00        0.00    1010         _ZNSt3__16vectorIbNS_9allocatorIbEEED2Ev [747]
+
+-----------------------------------------------
+
+                0.00        0.00     913/913         _ZN4GridIbEC2Eib [770]
+[748]    0.0    0.00        0.00     913         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+                0.00        0.00    2100/2100        _ZNSt3__16vectorIbNS_9allocatorIbEEEC2ERKS3_ [739]
+                0.00        0.00     800/800         _ZNSt3__16vectorIbNS_9allocatorIbEEE18__construct_at_endINS_14__bit_iteratorIS3_Lb1ELm0EEEEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES8_S8_ [754]
+                0.00        0.00      22/22          _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE8allocateEm [762]
+                0.00        0.00      19/19          _ZNKSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE14__annotate_newEm [764]
+
+-----------------------------------------------
+
+                0.00        0.00     913/913         _ZN4GridIdEC2Eid [772]
+[749]    0.0    0.00        0.00     913         _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+                0.00        0.00   90400/90400       _ZNSt3__16vectorIdNS_9allocatorIdEEE18__construct_at_endIPdEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES7_S7_ [706]
+                0.00        0.00    1600/1600        _ZNSt3__16vectorIdNS_9allocatorIdEEEC2ERKS3_ [746]
+                0.00        0.00      22/22          _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE8allocateEm [763]
+                0.00        0.00      19/19          _ZNKSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE14__annotate_newEm [765]
+
+-----------------------------------------------
+
+                0.00        0.00     913/913         _ZN4GridIdEC2Eid [772]
+[750]    0.0    0.00        0.00     913         _ZNSt3__16vectorIdNS_9allocatorIdEEEC2EmRKd [750]
+                0.00        0.00      22/2222        _ZNSt3__16vectorIdNS_9allocatorIdEEE8allocateEm [738]
+                0.00        0.00      19/1919        _ZNKSt3__16vectorIdNS_9allocatorIdEEE14__annotate_newEm [743]
+
+-----------------------------------------------
+
+                0.00        0.00     835/835         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE5eraseENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEE [724]
+[751]    0.0    0.00        0.00     835         _ZNSt3__113__tree_removeIPNS_16__tree_node_baseIPvEEEEvT_S5_ [751]
+
+-----------------------------------------------
+
+                0.00        0.00       1/814         _ZN4GridIbEC2Eib [770]
+                0.00        0.00     813/814         _ZN3DBMD2Ev [761]
+[752]    0.0    0.00        0.00     814         _ZNSt3__113__vector_baseINS_6vectorIbNS_9allocatorIbEEEENS2_IS4_EEED2Ev [752]
+                0.00        0.00    1000/1010        _ZNSt3__16vectorIbNS_9allocatorIbEEED2Ev [747]
+
+-----------------------------------------------
+
+                0.00        0.00     800/800         _ZN3DBM6selectERK5PList [757]
+[753]    0.0    0.00        0.00     800         _ZNK5PList2atEi [753]
+
+-----------------------------------------------
+
+                0.00        0.00     800/800         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+[754]    0.0    0.00        0.00     800         _ZNSt3__16vectorIbNS_9allocatorIbEEE18__construct_at_endINS_14__bit_iteratorIS3_Lb1ELm0EEEEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES8_S8_ [754]
+                0.00        0.00     500/500         _ZNSt3__114__copy_alignedINS_6vectorIbNS_9allocatorIbEEEELb1EEENS_14__bit_iteratorIT_Lb0EXLi0EEEENS5_IS6_XT0_EXLi0EEEES8_S7_ [756]
+
+-----------------------------------------------
+
+                0.00        0.00       1/714         _ZN4GridIdEC2Eid [772]
+                0.00        0.00     713/714         main [2]
+[755]    0.0    0.00        0.00     714         _ZNSt3__113__vector_baseINS_6vectorIdNS_9allocatorIdEEEENS2_IS4_EEED2Ev [755]
+                0.00        0.00   71300/72013       _ZNSt3__113__vector_baseIdNS_9allocatorIdEEED2Ev [708]
+
+-----------------------------------------------
+
+                0.00        0.00     500/500         _ZNSt3__16vectorIbNS_9allocatorIbEEE18__construct_at_endINS_14__bit_iteratorIS3_Lb1ELm0EEEEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES8_S8_ [754]
+[756]    0.0    0.00        0.00     500         _ZNSt3__114__copy_alignedINS_6vectorIbNS_9allocatorIbEEEELb1EEENS_14__bit_iteratorIT_Lb0EXLi0EEEENS5_IS6_XT0_EXLi0EEEES8_S7_ [756]
+                0.00        0.00     100/100         memmove [47]
+
+-----------------------------------------------
+
+                0.00        0.00     200/200         _ZN3DBM4stepEv [5]
+[757]    0.0    0.00        0.00     200         _ZN3DBM6selectERK5PList [757]
+                0.00        0.00   31004/31004       _ZNK5PList4sizeEv [714]
+                0.00        0.00   31004/31004       _ZNK5PList1pEi [713]
+                0.00        0.00    4600/4600        _ZN6Rand014randEv [725]
+                0.00        0.00    3600/3600        _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+                0.00        0.00    1800/1800        _ZNK5PList3posEi [744]
+                0.00        0.00     800/800         _ZNK5PList2atEi [753]
+
+-----------------------------------------------
+
+                0.00        0.00     200/200         _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+[758]    0.0    0.00        0.00     200         _ZN5PListC1Ei [758]
+
+-----------------------------------------------
+
+                0.00        0.00      33/33          _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+[759]    0.0    0.00        0.00      33         _ZNSt3__1plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EERKS9_PKS6_ [759]
+                0.00        0.00       1/2           strlen [63]
+
+-----------------------------------------------
+
+                0.00        0.00      30/30          _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+[760]    0.0    0.00        0.00      30         _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISC_EEEEEEDpOT_ [760]
+
+-----------------------------------------------
+
+                0.00        0.00      27/27          main [2]
+[761]    0.0    0.00        0.00      27         _ZN3DBMD2Ev [761]
+                0.00        0.00     813/814         _ZNSt3__113__vector_baseINS_6vectorIbNS_9allocatorIbEEEENS2_IS4_EEED2Ev [752]
+                0.00        0.00      20/15534       _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+                0.00        0.00      11/11          _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE7destroyEPNS_11__tree_nodeIS4_PvEE [771]
+
+-----------------------------------------------
+
+                0.00        0.00      22/22          _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+[762]    0.0    0.00        0.00      22         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE8allocateEm [762]
+
+-----------------------------------------------
+
+                0.00        0.00      22/22          _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+[763]    0.0    0.00        0.00      22         _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE8allocateEm [763]
+
+-----------------------------------------------
+
+                0.00        0.00      19/19          _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+[764]    0.0    0.00        0.00      19         _ZNKSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE14__annotate_newEm [764]
+
+-----------------------------------------------
+
+                0.00        0.00      19/19          _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+[765]    0.0    0.00        0.00      19         _ZNKSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE14__annotate_newEm [765]
+
+-----------------------------------------------
+
+                0.00        0.00      19/19          _ZN4GridIbEC2Eib [770]
+[766]    0.0    0.00        0.00      19         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [766]
+                0.00        0.00       1/1           _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE10deallocateEv [787]
+
+-----------------------------------------------
+
+                0.00        0.00      19/19          _ZN4GridIdEC2Eid [772]
+[767]    0.0    0.00        0.00      19         _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [767]
+                0.00        0.00       1/1           _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE10deallocateEv [788]
+
+-----------------------------------------------
+
+                0.00        0.00      17/17          _ZN3DBMC2Eidii [42]
+[768]    0.0    0.00        0.00      17         _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEEC2ERKS8_ [768]
+
+-----------------------------------------------
+
+                0.00        0.00      12/12          _ZN4GridIbEC2Eib [770]
+[769]    0.0    0.00        0.00      12         _ZNSt3__16vectorIbNS_9allocatorIbEEEC2EmRKb [769]
+                0.00        0.00      20/2020        _ZNSt3__16vectorIbNS_9allocatorIbEEE8allocateEm [741]
+                0.00        0.00       2/2           _ZNSt3__114__fill_n_falseINS_6vectorIbNS_9allocatorIbEEEEEEvNS_14__bit_iteratorIT_Lb0EXLi0EEEENS6_9size_typeE [781]
+
+-----------------------------------------------
+
+                0.00        0.00      11/11          _ZN3DBMC2Eidii [42]
+[770]    0.0    0.00        0.00      11         _ZN4GridIbEC2Eib [770]
+                0.00        0.00     913/913         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+                0.00        0.00      19/19          _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [766]
+                0.00        0.00      12/12          _ZNSt3__16vectorIbNS_9allocatorIbEEEC2EmRKb [769]
+                0.00        0.00      10/1010        _ZNSt3__16vectorIbNS_9allocatorIbEEED2Ev [747]
+                0.00        0.00       1/814         _ZNSt3__113__vector_baseINS_6vectorIbNS_9allocatorIbEEEENS2_IS4_EEED2Ev [752]
+
+-----------------------------------------------
+
+                                    2390             _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE7destroyEPNS_11__tree_nodeIS4_PvEE [771]
+                0.00        0.00      11/11          _ZN3DBMD2Ev [761]
+[771]    0.0    0.00        0.00      11+2390    _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE7destroyEPNS_11__tree_nodeIS4_PvEE [771]
+                                    2390             _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE7destroyEPNS_11__tree_nodeIS4_PvEE [771]
+
+-----------------------------------------------
+
+                0.00        0.00      10/10          _ZN3DBMC2Eidii [42]
+[772]    0.0    0.00        0.00      10         _ZN4GridIdEC2Eid [772]
+                0.00        0.00     913/913         _ZNSt3__16vectorIdNS_9allocatorIdEEEC2EmRKd [750]
+                0.00        0.00     913/913         _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+                0.00        0.00     713/72013       _ZNSt3__113__vector_baseIdNS_9allocatorIdEEED2Ev [708]
+                0.00        0.00      19/19          _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [767]
+                0.00        0.00       1/714         _ZNSt3__113__vector_baseINS_6vectorIdNS_9allocatorIdEEEENS2_IS4_EEED2Ev [755]
+
+-----------------------------------------------
+
+                0.00        0.00       8/8           strtol_l [54]
+[773]    0.0    0.00        0.00       8         __runes_for_locale [773]
+
+-----------------------------------------------
+
+                0.00        0.00       6/6           _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+[774]    0.0    0.00        0.00       6         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEEC2Ev [774]
+                0.00        0.00       3/3           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE6setbufEPcl [779]
+                0.00        0.00       1/6011        memset [46]
+
+-----------------------------------------------
+
+                0.00        0.00       6/6           malloc [53]
+[775]    0.0    0.00        0.00       6         __jemalloc_arena_malloc_large [775]
+                0.00        0.00       2/2           arena_run_alloc [62]
+
+-----------------------------------------------
+
+                0.00        0.00       5/5           __jemalloc_arena_dalloc_large [37]
+[776]    0.0    0.00        0.00       5         __jemalloc_arena_dalloc_large_locked [776]
+
+-----------------------------------------------
+
+                0.00        0.00       4/4           malloc [53]
+[777]    0.0    0.00        0.00       4         __jemalloc_choose_arena_hard [777]
+
+-----------------------------------------------
+
+                0.00        0.00       4/4           __swsetup [784]
+[778]    0.0    0.00        0.00       4         __smakebuf [778]
+                0.00        0.00      22/22          malloc [53]
+                0.00        0.00       2/2           _fstat [785]
+
+-----------------------------------------------
+
+                0.00        0.00       3/3           _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEEC2Ev [774]
+[779]    0.0    0.00        0.00       3         _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE6setbufEPcl [779]
+
+-----------------------------------------------
+
+                0.00        0.00       3/3           arena_chunk_alloc [56]
+[780]    0.0    0.00        0.00       3         __jemalloc_chunk_alloc [780]
+                0.00        0.00       3/3           chunk_recycle [60]
+                0.00        0.00       2/2           __jemalloc_chunk_alloc_mmap [783]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           _ZNSt3__16vectorIbNS_9allocatorIbEEEC2EmRKb [769]
+[781]    0.0    0.00        0.00       2         _ZNSt3__114__fill_n_falseINS_6vectorIbNS_9allocatorIbEEEEEEvNS_14__bit_iteratorIT_Lb0EXLi0EEEENS6_9size_typeE [781]
+                0.00        0.00       1/6011        memset [46]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           mmap [67]
+[782]    0.0    0.00        0.00       2         __getosreldate [782]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           __jemalloc_chunk_alloc [780]
+[783]    0.0    0.00        0.00       2         __jemalloc_chunk_alloc_mmap [783]
+                0.00        0.00       1/1           _mmap [802]
+                0.00        0.00       1/1           mmap [67]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           __sfvwrite [19]
+[784]    0.0    0.00        0.00       2         __swsetup [784]
+                0.00        0.00       4/4           __smakebuf [778]
+                0.00        0.00       1/1           __sinit [798]
+
+-----------------------------------------------
+
+                0.00        0.00       2/2           __smakebuf [778]
+[785]    0.0    0.00        0.00       2         _fstat [785]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [766]
+[787]    0.0    0.00        0.00       1         _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE10deallocateEv [787]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [767]
+[788]    0.0    0.00        0.00       1         _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE10deallocateEv [788]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           exit [65]
+[789]    0.0    0.00        0.00       1         __cxa_finalize [789]
+                0.00        0.00       2/2           _mcleanup (786)
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           sysctlnametomib [625]
+[790]    0.0    0.00        0.00       1         __error [790]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           sysctlnametomib [625]
+[791]    0.0    0.00        0.00       1         __error_unthreaded [791]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           localeconv_l [45]
+[792]    0.0    0.00        0.00       1         __get_current_monetary_locale [792]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           localeconv_l [45]
+[793]    0.0    0.00        0.00       1         __get_current_numeric_locale [793]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           chunk_recycle [60]
+[794]    0.0    0.00        0.00       1         __jemalloc_extent_tree_szad_nsearch [794]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           fclose [30]
+[795]    0.0    0.00        0.00       1         __sclose [795]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           fopen [66]
+[796]    0.0    0.00        0.00       1         __sflags [796]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           fopen [66]
+[797]    0.0    0.00        0.00       1         __sfp [797]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           __swsetup [784]
+[798]    0.0    0.00        0.00       1         __sinit [798]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           sysctl [68]
+[799]    0.0    0.00        0.00       1         __sys___sysctl [799]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           fclose [30]
+[800]    0.0    0.00        0.00       1         __sys_close [800]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           fopen [66]
+[801]    0.0    0.00        0.00       1         __sys_open [801]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           __jemalloc_chunk_alloc_mmap [783]
+[802]    0.0    0.00        0.00       1         _mmap [802]
+
+-----------------------------------------------
+
+                0.00        0.00       1/1           _mcleanup (786)
+[803]    0.0    0.00        0.00       1         _profil [803]
+
+-----------------------------------------------
+
+
+
+
+
+flat profile:
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+
+granularity: each sample hit covers 4 byte(s) for 0.00% of 111.49 seconds
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 66.7      74.36    74.36        0  100.00%           _mcount [1]
+ 17.2      93.49    19.14        0  100.00%           .mcount (69)
+  6.4     100.58     7.08 10431490713     0.00     0.00  _ZN3DBM5solveEv [4]
+  3.3     104.25     3.68 8337915648     0.00     0.00  _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE18__construct_at_endIPKS2_EENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeESA_SA_ [7]
+  2.9     107.43     3.18 7165396260     0.00     0.00  _ZNSt3__113__vector_baseINS_4pairIiiEENS_9allocatorIS2_EEED2Ev [8]
+  1.8     109.41     1.98 4168957824     0.00     0.00  _ZN4GridIdE16get_neighborhoodEii [6]
+  1.2     110.70     1.29 2866158504     0.00     0.00  _ZNSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE8allocateEm [9]
+  0.7     111.49     0.79 2475318708     0.00     0.00  _ZNKSt3__16vectorINS_4pairIiiEENS_9allocatorIS2_EEE14__annotate_newEm [11]
+  0.0     111.49     0.00   689694     0.00     0.00  _ZN3DBM5plistERNSt3__13setINS0_4pairIiiEENS0_4lessIS3_EENS0_9allocatorIS3_EEEE [12]
+  0.0     111.49     0.00    71960     0.00     0.00  __vfprintf [14]
+  0.0     111.49     0.00    59388     0.00     0.00  pow [20]
+  0.0     111.49     0.00     9137     0.00     0.00  __sfvwrite [19]
+  0.0     111.49     0.00    30096     0.00     0.00  _ZNSt3__124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m [23]
+  0.0     111.49     0.00        4     0.06     0.13  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE4syncEv [18]
+  0.0     111.49     0.00   150102     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJRKS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISE_EEEEEEDpOT_ [31]
+  0.0     111.49     0.00    81600     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEESD_RKT_ [32]
+  0.0     111.49     0.00    80976     0.00     0.00  _ZN3DBM9write_hexERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE [15]
+  0.0     111.49     0.00    45210     0.00     0.02  _ZN3DBM4initEv [10]
+  0.0     111.49     0.00    15174     0.00     0.00  memcpy [27]
+  0.0     111.49     0.00     2994     0.00     0.00  fflush [28]
+  0.0     111.49     0.00     2993     0.00     0.00  __lo0bits_D2A [35]
+  0.0     111.49     0.00        1     0.12     0.12  _madvise [39]
+  0.0     111.49     0.00   238352     0.00     0.00  _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE18__construct_at_endEm [703]
+  0.0     111.49     0.00   210458     0.00     0.00  _ZNSt3__113__vector_baseINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEED2Ev [704]
+  0.0     111.49     0.00   118776     0.00     0.00  _ZN5PList6appendEiNSt3__14pairINS1_IiiEEdEE [705]
+  0.0     111.49     0.00    97394     0.00     0.00  _ZN3DBM13get_perimeterENSt3__14pairIiiEE [24]
+  0.0     111.49     0.00    90400     0.00     0.00  _ZNSt3__16vectorIdNS_9allocatorIdEEE18__construct_at_endIPdEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES7_S7_ [706]
+  0.0     111.49     0.00    89298     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE12__find_equalIS2_EERPNS_16__tree_node_baseIPvEENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_SA_EElEESD_RKT_ [707]
+  0.0     111.49     0.00    72013     0.00     0.00  _ZNSt3__113__vector_baseIdNS_9allocatorIdEEED2Ev [708]
+  0.0     111.49     0.00    65449     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__move_assignERS7_NS_17integral_constantIbLb1EEE [709]
+  0.0     111.49     0.00    60396     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKS2_ [25]
+  0.0     111.49     0.00    51636     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSB_SB_ [710]
+  0.0     111.49     0.00    44895     0.00     0.00  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE8overflowEi [40]
+  0.0     111.49     0.00    43151     0.00     0.00  _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE16__find_equal_keyERPNS_16__tree_node_baseIPvEERS6_ [711]
+  0.0     111.49     0.00    36582     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS7_ [712]
+  0.0     111.49     0.00    31004     0.00     0.00  _ZNK5PList1pEi [713]
+  0.0     111.49     0.00    31004     0.00     0.00  _ZNK5PList4sizeEv [714]
+  0.0     111.49     0.00    21318     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueERKS2_ [41]
+  0.0     111.49     0.00    15534     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE7destroyEPNS_11__tree_nodeIS2_PvEE [715]
+  0.0     111.49     0.00    12680     0.00     0.00  _ZN3DBM17update_perimetersERKNSt3__14pairIiiEE [22]
+  0.0     111.49     0.00    12322     0.00     0.00  _ZNSt3__127__tree_balance_after_insertIPNS_16__tree_node_baseIPvEEEEvT_S5_ [716]
+  0.0     111.49     0.00    12036     0.00     0.00  _ZNSt3__116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_ [717]
+  0.0     111.49     0.00    12018     0.00     0.00  localeconv_l [45]
+  0.0     111.49     0.00     8090     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE13__lower_boundIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_SD_SD_ [718]
+  0.0     111.49     0.00     8000     0.00     0.00  _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEE25__construct_node_with_keyEOS2_ [719]
+  0.0     111.49     0.00     6231     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2EOS7_ [720]
+  0.0     111.49     0.00     6011     0.00     0.00  memset [46]
+  0.0     111.49     0.00     5988     0.00     0.00  fwrite [26]
+  0.0     111.49     0.00     5986     0.00     0.00  __Balloc_D2A [721]
+  0.0     111.49     0.00     5986     0.00     0.00  __Bfree_D2A [722]
+  0.0     111.49     0.00     5400     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE4findIS2_EENS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEERKT_ [723]
+  0.0     111.49     0.00     4849     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE5eraseENS_21__tree_const_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEE [724]
+  0.0     111.49     0.00     4600     0.00     0.00  _ZN6Rand014randEv [725]
+  0.0     111.49     0.00     4400     0.00     0.00  _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE8allocateEm [726]
+  0.0     111.49     0.00     3800     0.00     0.00  _ZNKSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEE14__annotate_newEm [727]
+  0.0     111.49     0.00     3600     0.00     0.00  _ZNSt3__13mapINS_4pairIiiEEiNS_4lessIS2_EENS_9allocatorINS1_IKS2_iEEEEEixEOS2_ [728]
+  0.0     111.49     0.00     3485     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEEC2ERKS4_ [729]
+  0.0     111.49     0.00     3200     0.00     0.00  _ZN3DBM12add_particleERKNSt3__14pairINS1_IiiEEdEE [21]
+  0.0     111.49     0.00     3008     0.00     0.00  __sflush [730]
+  0.0     111.49     0.00     3006     0.00     0.00  __swrite [731]
+  0.0     111.49     0.00     3006     0.00     0.00  __sys_write [732]
+  0.0     111.49     0.00     3006     0.00     0.00  _swrite [733]
+  0.0     111.49     0.00     2996     0.00     0.00  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE12__write_modeEv [734]
+  0.0     111.49     0.00     2993     0.00     0.00  __d2b_D2A [33]
+  0.0     111.49     0.00     2993     0.00     0.00  __dtoa [34]
+  0.0     111.49     0.00     2993     0.00     0.00  __flt_rounds [735]
+  0.0     111.49     0.00     2993     0.00     0.00  __freedtoa [736]
+  0.0     111.49     0.00     2993     0.00     0.00  __rv_alloc_D2A [737]
+  0.0     111.49     0.00     2522     0.00     0.00  _ZN6Rand01C2Ev [44]
+  0.0     111.49     0.00     2222     0.00     0.00  _ZNSt3__16vectorIdNS_9allocatorIdEEE8allocateEm [738]
+  0.0     111.49     0.00     2100     0.00     0.00  _ZNSt3__16vectorIbNS_9allocatorIbEEEC2ERKS3_ [739]
+  0.0     111.49     0.00     2054     0.00     0.00  _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE16__insert_node_atEPNS_16__tree_node_baseIPvEERSF_SF_ [740]
+  0.0     111.49     0.00     2020     0.00     0.00  _ZNSt3__16vectorIbNS_9allocatorIbEEE8allocateEm [741]
+  0.0     111.49     0.00     2000     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE14__erase_uniqueIS2_EEmRKT_ [742]
+  0.0     111.49     0.00     1919     0.00     0.00  _ZNKSt3__16vectorIdNS_9allocatorIdEEE14__annotate_newEm [743]
+  0.0     111.49     0.00     1800     0.00     0.00  _ZNK5PList3posEi [744]
+  0.0     111.49     0.00     1800     0.00     0.00  _ZNSt3__16vectorINS_4pairINS1_IiiEEdEENS_9allocatorIS3_EEEC2Em [745]
+  0.0     111.49     0.00     1600     0.00     0.00  _ZNSt3__16vectorIdNS_9allocatorIdEEEC2ERKS3_ [746]
+  0.0     111.49     0.00     1010     0.00     0.00  _ZNSt3__16vectorIbNS_9allocatorIbEEED2Ev [747]
+  0.0     111.49     0.00      913     0.00     0.00  _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEEC2EmRKS3_ [748]
+  0.0     111.49     0.00      913     0.00     0.00  _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEEC2EmRKS3_ [749]
+  0.0     111.49     0.00      913     0.00     0.00  _ZNSt3__16vectorIdNS_9allocatorIdEEEC2EmRKd [750]
+  0.0     111.49     0.00      835     0.00     0.00  _ZNSt3__113__tree_removeIPNS_16__tree_node_baseIPvEEEEvT_S5_ [751]
+  0.0     111.49     0.00      814     0.00     0.00  _ZNSt3__113__vector_baseINS_6vectorIbNS_9allocatorIbEEEENS2_IS4_EEED2Ev [752]
+  0.0     111.49     0.00      800     0.00     0.00  _ZNK5PList2atEi [753]
+  0.0     111.49     0.00      800     0.00     0.00  _ZNSt3__16vectorIbNS_9allocatorIbEEE18__construct_at_endINS_14__bit_iteratorIS3_Lb1ELm0EEEEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES8_S8_ [754]
+  0.0     111.49     0.00      714     0.00     0.00  _ZNSt3__113__vector_baseINS_6vectorIdNS_9allocatorIdEEEENS2_IS4_EEED2Ev [755]
+  0.0     111.49     0.00      500     0.00     0.00  _ZNSt3__114__copy_alignedINS_6vectorIbNS_9allocatorIbEEEELb1EEENS_14__bit_iteratorIT_Lb0EXLi0EEEENS5_IS6_XT0_EXLi0EEEES8_S7_ [756]
+  0.0     111.49     0.00      400     0.00    42.31  _ZN3DBM4stepEv [5]
+  0.0     111.49     0.00      200     0.00     0.00  _ZN3DBM6selectERK5PList [757]
+  0.0     111.49     0.00      200     0.00     0.00  _ZN5PListC1Ei [758]
+  0.0     111.49     0.00      100     0.00   179.96  main [2]
+  0.0     111.49     0.00      100     0.00     0.00  memmove [47]
+  0.0     111.49     0.00       77     0.00     0.00  arena_run_dalloc [48]
+  0.0     111.49     0.00       76     0.00     0.00  arena_run_split [49]
+  0.0     111.49     0.00       62     0.00     0.00  arena_purge [29]
+  0.0     111.49     0.00       54     0.00     0.00  arena_avail_insert [50]
+  0.0     111.49     0.00       52     0.00     0.00  arena_avail_remove [51]
+  0.0     111.49     0.00       33     0.00     0.00  _ZNSt3__1plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EERKS9_PKS6_ [759]
+  0.0     111.49     0.00       30     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE16__construct_nodeIJS2_EEENS_10unique_ptrINS_11__tree_nodeIS2_PvEENS_22__tree_node_destructorINS5_ISC_EEEEEEDpOT_ [760]
+  0.0     111.49     0.00       29     0.00     0.00  _ZN3DBMC2Eidii [42]
+  0.0     111.49     0.00       27     0.00     0.00  _ZN3DBMD2Ev [761]
+  0.0     111.49     0.00       24     0.00     0.01  __free [36]
+  0.0     111.49     0.00       23     0.00     0.00  strncmp [52]
+  0.0     111.49     0.00       22     0.00     0.00  _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE8allocateEm [762]
+  0.0     111.49     0.00       22     0.00     0.00  _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE8allocateEm [763]
+  0.0     111.49     0.00       22     0.00     0.00  malloc [53]
+  0.0     111.49     0.00       21     0.00     0.00  _ZNSt3__16__treeINS_4pairIiiEENS_4lessIS2_EENS_9allocatorIS2_EEE15__insert_uniqueIS2_EENS1_INS_15__tree_iteratorIS2_PNS_11__tree_nodeIS2_PvEElEEbEEOT_ [43]
+  0.0     111.49     0.00       20     0.00     0.03  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE5closeEv [16]
+  0.0     111.49     0.00       20     0.00     0.00  strtol_l [54]
+  0.0     111.49     0.00       19     0.00     0.00  _ZNKSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE14__annotate_newEm [764]
+  0.0     111.49     0.00       19     0.00     0.00  _ZNKSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE14__annotate_newEm [765]
+  0.0     111.49     0.00       19     0.00     0.00  _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [766]
+  0.0     111.49     0.00       19     0.00     0.00  _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE13__move_assignERS5_NS_17integral_constantIbLb1EEE [767]
+  0.0     111.49     0.00       17     0.00     0.00  _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEEC2ERKS8_ [768]
+  0.0     111.49     0.00       12     0.00     0.00  _ZNSt3__16vectorIbNS_9allocatorIbEEEC2EmRKb [769]
+  0.0     111.49     0.00       11     0.00     0.00  _ZN4GridIbEC2Eib [770]
+  0.0     111.49     0.00       11     0.00     0.00  _ZNSt3__16__treeINS_12__value_typeINS_4pairIiiEEiEENS_19__map_value_compareIS3_S4_NS_4lessIS3_EELb1EEENS_9allocatorIS4_EEE7destroyEPNS_11__tree_nodeIS4_PvEE [771]
+  0.0     111.49     0.00       11     0.00     0.00  getpid [55]
+  0.0     111.49     0.00       10     0.00     0.00  _ZN4GridIdEC2Eid [772]
+  0.0     111.49     0.00        9     0.00     0.00  arena_chunk_alloc [56]
+  0.0     111.49     0.00        8     0.00     0.00  __runes_for_locale [773]
+  0.0     111.49     0.00        8     0.00     0.00  strtol [57]
+  0.0     111.49     0.00        6     0.00     0.00  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEEC2Ev [774]
+  0.0     111.49     0.00        6     0.00     0.00  __jemalloc_arena_malloc_large [775]
+  0.0     111.49     0.00        5     0.00     0.00  __jemalloc_arena_dalloc_large_locked [776]
+  0.0     111.49     0.00        5     0.00     0.00  arena_run_alloc_helper [58]
+  0.0     111.49     0.00        4     0.00     0.00  __jemalloc_choose_arena_hard [777]
+  0.0     111.49     0.00        4     0.00     0.00  __smakebuf [778]
+  0.0     111.49     0.00        4     0.00     0.00  atoi [59]
+  0.0     111.49     0.00        3     0.00     0.00  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEE6setbufEPcl [779]
+  0.0     111.49     0.00        3     0.00     0.04  __jemalloc_arena_dalloc_large [37]
+  0.0     111.49     0.00        3     0.00     0.00  __jemalloc_chunk_alloc [780]
+  0.0     111.49     0.00        3     0.00     0.00  chunk_recycle [60]
+  0.0     111.49     0.00        2     0.00     0.00  _ZNSt3__114__fill_n_falseINS_6vectorIbNS_9allocatorIbEEEEEEvNS_14__bit_iteratorIT_Lb0EXLi0EEEENS6_9size_typeE [781]
+  0.0     111.49     0.00        2     0.00     0.00  __getosreldate [782]
+  0.0     111.49     0.00        2     0.00     0.00  __jemalloc_chunk_alloc_mmap [783]
+  0.0     111.49     0.00        2     0.00     0.00  __swsetup [784]
+  0.0     111.49     0.00        2     0.00     0.00  _fstat [785]
+  0.0     111.49     0.00        2     0.00     0.00  _mcleanup (786)
+  0.0     111.49     0.00        2     0.00     0.00  arena_chunk_dirty_remove [61]
+  0.0     111.49     0.00        2     0.00     0.00  arena_run_alloc [62]
+  0.0     111.49     0.00        2     0.00     0.00  strlen [63]
+  0.0     111.49     0.00        1     0.00     0.66  _ZNSt3__113basic_filebufIcNS_11char_traitsIcEEED2Ev [17]
+  0.0     111.49     0.00        1     0.00     0.00  _ZNSt3__16vectorINS0_IbNS_9allocatorIbEEEENS1_IS3_EEE10deallocateEv [787]
+  0.0     111.49     0.00        1     0.00     0.00  _ZNSt3__16vectorINS0_IdNS_9allocatorIdEEEENS1_IS3_EEE10deallocateEv [788]
+  0.0     111.49     0.00        1     0.00     0.00  __cxa_finalize [789]
+  0.0     111.49     0.00        1     0.00     0.00  __error [790]
+  0.0     111.49     0.00        1     0.00     0.00  __error_unthreaded [791]
+  0.0     111.49     0.00        1     0.00     0.00  __get_current_monetary_locale [792]
+  0.0     111.49     0.00        1     0.00     0.00  __get_current_numeric_locale [793]
+  0.0     111.49     0.00        1     0.00     0.00  __jemalloc_extent_tree_szad_nsearch [794]
+  0.0     111.49     0.00        1     0.00     0.12  __jemalloc_pages_purge [38]
+  0.0     111.49     0.00        1     0.00     0.00  __sclose [795]
+  0.0     111.49     0.00        1     0.00     0.00  __sflags [796]
+  0.0     111.49     0.00        1     0.00     0.00  __sfp [797]
+  0.0     111.49     0.00        1     0.00     0.00  __sinit [798]
+  0.0     111.49     0.00        1     0.00     0.00  __sys___sysctl [799]
+  0.0     111.49     0.00        1     0.00     0.00  __sys_close [800]
+  0.0     111.49     0.00        1     0.00     0.00  __sys_open [801]
+  0.0     111.49     0.00        1     0.00     0.00  _mmap [802]
+  0.0     111.49     0.00        1     0.00     0.00  _profil [803]
+  0.0     111.49     0.00        1     0.00     0.00  arena_chunk_dirty_insert [64]
+  0.0     111.49     0.00        1     0.00     0.00  exit [65]
+  0.0     111.49     0.00        1     0.00     0.12  fclose [30]
+  0.0     111.49     0.00        1     0.00     0.00  fopen [66]
+  0.0     111.49     0.00        1     0.00     0.00  mmap [67]
+  0.0     111.49     0.00        1     0.00     0.00  sysctl [68]
+  0.0     111.49     0.00        0    0.00%           _start [3]
+  0.0     111.49     0.00        0    0.00%           snprintf_l [13]
+
+Index by function name
+
+  (69) .mcount             [742] _ZNSt3__16__treeINS  [38] __jemalloc_pages_pu
+  [21] _ZN3DBM12add_partic  [25] _ZNSt3__16__treeINS  [35] __lo0bits_D2A      
+  [24] _ZN3DBM13get_perime  [41] _ZNSt3__16__treeINS [773] __runes_for_locale 
+  [22] _ZN3DBM17update_per  [43] _ZNSt3__16__treeINS [737] __rv_alloc_D2A     
+  [10] _ZN3DBM4initEv       [31] _ZNSt3__16__treeINS [795] __sclose           
+   [5] _ZN3DBM4stepEv      [760] _ZNSt3__16__treeINS [796] __sflags           
+  [12] _ZN3DBM5plistERNSt3 [710] _ZNSt3__16__treeINS [730] __sflush           
+   [4] _ZN3DBM5solveEv     [723] _ZNSt3__16__treeINS [797] __sfp              
+ [757] _ZN3DBM6selectERK5P [724] _ZNSt3__16__treeINS  [19] __sfvwrite         
+  [15] _ZN3DBM9write_hexER [715] _ZNSt3__16__treeINS [798] __sinit            
+  [42] _ZN3DBMC2Eidii      [720] _ZNSt3__16__treeINS [778] __smakebuf         
+ [761] _ZN3DBMD2Ev         [729] _ZNSt3__16__treeINS [731] __swrite           
+ [770] _ZN4GridIbEC2Eib    [712] _ZNSt3__16__treeINS [784] __swsetup          
+   [6] _ZN4GridIdE16get_ne [787] _ZNSt3__16vectorINS [799] __sys___sysctl     
+ [772] _ZN4GridIdEC2Eid    [766] _ZNSt3__16vectorINS [800] __sys_close        
+ [705] _ZN5PList6appendEiN [762] _ZNSt3__16vectorINS [801] __sys_open         
+ [758] _ZN5PListC1Ei       [748] _ZNSt3__16vectorINS [732] __sys_write        
+ [725] _ZN6Rand014randEv   [788] _ZNSt3__16vectorINS  [14] __vfprintf         
+  [44] _ZN6Rand01C2Ev      [767] _ZNSt3__16vectorINS [785] _fstat             
+ [713] _ZNK5PList1pEi      [763] _ZNSt3__16vectorINS  [39] _madvise           
+ [753] _ZNK5PList2atEi     [749] _ZNSt3__16vectorINS (786) _mcleanup          
+ [744] _ZNK5PList3posEi    [703] _ZNSt3__16vectorINS   [1] _mcount            
+ [714] _ZNK5PList4sizeEv   [726] _ZNSt3__16vectorINS [802] _mmap              
+ [764] _ZNKSt3__16vectorIN [745] _ZNSt3__16vectorINS [803] _profil            
+ [765] _ZNKSt3__16vectorIN   [7] _ZNSt3__16vectorINS [733] _swrite            
+ [727] _ZNKSt3__16vectorIN   [9] _ZNSt3__16vectorINS  [50] arena_avail_insert 
+  [11] _ZNKSt3__16vectorIN [754] _ZNSt3__16vectorIbN  [51] arena_avail_remove 
+ [743] _ZNKSt3__16vectorId [741] _ZNSt3__16vectorIbN  [56] arena_chunk_alloc  
+ [751] _ZNSt3__113__tree_r [739] _ZNSt3__16vectorIbN  [64] arena_chunk_dirty_i
+ [704] _ZNSt3__113__vector [769] _ZNSt3__16vectorIbN  [61] arena_chunk_dirty_r
+   [8] _ZNSt3__113__vector [747] _ZNSt3__16vectorIbN  [29] arena_purge        
+ [752] _ZNSt3__113__vector [706] _ZNSt3__16vectorIdN  [62] arena_run_alloc    
+ [755] _ZNSt3__113__vector [738] _ZNSt3__16vectorIdN  [58] arena_run_alloc_hel
+ [708] _ZNSt3__113__vector [746] _ZNSt3__16vectorIdN  [48] arena_run_dalloc   
+ [734] _ZNSt3__113basic_fi [750] _ZNSt3__16vectorIdN  [49] arena_run_split    
+  [18] _ZNSt3__113basic_fi [759] _ZNSt3__1plIcNS_11c  [59] atoi               
+  [16] _ZNSt3__113basic_fi [721] __Balloc_D2A         [60] chunk_recycle      
+ [779] _ZNSt3__113basic_fi [722] __Bfree_D2A          [65] exit               
+  [40] _ZNSt3__113basic_fi [789] __cxa_finalize       [30] fclose             
+ [774] _ZNSt3__113basic_fi  [33] __d2b_D2A            [28] fflush             
+  [17] _ZNSt3__113basic_fi  [34] __dtoa               [66] fopen              
+ [756] _ZNSt3__114__copy_a [790] __error              [26] fwrite             
+ [781] _ZNSt3__114__fill_n [791] __error_unthreaded   [55] getpid             
+ [717] _ZNSt3__116__pad_an [735] __flt_rounds         [45] localeconv_l       
+  [23] _ZNSt3__124__put_ch  [36] __free                [2] main               
+ [716] _ZNSt3__127__tree_b [736] __freedtoa           [53] malloc             
+ [711] _ZNSt3__13mapINS_4p [792] __get_current_monet  [27] memcpy             
+ [719] _ZNSt3__13mapINS_4p [793] __get_current_numer  [47] memmove            
+ [728] _ZNSt3__13mapINS_4p [782] __getosreldate       [46] memset             
+ [740] _ZNSt3__16__treeINS  [37] __jemalloc_arena_da  [67] mmap               
+ [771] _ZNSt3__16__treeINS [776] __jemalloc_arena_da  [20] pow                
+ [768] _ZNSt3__16__treeINS [775] __jemalloc_arena_ma  [63] strlen             
+ [707] _ZNSt3__16__treeINS [777] __jemalloc_choose_a  [52] strncmp            
+  [32] _ZNSt3__16__treeINS [780] __jemalloc_chunk_al  [57] strtol             
+ [718] _ZNSt3__16__treeINS [783] __jemalloc_chunk_al  [54] strtol_l           
+ [709] _ZNSt3__16__treeINS [794] __jemalloc_extent_t  [68] sysctl             

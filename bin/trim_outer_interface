@@ -1,0 +1,11 @@
+#!/usr/local/bin/zsh -u
+
+file=$(readlink -f $1)
+datafile=$(basename $file).dat.hex
+result=${file:h:h}/result
+
+cd `dirname $0`
+
+source $file
+
+./_trim_outer_interface $result/$datafile $size

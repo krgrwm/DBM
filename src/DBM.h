@@ -27,7 +27,7 @@ class DBM {
   public:
     DBM(const int size, const double eta, const int N, const int threshold);
     void  init();
-    void  solve(int n);
+    void  solve();
     void  write(const string& f);
     void  write_hex(const string& f);
     void  step();

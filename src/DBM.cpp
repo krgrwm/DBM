@@ -75,46 +75,42 @@ void DBM::init()
   auto peris = get_perimeter(Pos(c, c));
   (this->peri).insert(peris.begin(), peris.end());
 
-  this->solve(1400);
+  this->solve();
 }
 
 // SOR method
-void DBM::solve(int N) {
+void DBM::solve() {
   const auto omega = 1.5;
   double gij = 0.0;
-  double tmp = 0.0;
+  double new_gij = 0.0;
   double sum = 0.0;
 
-  for (int n = 0; n < N; n++) {
+  double error = 0.0;
+  double error_sum = 0.0;
+  double epsilon = 1.0E-5;
+
+  do {
+    error = 0.0;
+    error_sum = 0.0;
     for (int i = 1; i < this->size-1; i++) {
       for (int j = 1; j < this->size-1; j++) {
         if ( !this->b(i, j)) {
           gij = this->grid(i, j);
-//          tmp = gij + omega * ( 
-//              (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1))/4.0 - gij
-//              );
-          // (i-1, j), (i, j-1), (i-1, j-1) : calculated value x^{k+1}
-          // (i+1, j), (i, j+1), (i+1, j+1) : old value        x^{k}
           sum = 0.0;
           for(auto& var : this->grid.get_neighborhood(i, j) ) {
             sum += this->grid(var.first, var.second);
           }
-          tmp = gij + omega * ( 
-              (
-               sum
-//               this->grid(i-1, j)   +
-//               this->grid(i,   j-1) +
-//               this->grid(i-1, j-1) +
-//               this->grid(i+1, j)   +
-//               this->grid(i,   j+1) +
-//               this->grid(i+1, j+1)
-               )/6.0 - gij
-              );
-          this->grid(i, j, tmp);
+          new_gij = gij + omega * ( sum /6.0 - gij );
+          this->grid(i, j, new_gij);
+
+          // calc error
+          error = error + abs(new_gij - gij);
+          error_sum = error_sum + abs(new_gij);
         }
       }
     }
-  }
+//    cout << error/error_sum << endl;
+  } while(error/error_sum >= epsilon);
 }
 
 // calculate probability from potential
@@ -217,5 +213,5 @@ void DBM::write_hex(const string& f) {
 
 void DBM::step() {
   this->add_particle(this->select(this->plist(this->peri)));
-  this->solve(50);
+  this->solve();
 }
