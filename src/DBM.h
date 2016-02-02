@@ -1,6 +1,7 @@
 #include "Rand01.h"
 #include "Grid.h"
 #include "plist.h"
+#include "SOR.h"
 
 #include <set>
 #include <map>
@@ -41,6 +42,7 @@ class DBM {
     Rand01      r;
     double      eta;
     int         N;     // steps
+    SOR         sor;
 
     // noise-reduction
     int   threshold;

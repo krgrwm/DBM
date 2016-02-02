@@ -150,6 +150,33 @@ src/DBM.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/DBM.cpp.s
 .PHONY : src/DBM.cpp.s
 
+src/SOR.o: src/SOR.cpp.o
+
+.PHONY : src/SOR.o
+
+# target to build an object file
+src/SOR.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.o
+.PHONY : src/SOR.cpp.o
+
+src/SOR.i: src/SOR.cpp.i
+
+.PHONY : src/SOR.i
+
+# target to preprocess a source file
+src/SOR.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.i
+.PHONY : src/SOR.cpp.i
+
+src/SOR.s: src/SOR.cpp.s
+
+.PHONY : src/SOR.s
+
+# target to generate assembly for a file
+src/SOR.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.s
+.PHONY : src/SOR.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -216,6 +243,9 @@ help:
 	@echo "... src/DBM.o"
 	@echo "... src/DBM.i"
 	@echo "... src/DBM.s"
+	@echo "... src/SOR.o"
+	@echo "... src/SOR.i"
+	@echo "... src/SOR.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

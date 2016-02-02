@@ -10,7 +10,7 @@
 #include <algorithm>
 
 
-DBM::DBM(const int size, const double eta, const int N, const int threshold): grid(size, 0.0), b(size, false)
+DBM::DBM(const int size, const double eta, const int N, const int threshold): grid(size, 0.0), b(size, false), sor()
 {
   this->eta       = eta;
   this->size      = size;
@@ -78,39 +78,8 @@ void DBM::init()
   this->solve();
 }
 
-// SOR method
 void DBM::solve() {
-  const auto omega = 1.5;
-  double gij = 0.0;
-  double new_gij = 0.0;
-  double sum = 0.0;
-
-  double error = 0.0;
-  double error_sum = 0.0;
-  double epsilon = 1.0E-5;
-
-  do {
-    error = 0.0;
-    error_sum = 0.0;
-    for (int i = 1; i < this->size-1; i++) {
-      for (int j = 1; j < this->size-1; j++) {
-        if ( !this->b(i, j)) {
-          gij = this->grid(i, j);
-          sum = 0.0;
-          for(auto& var : this->grid.get_neighborhood(i, j) ) {
-            sum += this->grid(var.first, var.second);
-          }
-          new_gij = gij + omega * ( sum /6.0 - gij );
-          this->grid(i, j, new_gij);
-
-          // calc error
-          error = error + abs(new_gij - gij);
-          error_sum = error_sum + abs(new_gij);
-        }
-      }
-    }
-//    cout << error/error_sum << endl;
-  } while(error/error_sum >= epsilon);
+  this->sor.solve(this->size, this->grid, this->b);
 }
 
 // calculate probability from potential

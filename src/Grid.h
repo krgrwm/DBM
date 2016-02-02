@@ -1,6 +1,9 @@
+#ifndef GRID
+#define GRID
+
 #include <vector>
 
-using Pos = pair<int, int>;
+using Pos = std::pair<int, int>;
 
 template<typename Val>
 class Grid {
@@ -13,8 +16,7 @@ class Grid {
     Val operator()(int i, int j);
     void operator()(int i, int j, const Val &v);
     bool check_array_bound(int i, int j);
-    const vector<Pos> get_neighborhood(int i, int j);
-//    void clear(Val v);
+    const std::vector<Pos> get_neighborhood(int i, int j);
 };
 
 
@@ -41,7 +43,7 @@ bool Grid<Val>::check_array_bound(int i, int j) {
 }
 
 template<typename Val>
-const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
+const std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   bool even = i%2 == 0;
 
   /* hexagonal grid
@@ -61,3 +63,5 @@ const vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   // square grid
 //  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
 }
+
+#endif

@@ -35,6 +35,8 @@ Grid.h
 /home/t.sato/Work/DBM/src/Grid.h
 plist.h
 /home/t.sato/Work/DBM/src/plist.h
+SOR.h
+/home/t.sato/Work/DBM/src/SOR.h
 set
 -
 map
@@ -47,6 +49,18 @@ vector
 /home/t.sato/Work/DBM/src/Rand01.h
 random
 -
+
+/home/t.sato/Work/DBM/src/SOR.cpp
+SOR.h
+/home/t.sato/Work/DBM/src/SOR.h
+cmath
+-
+iostream
+-
+
+/home/t.sato/Work/DBM/src/SOR.h
+Grid.h
+/home/t.sato/Work/DBM/src/Grid.h
 
 /home/t.sato/Work/DBM/src/main.cpp
 time.h

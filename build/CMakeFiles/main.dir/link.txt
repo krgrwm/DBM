@@ -1,1 +1,1 @@
-/usr/bin/CC   -pg -O3 -DNDEBUG   CMakeFiles/main.dir/src/main.cpp.o CMakeFiles/main.dir/src/DBM.cpp.o CMakeFiles/main.dir/src/plist.cpp.o  -o main  
+/usr/bin/CC   -pg -O3 -DNDEBUG   CMakeFiles/main.dir/src/main.cpp.o CMakeFiles/main.dir/src/DBM.cpp.o CMakeFiles/main.dir/src/plist.cpp.o CMakeFiles/main.dir/src/SOR.cpp.o  -o main  
