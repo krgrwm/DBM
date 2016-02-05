@@ -11,6 +11,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.3.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.3.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.3.1/CMakeSystem.cmake"
+  "../main/CMakeLists.txt"
+  "../omega/CMakeLists.txt"
   "/usr/local/share/cmake/Modules/CMakeCInformation.cmake"
   "/usr/local/share/cmake/Modules/CMakeCXXInformation.cmake"
   "/usr/local/share/cmake/Modules/CMakeCommonLanguageInclude.cmake"
@@ -34,9 +36,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "main/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "omega/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/main.dir/DependInfo.cmake"
+  "main/CMakeFiles/main.dir/DependInfo.cmake"
+  "omega/CMakeFiles/omega.dir/DependInfo.cmake"
   )

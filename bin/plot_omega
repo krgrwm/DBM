@@ -1,0 +1,12 @@
+#!/usr/local/bin/zsh -u
+
+data=$1
+lines=$(wc -l $data | perl -wna -e 'print $F[0]-2')
+#echo $lines
+
+script=$(cat << EOF
+plot '$data' every ::2::$lines w lp
+EOF
+)
+
+echo $script | gnuplot -p

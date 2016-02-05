@@ -1,11 +1,8 @@
 #!/usr/local/bin/zsh -u
 
-file=$(readlink -f $1)
-datafile=$(basename $file).dat.hex
-result=${file:h:h}/result
+param=$(readlink -f $1)
+data_hex=$(bin/param2data $param "data/result").hex
 
-cd `dirname $0`
+source $param
 
-source $file
-
-./_trim_outer_interface $result/$datafile $size
+bin/_trim_outer_interface $data_hex $size

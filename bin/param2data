@@ -1,0 +1,10 @@
+#!/usr/local/bin/bash -u
+
+param_file=$1
+output_dir=$(dirname $(dirname $param_file))/result
+source $param_file
+#echo $param_file
+
+output_dir=$(readlink -f $output_dir)
+output_file=$output_dir"/"$(basename $param_file)".dat"
+echo $output_file

@@ -120,116 +120,21 @@ main: cmake_check_build_system
 
 # fast build rule for target.
 main/fast:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+	$(MAKE) -f main/CMakeFiles/main.dir/build.make main/CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-src/DBM.o: src/DBM.cpp.o
+#=============================================================================
+# Target rules for targets named omega
 
-.PHONY : src/DBM.o
+# Build rule for target.
+omega: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 omega
+.PHONY : omega
 
-# target to build an object file
-src/DBM.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/DBM.cpp.o
-.PHONY : src/DBM.cpp.o
-
-src/DBM.i: src/DBM.cpp.i
-
-.PHONY : src/DBM.i
-
-# target to preprocess a source file
-src/DBM.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/DBM.cpp.i
-.PHONY : src/DBM.cpp.i
-
-src/DBM.s: src/DBM.cpp.s
-
-.PHONY : src/DBM.s
-
-# target to generate assembly for a file
-src/DBM.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/DBM.cpp.s
-.PHONY : src/DBM.cpp.s
-
-src/SOR.o: src/SOR.cpp.o
-
-.PHONY : src/SOR.o
-
-# target to build an object file
-src/SOR.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.o
-.PHONY : src/SOR.cpp.o
-
-src/SOR.i: src/SOR.cpp.i
-
-.PHONY : src/SOR.i
-
-# target to preprocess a source file
-src/SOR.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.i
-.PHONY : src/SOR.cpp.i
-
-src/SOR.s: src/SOR.cpp.s
-
-.PHONY : src/SOR.s
-
-# target to generate assembly for a file
-src/SOR.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/SOR.cpp.s
-.PHONY : src/SOR.cpp.s
-
-src/main.o: src/main.cpp.o
-
-.PHONY : src/main.o
-
-# target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
-
-src/main.i: src/main.cpp.i
-
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
-
-src/plist.o: src/plist.cpp.o
-
-.PHONY : src/plist.o
-
-# target to build an object file
-src/plist.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.o
-.PHONY : src/plist.cpp.o
-
-src/plist.i: src/plist.cpp.i
-
-.PHONY : src/plist.i
-
-# target to preprocess a source file
-src/plist.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.i
-.PHONY : src/plist.cpp.i
-
-src/plist.s: src/plist.cpp.s
-
-.PHONY : src/plist.s
-
-# target to generate assembly for a file
-src/plist.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/plist.cpp.s
-.PHONY : src/plist.cpp.s
+# fast build rule for target.
+omega/fast:
+	$(MAKE) -f omega/CMakeFiles/omega.dir/build.make omega/CMakeFiles/omega.dir/build
+.PHONY : omega/fast
 
 # Help Target
 help:
@@ -240,18 +145,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
-	@echo "... src/DBM.o"
-	@echo "... src/DBM.i"
-	@echo "... src/DBM.s"
-	@echo "... src/SOR.o"
-	@echo "... src/SOR.i"
-	@echo "... src/SOR.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
-	@echo "... src/plist.o"
-	@echo "... src/plist.i"
-	@echo "... src/plist.s"
+	@echo "... omega"
 .PHONY : help
 
 

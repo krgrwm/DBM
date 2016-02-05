@@ -1,0 +1,15 @@
+#!/usr/local/bin/zsh -u
+
+res=$(for i in ./data/omega/log/* ; do
+    lines=$(wc -l $i | perl -wna -e 'print $F[0]-2')
+    norm=$(perl -wnla -e '$.==3 and print $F[1]' $i)
+    if [[ $lines -gt 2 ]]; then
+        echo -n "'$i' every ::2::$lines u 1:(\$2/$norm)  w lp, "
+    fi
+done
+)
+
+echo $res
+
+echo -n "plot "
+echo $res | perl -wnl -e 's/,+\s+$// and print'

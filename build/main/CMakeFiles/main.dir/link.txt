@@ -1,0 +1,1 @@
+/usr/bin/CC   -O3   CMakeFiles/main.dir/src/main.cpp.o CMakeFiles/main.dir/src/DBM.cpp.o CMakeFiles/main.dir/src/plist.cpp.o CMakeFiles/main.dir/src/SOR.cpp.o  -o main  

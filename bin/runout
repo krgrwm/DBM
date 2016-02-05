@@ -1,24 +1,22 @@
 #!/usr/local/bin/bash -u
 
 param_file=$1
-outdir=${2%/} # remove trailing slash
-echo "param file:" $param_file
+output_file=$(bin/param2data $1)
+exe=$2
+rootdir=$(dirname $(dirname $param_file))
+echo $rootdir
+
 source $param_file
 
-#output_file=$outdir"/S"$size"_N"$N"_eta"$eta
-output_file=$outdir"/"$(basename $param_file)".dat"
-echo "output:" $output_file
+echo "$exe $size $N $eta $threshold $output_file"
 
-echo "./build/main $size $N $eta $threshold $output_file"
-
-
-logdir="log"
-if [ ! -e ./$logdir ]; then
+logdir=$rootdir/"log"
+if [ ! -e $logdir ]; then
     mkdir $logdir
 fi
 logfile=$logdir/$(basename $param_file).log
 touch $logfile
 
 date > $logfile
-./build/main $size $N $eta $threshold $output_file >> $logdir/$(basename $param_file).log
+./$exe $size $N $eta $threshold $sigma $output_file >> $logdir/$(basename $param_file).log
 date >> $logfile

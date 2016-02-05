@@ -16,11 +16,6 @@
 # 0   0   0   0   0   0   0   0   0   0   1   0   0   1  -4   1;
 # 0   0   0   0   0   0   0   0   0   0   0   1   0   0   1  -4
 # ]
-# このAは間違っている
-
-function out_of_bounds(i, j, N)
-    (i <= 0 || N < i || j <= 0 || N < j)
-end
 
 function square(N)
     l = [((-1, 0), 1), ((0, -1), 1), ((0, 0), -4), ((0, 1), 1), ((1, 0), 1)]
@@ -30,24 +25,36 @@ function hexagonal(N)
     l = [((-1, 0), 1), ((0, -1), 1), ((0, 0), -6), ((0, 1), 1), ((1, 0), 1), ((1, 1), 1), ((-1, -1), 1)]
 end
 
-# 0が基準
-function displacement(i, j, N)
-    N*i + j
+function boundary(ij, lower, upper)
+    i, j = ij
+    (i < lower || upper < i || j < lower || upper < j)
 end
 
-function disp_list(N, f)
-    map(x->(displacement(x[1]..., N), x[2]), f(N))
+function k2ij(k, N)
+    k = k - 1
+    floor(Int, k/N)+1, k%N+1
 end
-disp_list(5, hexagonal)
 
+function ij2k(ij, N)
+    i, j = ij
+    N*(i-1) + j
+end
+
+# 1 based
+# u_{i,j} = u_{1,1}, u_{1,2}, ...
+# k = 1, 2, ...
 function make_A(N, f)
     A = zeros(N^2, N^2)
-    dl = disp_list(N, f)
-    for i in 1:N^2
-        for (d,v) in dl
-            if !out_of_bounds(i, i+d, N^2)
-                A[i, i+d] = v
-            end
+    for k in 1:N^2
+#        print(k, ": ")
+#        print(k2ij(k, N))
+#        print("\n")
+        i, j = k2ij(k, N)
+        nn_ijv_list = map(ijv -> (map(+, (i,j), ijv[1]), ijv[2]), f(N))
+        nn_ijv_list = filter(ijv -> !boundary(ijv[1], 1, N), nn_ijv_list)
+        nn_k_list = map(ijv -> (ij2k(ijv[1], N), ijv[2]), nn_ijv_list)
+        for (kk,v) in nn_k_list
+            A[k, kk] = v
         end
     end
     A

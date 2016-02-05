@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash -u
+
+for i in data/omega/param/omega_*; do (bin/run_measure_omega $i &) ; done

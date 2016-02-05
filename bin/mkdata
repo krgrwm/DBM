@@ -1,0 +1,8 @@
+#!/usr/local/bin/zsh -u
+
+datadir=$1
+
+mkdir data/$datadir
+mkdir data/$datadir/param
+mkdir data/$datadir/result
+mkdir data/$datadir/log
