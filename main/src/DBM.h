@@ -26,6 +26,8 @@ class DBM {
     void           add_particle(const PosVal& pv);
     double         grad_phi(const Pos& pos);
     void           write_header(ofstream &ofs);
+    bool           is_outer_interface(const int i, const int j);
+    double         gibbs_thomson(const int i, const int j); // calculate change of potential (T)
 
 
 
@@ -42,6 +44,8 @@ class DBM {
     double      eta;
     int         N;     // steps
     SOR         sor;
+    int         center; // position of seed
+    int         R_circular_interface; // radius of outer circular interface
 
     Rand01      r;
     Grid<double>  grid;
@@ -55,5 +59,9 @@ class DBM {
 
     // surface tension
     double      sigma;
+
+    // potencial value of interface
+    const double outer;
+    const double cluster;
 };
 

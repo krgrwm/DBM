@@ -36,7 +36,7 @@ int main(int argc, char const* argv[])
     // print progress
 //    if (0 == i % (N/100)) {
 //      cout << getpid() << ": " << 100*i/N << endl;
-      cout << getpid() << ": " << i << endl;
+      cout << getpid() << ": " << 100.0*double(i)/N << endl;
 //    }
   }
   cout << getpid() << ": " << "DONE" << endl;

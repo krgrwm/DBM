@@ -9,7 +9,19 @@
 #include <numeric>
 #include <algorithm>
 
+/* Private */
 
+bool DBM::is_outer_interface(const int i, const int j) {
+  double r2 = pow(j-this->center, 2) + pow(i-this->center, 2);
+  return (r2 >= this->R_circular_interface*this->R_circular_interface);
+}
+
+double DBM::gibbs_thomson(const int i, const int j) {
+  double curvature = this->b.curvature(i, j, true);
+  return this->sigma * curvature;
+}
+
+/* Public */
 DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
   size(size),
   eta(eta),
@@ -21,8 +33,13 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   stick(),
   peri(),
   threshold(threshold),
-  sigma(sigma)
-{}
+  sigma(sigma),
+  outer(0),
+  cluster(100)
+{
+  this->center = int(size/2);
+  this->R_circular_interface = this->center - 2;
+}
 
 Perimeter DBM::get_perimeter(Pos p) {
   int i = p.first;
@@ -55,12 +72,10 @@ Perimeter DBM::get_perimeter(Pos p) {
 
 int DBM::init()
 {
-  const auto c = int(this->size/2);
-  const auto r = c-2;
-  double r2=0;
   int count=0;
 
   // set seed at center (phi=0)
+  const int c = this->center;
   this->grid(c, c, 0.0);
   this->b(c, c, true);
   (this->stick).insert(Pos(c, c));
@@ -68,9 +83,8 @@ int DBM::init()
   // set circular boundary (phi=1)
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
-      r2 = pow(j-c, 2) + pow(i-c, 2);
-      if (r2 >= r*r) {
-        this->grid(i, j, 1.0);
+      if (this->is_outer_interface(i, j)) {
+        this->grid(i, j, this->outer);
         this->b(i, j, true);
       }
     }
@@ -94,15 +108,16 @@ double DBM::grad_phi(const Pos& pos) {
   int j = pos.second;
   double curvature = this->b.curvature(i, j, true);
 
-  return this->grid(i, j) + this->sigma*curvature;
+//  return this->grid(i, j) + this->sigma*curvature;
+  return this->grid(i, j) - this->cluster;
 }
 
 // calculate probability from potential
 PList DBM::plist(Perimeter& peri) {
   double C = 0.0;  // Normalization constant
 
-  // phi << 1 -> C << 1 -> phi/C -> NaN
-  // pihが小さすぎる(1E-15)とかになるとCも小さくなり
+  // grad_phi << 1 -> C << 1 -> phi/C -> NaN
+  // grad_pihが小さすぎる(1E-15)とかになるとCも小さくなり
   // phi/C = 0/0のようになるので定数Aをかけ大きな値にする
   // 特にeta=2以降だとこれが顕著になる
   double A = 1E15;
@@ -158,7 +173,7 @@ void DBM::add_particle(const PosVal& pv) {
   const Pos& p = pv.first;
 
   this->b(p.first, p.second, true);
-  this->grid(p.first, p.second, 0.0);
+  this->grid(p.first, p.second, this->cluster);
   this->stick.insert(p);
   update_perimeters(p);
 
@@ -167,8 +182,14 @@ void DBM::add_particle(const PosVal& pv) {
 }
 
 void DBM::write_header(ofstream &ofs) {
-  ofs << "# size:" << this->size << " N:" << this->N << " eta:" << this->eta 
-    << " omega:" << this->sor.get_omega() << " epsilon:" << this->sor.get_epsilon() << endl;
+  ofs 
+    << "# size:" << this->size 
+    << " N:" << this->N 
+    << " eta:" << this->eta 
+    << " threshold:" << this->threshold
+    << " sigma:" << this->sigma
+    << " omega:" << this->sor.get_omega()
+    << " epsilon:" << this->sor.get_epsilon() << endl;
 }
 
 void DBM::write(const string& f) {
