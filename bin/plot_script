@@ -14,7 +14,7 @@ case "$lattice" in
         set_view="set view map"
         ;;
     hex)
-        plot="plot '$file' pt 6 ps $size notitle"
+        plot="plot '$file' pt 7 ps $size notitle"
         set_view=""
         ;;
     *)
@@ -26,8 +26,6 @@ esac
 config=$(cat << EOF
 $set_view
 set size square
-set xrange[0:]
-set yrange[0:]
 EOF
 )
 

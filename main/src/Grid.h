@@ -16,7 +16,8 @@ class Grid {
     Val operator()(int i, int j);
     void operator()(int i, int j, const Val &v);
     bool check_array_bound(int i, int j);
-    const std::vector<Pos> get_neighborhood(int i, int j);
+    std::vector<Pos> get_neighborhood(int i, int j);
+    int count_nn(const int i, const int j, const Val &val);
     double curvature(int i, int j, const Val &occupied);
 };
 
@@ -44,7 +45,7 @@ bool Grid<Val>::check_array_bound(int i, int j) {
 }
 
 template<typename Val>
-const std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
+std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
   bool even = i%2 == 0;
 
   /* hexagonal grid
@@ -66,15 +67,21 @@ const std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
 }
 
 template<typename Val>
-double Grid<Val>::curvature(int i, int j, const Val &occupied) {
+int Grid<Val>::count_nn(const int i, const int j, const Val &val) {
   const auto nn = this->get_neighborhood(i, j);
   int count = 0;
 
   for(auto& var : nn ) {
-    if ( this->grid[var.first][var.second] == occupied ) {
+    if ( this->grid[var.first][var.second] == val) {
       count++;
     }
   }
+  return count;
+}
+
+template<typename Val>
+double Grid<Val>::curvature(int i, int j, const Val &occupied) {
+  int count = this->count_nn(i, j, occupied);
   return (4-count)/3.0;
 }
 

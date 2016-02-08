@@ -2,6 +2,7 @@
 #include "Grid.h"
 #include "plist.h"
 #include "SOR.h"
+#include "Boundary.h"
 
 #include <set>
 #include <map>
@@ -28,6 +29,8 @@ class DBM {
     void           write_header(ofstream &ofs);
     bool           is_outer_interface(const int i, const int j);
     double         gibbs_thomson(const int i, const int j); // calculate change of potential (T)
+    double         calc_cluster_potential(const int i, const int j); // calculate phi = phi0 - sigma/R
+    void           set_cluster_potential();
 
 
 
@@ -44,12 +47,10 @@ class DBM {
     double      eta;
     int         N;     // steps
     SOR         sor;
-    int         center; // position of seed
-    int         R_circular_interface; // radius of outer circular interface
 
     Rand01      r;
     Grid<double>  grid;
-    Grid<bool>        b;
+    Boundary      b;
     Stick       stick; // stuck particle set
     Perimeter   peri;  // candidates to stick
 
@@ -59,9 +60,5 @@ class DBM {
 
     // surface tension
     double      sigma;
-
-    // potencial value of interface
-    const double outer;
-    const double cluster;
 };
 

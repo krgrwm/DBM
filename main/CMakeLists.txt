@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set (SRC ./src)
 include_directories(${SRC})
-add_executable(main ${SRC}/main.cpp ${SRC}/DBM.cpp ${SRC}/plist.cpp ${SRC}/SOR.cpp)
+add_executable(main ${SRC}/main.cpp ${SRC}/DBM.cpp ${SRC}/plist.cpp ${SRC}/SOR.cpp ${SRC}/Boundary.cpp)
 
 
 add_definitions( -std=c++11 -stdlib=libc++ -Wall )

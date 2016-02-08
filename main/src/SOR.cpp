@@ -7,7 +7,7 @@ SOR::SOR(const double omega, const double epsilon) : omega(omega), epsilon(epsil
 //SOR::SOR() : omega(1.25), epsilon(1.0E-4) // fig2b: calc-time=2h (no opt), 1m (opt), 修正版だと8s
 //SOR::SOR() : omega(1.25), epsilon(1.0E-3) // fig2b: calc-time=7m (no opt) {}
 
-int SOR::solve(int size, Grid<double> &grid, Grid<bool> &boundary) {
+int SOR::solve(int size, Grid<double> &grid, Boundary &boundary) {
   return this->_solve_max(size, grid, boundary);
 }
 
@@ -40,7 +40,7 @@ int SOR::solve(int size, Grid<double> &grid, Grid<bool> &boundary) {
 //  std::cout << "solve end" << std::endl;
 //}
 
-int SOR::_solve_max(int size, Grid<double> &grid, Grid<bool> &boundary) {
+int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
   double gij       = 0.0;
   double new_gij   = 0.0;
   double sum       = 0.0;
@@ -53,7 +53,7 @@ int SOR::_solve_max(int size, Grid<double> &grid, Grid<bool> &boundary) {
     max = 0.0;
     for (int i = 1; i < size-1; i++) {
       for (int j = 1; j < size-1; j++) {
-        if ( !boundary(i, j)) {
+        if ( !boundary.is_boundary(i, j) ) {
           gij = grid(i, j);
           sum = this->sum(grid, i, j);
           new_gij = gij + omega * ( sum /6.0 - gij );

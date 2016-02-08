@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/omega.dir/src/DBM.cpp.o"
   "CMakeFiles/omega.dir/src/plist.cpp.o"
   "CMakeFiles/omega.dir/src/SOR.cpp.o"
+  "CMakeFiles/omega.dir/src/Boundary.cpp.o"
   "omega.pdb"
   "omega"
 )

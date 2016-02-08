@@ -125,6 +125,33 @@ main/fast:
 	cd /home/t.sato/Work/DBM/build && $(MAKE) -f main/CMakeFiles/main.dir/build.make main/CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+src/Boundary.o: src/Boundary.cpp.o
+
+.PHONY : src/Boundary.o
+
+# target to build an object file
+src/Boundary.cpp.o:
+	cd /home/t.sato/Work/DBM/build && $(MAKE) -f main/CMakeFiles/main.dir/build.make main/CMakeFiles/main.dir/src/Boundary.cpp.o
+.PHONY : src/Boundary.cpp.o
+
+src/Boundary.i: src/Boundary.cpp.i
+
+.PHONY : src/Boundary.i
+
+# target to preprocess a source file
+src/Boundary.cpp.i:
+	cd /home/t.sato/Work/DBM/build && $(MAKE) -f main/CMakeFiles/main.dir/build.make main/CMakeFiles/main.dir/src/Boundary.cpp.i
+.PHONY : src/Boundary.cpp.i
+
+src/Boundary.s: src/Boundary.cpp.s
+
+.PHONY : src/Boundary.s
+
+# target to generate assembly for a file
+src/Boundary.cpp.s:
+	cd /home/t.sato/Work/DBM/build && $(MAKE) -f main/CMakeFiles/main.dir/build.make main/CMakeFiles/main.dir/src/Boundary.cpp.s
+.PHONY : src/Boundary.cpp.s
+
 src/DBM.o: src/DBM.cpp.o
 
 .PHONY : src/DBM.o
@@ -242,6 +269,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... src/Boundary.o"
+	@echo "... src/Boundary.i"
+	@echo "... src/Boundary.s"
 	@echo "... src/DBM.o"
 	@echo "... src/DBM.i"
 	@echo "... src/DBM.s"
