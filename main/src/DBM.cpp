@@ -133,22 +133,24 @@ double DBM::grad_phi(const Pos& pos) {
   int i = pos.first;
   int j = pos.second;
 
-  const auto nn = this->grid.get_neighborhood(i, j);
+  return this->grid.grad_abs(i, j);
 
-  // 最もpotentialの値が高い境界を探す
-  // gradが最も大きくなるため
-  double max=0.0;
-  int _i, _j;
-  for(auto& var : nn ) {
-    _i = var.first;
-    _j = var.second;
-    if (this->b.cluster(_i, _j) && this->grid(_i, _j) > max) {
-      max = this->grid(_i, _j);
-    }
-  }
-
-//  return this->grid(i, j) - this->b.val_cluster;
-  return fabs(max - this->grid(i, j));
+//  const auto nn = this->grid.get_neighborhood(i, j);
+//
+//  // 最もpotentialの値が高い境界を探す
+//  // gradが最も大きくなるため
+//  double max=0.0;
+//  int _i, _j;
+//  for(auto& var : nn ) {
+//    _i = var.first;
+//    _j = var.second;
+//    if (this->b.cluster(_i, _j) && this->grid(_i, _j) > max) {
+//      max = this->grid(_i, _j);
+//    }
+//  }
+//
+////  return this->grid(i, j) - this->b.val_cluster;
+//  return fabs(max - this->grid(i, j));
 }
 
 // calculate probability from potential

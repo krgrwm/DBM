@@ -2,6 +2,7 @@
 #define GRID
 
 #include <vector>
+#include <cmath>
 
 using Pos = std::pair<int, int>;
 
@@ -13,12 +14,15 @@ class Grid {
   public:
 
     Grid(const int size, const Val init);
-    Val operator()(int i, int j);
-    void operator()(int i, int j, const Val &v);
-    bool check_array_bound(int i, int j);
+    Val              get(int i, int j);
+    void             set(int i, int j, const Val &v);
+    Val              operator()(int i, int j);
+    void             operator()(int i, int j, const Val &v);
+    bool             check_array_bound(int i, int j);
     std::vector<Pos> get_neighborhood(int i, int j);
-    int count_nn(const int i, const int j, const Val &val);
-    double curvature(int i, int j, const Val &occupied);
+    int              count_nn(const int i, const int j, const Val &val);
+    double           curvature(int i, int j, const Val &occupied);
+    double           grad_abs(int i, int j);
 };
 
 
@@ -29,14 +33,26 @@ Grid<Val>::Grid(const int size, const Val init) {
 }
 
 template<typename Val>
-Val Grid<Val>::operator()(int i, int j) {
+Val Grid<Val>::get(int i, int j) {
   return this->grid[i][j];
 }
 
 template<typename Val>
-void Grid<Val>::operator()(int i, int j, const Val &v) {
+void Grid<Val>::set(int i, int j, const Val &v) {
   this->grid[i][j] = v;
 }
+
+
+template<typename Val>
+Val Grid<Val>::operator()(int i, int j) {
+  return this->get(i, j);
+}
+
+template<typename Val>
+void Grid<Val>::operator()(int i, int j, const Val &v) {
+  this->set(i, j, v);
+}
+
 
 template<typename Val>
 bool Grid<Val>::check_array_bound(int i, int j) {
@@ -46,7 +62,7 @@ bool Grid<Val>::check_array_bound(int i, int j) {
 
 template<typename Val>
 std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
-  bool even = i%2 == 0;
+  const bool even = i%2 == 0;
 
   /* hexagonal grid
    ___ ___ ___ ___ ___
@@ -85,5 +101,23 @@ double Grid<Val>::curvature(int i, int j, const Val &occupied) {
   return (4-count)/3.0;
 }
 
+template<typename Val>
+double Grid<Val>::grad_abs(int i, int j) {
+  const bool even = i%2 == 0;
+  double dx1, dx2, dx3;
+  double grad_abs;
+
+  dx1 = this->get(i, j+1) - this->get(i, j-1);
+
+  if (even) {
+    dx2 = this->get(i-1, j-1) - this->get(i+1, j);
+    dx3 = this->get(i+1, j-1) - this->get(i-1, j);
+  } else {
+    dx2 = this->get(i-1, j) - this->get(i+1, j+1);
+    dx3 = this->get(i+1, j) - this->get(i-1, j+1);
+  }
+  grad_abs = 2.0/3.0 * sqrt(dx1*dx1 + dx2*dx2 + dx3*dx3);
+  return grad_abs;
+}
 
 #endif

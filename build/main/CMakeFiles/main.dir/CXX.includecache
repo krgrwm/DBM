@@ -59,6 +59,8 @@ map
 /home/t.sato/Work/DBM/main/src/Grid.h
 vector
 -
+cmath
+-
 
 /home/t.sato/Work/DBM/main/src/Rand01.h
 random
