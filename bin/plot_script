@@ -11,7 +11,7 @@ param=$(head -n 1 $file)
 case "$lattice" in
     square)
         plot="splot '$file' matrix w $with notitle"
-        set_view="set view map"
+        set_view="set contour; set view map"
         ;;
     hex)
         plot="plot '$file' pt 7 ps $size notitle"
