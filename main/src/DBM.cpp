@@ -171,11 +171,11 @@ PList DBM::plist(Perimeter& peri) {
 //    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
     C += pow(A*this->grad_phi(pos), this->eta);
   }
-  cout << "C=" << C << endl;
+//  cout << "C=" << C << endl;
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
-    cout << this->grad_phi(pos) << endl;
+//    cout << this->grad_phi(pos) << endl;
     double p = pow(A*this->grad_phi(pos), this->eta) / C ;
     plist.append(i, PosVal(pos, p));
     i++;
