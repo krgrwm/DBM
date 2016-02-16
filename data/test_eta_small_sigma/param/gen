@@ -1,0 +1,22 @@
+#!/usr/local/bin/zsh -u
+
+eta_list=($(seq -w 0.1 0.1 1))
+sigma_list=($(seq -w 0 0.003 0.031))
+size=500
+N=4000
+threshold=200
+file=""
+
+for eta in $eta_list; do
+    for sigma in $sigma_list; do
+#        echo $eta $sigma
+        file="eta_"$eta"sigma_"$sigma
+        cat << EOF > $file
+size=$size
+N=$N
+eta=$eta
+threshold=$threshold
+sigma=$sigma
+EOF
+    done
+done

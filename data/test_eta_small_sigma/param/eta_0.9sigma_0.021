@@ -1,0 +1,5 @@
+size=500
+N=4000
+eta=0.9
+threshold=200
+sigma=0.021

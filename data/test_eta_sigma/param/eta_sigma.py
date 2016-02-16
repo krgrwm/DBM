@@ -4,8 +4,8 @@ eta_start = 0
 eta_end   = 10
 eta_list = [eta/10.0 for eta in range(eta_start, eta_end+1)]
 
-size = 400
-N = 300
+size = 500
+N = 4000
 threshold = 200
 
 sigma_start = 0

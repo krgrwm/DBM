@@ -1,0 +1,12 @@
+#!/usr/local/bin/python3
+
+import sys
+
+lines = sys.stdin.readlines()
+lines = list(map(lambda l: list(map(lambda x: float(x), l.split())), lines))
+
+_max = max(map(max, lines))
+_min = min(map(min, lines))
+
+print(_max)
+print(_min)

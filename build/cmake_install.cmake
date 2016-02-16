@@ -31,6 +31,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/t.sato/Work/DBM/build/main/cmake_install.cmake")
   include("/home/t.sato/Work/DBM/build/omega/cmake_install.cmake")
+  include("/home/t.sato/Work/DBM/build/check_gibbs_thomson/cmake_install.cmake")
 
 endif()
 

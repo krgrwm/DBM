@@ -11,7 +11,6 @@ using namespace std;
 
 using Pos       = pair<int, int>;
 using PosVal    = pair<Pos, double>;
-using Stick     = set<Pos>;
 using Perimeter = set<Pos>;
 
 class DBM {
@@ -24,13 +23,11 @@ class DBM {
 
     // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);
-    void           add_particle(const PosVal& pv);
     double         grad_phi(const Pos& pos);
     void           write_header(ofstream &ofs);
     bool           is_outer_interface(const int i, const int j);
     double         gibbs_thomson(const int i, const int j); // calculate change of potential (T)
     double         calc_cluster_potential(const int i, const int j); // calculate phi = phi0 - sigma/R
-    void           set_cluster_potential();
 
 
 
@@ -40,18 +37,24 @@ class DBM {
     int solve();
     void  write(const string& f);
     void  write_hex(const string& f);
+    Pos   select_from_perimeters();
+    void  normalize_sigma();
     void  step();
 
+    int  center();
+    void           set_cluster_potential();
+    void           add_particle(const Pos& p);
+
   private:
-    int         size;
-    double      eta;
-    int         N;     // steps
-    SOR         sor;
+    const int    size;
+    const double eta;
+    const int    N;     // steps
+    SOR          sor;
 
     Rand01      r;
     Grid<double>  grid;
+    Grid<double>  __carvature;
     Boundary      b;
-    Stick       stick; // stuck particle set
     Perimeter   peri;  // candidates to stick
 
     // noise-reduction
@@ -60,5 +63,7 @@ class DBM {
 
     // surface tension
     double      sigma;
+    const double      sigma_unnormalized;
+    const double      normalization_sigma; // normalization sigma parameter
 };
 

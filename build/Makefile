@@ -136,6 +136,19 @@ omega/fast:
 	$(MAKE) -f omega/CMakeFiles/omega.dir/build.make omega/CMakeFiles/omega.dir/build
 .PHONY : omega/fast
 
+#=============================================================================
+# Target rules for targets named check_gibbs_thomson
+
+# Build rule for target.
+check_gibbs_thomson: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 check_gibbs_thomson
+.PHONY : check_gibbs_thomson
+
+# fast build rule for target.
+check_gibbs_thomson/fast:
+	$(MAKE) -f check_gibbs_thomson/CMakeFiles/check_gibbs_thomson.dir/build.make check_gibbs_thomson/CMakeFiles/check_gibbs_thomson.dir/build
+.PHONY : check_gibbs_thomson/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -146,6 +159,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... main"
 	@echo "... omega"
+	@echo "... check_gibbs_thomson"
 .PHONY : help
 
 

@@ -13,19 +13,22 @@
 
 /* Private */
 
-
-double DBM::gibbs_thomson(const int i, const int j) {
-  double curvature = this->b.cluster.curvature(i, j, true);
-  double correct   = this->sigma * curvature;
-  return correct;
+int DBM::center() {
+  return this->b.center;
 }
 
 double DBM::calc_cluster_potential(const int i, const int j) {
-  return this->b.val_cluster - this->gibbs_thomson(i, j);
+  double sigma     = this->sigma;
+  double curvature = this->b.cluster.curvature(i, j, true);
+  double T_M       = this->b.val_cluster;
+
+  return T_M * (1 - sigma*curvature);
 }
 
 void DBM::set_cluster_potential() {
   double new_value = 0.0;
+  /* DEBUG */
+  double curvature;
 
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
@@ -34,9 +37,17 @@ void DBM::set_cluster_potential() {
       if (this->b.cluster(i, j) && (!this->b.outer(i, j))) {
         new_value = calc_cluster_potential(i, j);
         this->grid(i, j, new_value);
+
+        /* DEBUG */
+        curvature = this->b.cluster.curvature(i, j, true);
+        this->__carvature(i, j, curvature);
       }
     }
   }
+}
+
+void DBM::normalize_sigma() {
+  this->sigma = this->b.val_cluster / this->normalization_sigma * this->sigma;
 }
 
 /* Public */
@@ -47,20 +58,22 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   sor(sor),
   r(),
   grid(size, 0.0), 
+  __carvature(size, 0.0),
   b(size, 0.0, 100.0),
-  stick(),
   peri(),
   threshold(threshold),
-  sigma(sigma)
+  sigma(sigma),
+  sigma_unnormalized(sigma),
+  normalization_sigma(100.0)
 {
   cout <<
-    " size: "      << this->size              <<
-    " N: "         << this->N                 <<
-    " threshold: " << this->threshold         <<
-    " sigma: "     << this->sigma             <<
-    " eta: "       << this->eta               <<
-    " omega: "     << this->sor.get_omega()   <<
-    " epsilon: "   << this->sor.get_epsilon() <<
+    " size: "      << this->size               <<
+    " N: "         << this->N                  <<
+    " threshold: " << this->threshold          <<
+    " sigma: "     << this->sigma_unnormalized <<
+    " eta: "       << this->eta                <<
+    " omega: "     << this->sor.get_omega()    <<
+    " epsilon: "   << this->sor.get_epsilon()  <<
     endl;
 }
 
@@ -95,12 +108,13 @@ Perimeter DBM::get_perimeter(Pos p) {
 
 int DBM::init()
 {
+  this->normalize_sigma();
+
   int count=0;
 
   // set seed at center (phi=0)
   const int c = this->b.center;
-  this->grid(c, c, 0.0);
-  (this->stick).insert(Pos(c, c));
+  add_particle(Pos(c, c));
 
   // set circular boundary (phi=1)
   for (int i = 0; i < this->size; i++) {
@@ -111,9 +125,6 @@ int DBM::init()
       }
     }
   }
-  // add perimeters at (c, c)
-  auto peris = get_perimeter(Pos(c, c));
-  (this->peri).insert(peris.begin(), peris.end());
 
   count = this->solve();
   return count;
@@ -219,13 +230,11 @@ void DBM::update_perimeters(const Pos& pos) {
   this->peri.insert(new_peri.begin(), new_peri.end());
 }
 
-void DBM::add_particle(const PosVal& pv) {
+void DBM::add_particle(const Pos& p) {
   cout << "add_particle" << endl;
-  const Pos& p = pv.first;
 
   this->b.cluster(p.first, p.second, true);
   this->grid(p.first, p.second, this->b.val_cluster);
-  this->stick.insert(p);
   update_perimeters(p);
 
   // delete site to stick from perimeters
@@ -234,13 +243,14 @@ void DBM::add_particle(const PosVal& pv) {
 
 void DBM::write_header(ofstream &ofs) {
   ofs <<
-    "# size: "     << this->size                      <<
-    " N: "         << this->N                         <<
-    " eta: "       << double(this->eta)               <<
-    " threshold: " << this->threshold                 <<
-    " sigma: "     << double(this->sigma)             <<
-    " omega: "     << double(this->sor.get_omega())   <<
-    " epsilon: "   << double(this->sor.get_epsilon()) <<
+    "# size: "      << this->size                        <<
+    " N: "          << this->N                           <<
+    " eta: "        << double(this->eta)                 <<
+    " threshold: "  << this->threshold                   <<
+    " sigma: "      << double(this->sigma_unnormalized)  <<
+    " norm_sigma: " << double(this->normalization_sigma) <<
+    " omega: "      << double(this->sor.get_omega())     <<
+    " epsilon: "    << double(this->sor.get_epsilon())   <<
     endl;
 }
 
@@ -248,22 +258,31 @@ void DBM::write(const string& f) {
   const string gridfile = f + ".grid";
   const string boundaryfile = f + ".boundary";
   const string hexfile = f + ".hex";
+  /* DEBUG */
+  const string cfile = f + ".curvature";
+
   double newj = 0;
 
   ofstream gofs(gridfile);
   ofstream bofs(boundaryfile);
   ofstream hofs(hexfile);
+  /* DEBUG */
+  ofstream cofs(cfile);
 
   // write header
   write_header(gofs);
   write_header(bofs);
   write_header(hofs);
+  /* DEBUG */
+  write_header(cofs);
 
   // write data
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
       gofs << this->grid(i, j) << " ";
       bofs << this->b.cluster(i, j) << " ";
+      /* DEBUG */
+      cofs << this->__carvature(i, j) << " ";
 
       if (this->b.cluster(i, j)) {
         newj = j + ((i%2)-0.5)/2.0;
@@ -272,11 +291,18 @@ void DBM::write(const string& f) {
     }
     gofs << endl;
     bofs << endl;
+    /* DEBUG */
+    cofs << endl;
   }
 }
 
+Pos DBM::select_from_perimeters() {
+  const auto stick_pos = this->select(this->plist(this->peri)).first;
+  return stick_pos;
+}
+
 void DBM::step() {
-  this->add_particle(this->select(this->plist(this->peri)));
+  this->add_particle(select_from_perimeters());
 
   cout << "solve" << endl;
   this->solve();

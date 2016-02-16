@@ -1,0 +1,9 @@
+#!/usr/local/bin/zsh -u
+
+
+file=$(readlink -f $1)
+size=1
+
+cd `dirname $0`
+#./plot $file image square x $size
+./plot $file lines color x $size

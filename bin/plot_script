@@ -11,11 +11,17 @@ param=$(head -n 1 $file)
 case "$lattice" in
     square)
         plot="splot '$file' matrix w $with notitle"
-        set_view="set contour; set view map"
+        set_view="set contour base; unset surface; set view 0,0;"
+        set_view=$set_view"set cntrparam levels incremental 0,1,120"
+#        set_view=$set_view"set view map"
         ;;
     hex)
         plot="plot '$file' pt 7 ps $size notitle"
-        set_view=""
+        set_view="set grid"
+        ;;
+    color)
+        set_view="set pm3d; set pm3d map; set palette gray"
+        plot="splot '$file' matrix w $with notitle"
         ;;
     *)
         echo "$lattice Didn't match anything" >2
