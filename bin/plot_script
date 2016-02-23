@@ -16,8 +16,11 @@ case "$lattice" in
 #        set_view=$set_view"set view map"
         ;;
     hex)
+        set_view=$(cat << EOF
+set grid
+EOF
+)
         plot="plot '$file' pt 7 ps $size notitle"
-        set_view="set grid"
         ;;
     color)
         set_view="set pm3d; set pm3d map; set palette gray"

@@ -1,3 +1,0 @@
-#!/usr/local/bin/bash
-
-for i in {0..4}; do (bin/run data/param/_eta$i &) ; done
