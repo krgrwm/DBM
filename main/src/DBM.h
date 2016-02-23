@@ -65,7 +65,9 @@ class DBM {
 
     // noise-reduction
     int   threshold;
-    map<Pos, int> counter;
+
+//    map<Pos, int> counter;
+    Grid<int> counter;
 
     // surface tension
     const double      sigma;

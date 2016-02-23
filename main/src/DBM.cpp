@@ -59,6 +59,7 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   b(size, 0.0, 100.0),
   peri(),
   threshold(threshold),
+  counter(size, 0),
   sigma(sigma)
 {
   std::random_device seedgen;
@@ -218,12 +219,20 @@ PosVal DBM::select(PList& pl) {
 //  }
 
   int i;
+  Pos pos;
+  int c;
+  int posi, posj;
 
   while (true) {
     i = pick(this->mt);
-    this->counter[pl.pos(i)] += 1;
-    if (this->counter[pl.pos(i)] >= this->threshold) {
-      this->counter[pl.pos(i)] = 0;
+//    this->counter[pl.pos(i)] += 1;
+    pos = pl.pos(i);
+    posi = pos.first;
+    posj = pos.second;
+    c = this->counter(posi, posj);
+    this->counter(posi, posj, c+1);
+    if (this->counter(posi, posj) >= this->threshold) {
+      this->counter(posi, posj, 0);
       return pl.at(i);
     }
   }
@@ -262,6 +271,13 @@ PosVal DBM::select(PList& pl) {
 
 void DBM::update_perimeters(const Pos& pos) {
   const auto new_peri = get_perimeter(pos);
+
+  // set counter at new perimeter sites
+  for(auto& var : new_peri ) {
+    this->counter(var.first, var.second, 0);
+  }
+
+  // add new perimeter sites
   this->peri.insert(new_peri.begin(), new_peri.end());
 }
 

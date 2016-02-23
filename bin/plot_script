@@ -20,7 +20,7 @@ case "$lattice" in
 set grid
 EOF
 )
-        plot="plot '$file' pt 7 ps $size notitle"
+        plot="plot '$file' pt 5 ps $size notitle"
         ;;
     color)
         set_view="set pm3d; set pm3d map; set palette gray"
