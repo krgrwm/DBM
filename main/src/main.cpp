@@ -26,7 +26,7 @@ int main(int argc, char const* argv[])
 //  const double epsilon = 1E-5;
   // DEBUG
   const double epsilon = 1E-3;
-  auto dbm = DBM(size, eta, N, threshold, sigma, SOR(omega, epsilon));
+  auto dbm = DBM(size, eta, N, threshold, sigma, SOR_Square(omega, epsilon));
 
   cout << "Initialize DBM" << endl;
   dbm.init();

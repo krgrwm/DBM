@@ -46,7 +46,9 @@ void DBM::set_cluster_potential() {
 //}
 
 /* Public */
-DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
+/* DEBUG */
+//DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
+DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor):
   size(size),
   eta(eta),
   N(N),
@@ -59,6 +61,8 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   threshold(threshold),
   sigma(sigma)
 {
+  std::random_device seedgen;
+  this->mt = std::mt19937(seedgen());
   cout <<
     " size: "      << this->size               <<
     " N: "         << this->N                  <<
@@ -164,29 +168,24 @@ double DBM::grad_phi(const Pos& pos) {
 PList DBM::plist(Perimeter& peri) {
   cout << "plist" << endl;
 
-  double C = 0.0;  // Normalization constant
+//  double C = 0.0;  // Normalization constant
 
-  // grad_phi << 1 -> C << 1 -> phi/C -> NaN
-  // grad_pihが小さすぎる(1E-15)とかになるとCも小さくなり
-  // phi/C = 0/0のようになるので定数Aをかけ大きな値にする
-  // 特にeta=2以降だとこれが顕著になる
-//  double A = 1E15;
-  double A = 1.0;
   PList plist(peri.size());
 
-  // calc normalization constant C
-  for (const auto& pos : peri) {
-//    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
-//    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
-    C += pow(A*this->grad_phi(pos), this->eta);
-  }
+//  // calc normalization constant C
+//  for (const auto& pos : peri) {
+////    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
+////    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
+//    C += pow(A*this->grad_phi(pos), this->eta);
+//  }
 //  cout << "C=" << C << endl;
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
 //    cout << this->grad_phi(pos) << endl;
-    double p = pow(A*this->grad_phi(pos), this->eta) / C ;
-    plist.append(i, PosVal(pos, p));
+//    double p = pow(A*this->grad_phi(pos), this->eta) / C ;
+    double p = pow(this->grad_phi(pos), this->eta);
+    plist.append(i, pos, p);
     i++;
   }
   return plist;
@@ -194,6 +193,42 @@ PList DBM::plist(Perimeter& peri) {
 
 PosVal DBM::select(PList& pl) {
   cout << "select" << endl;
+  
+  Pick pick(pl.get_plist());
+
+//  /* DEBUG */
+//  auto ps    = pl.get_plist();
+//  auto picks = pick.distribution.probabilities();
+//  std::sort(ps.begin(), ps.end());
+//  std::sort(picks.begin(), picks.end());
+
+//  int N=1000;
+//  std::vector<int> n(ps.size());
+//  for (int j=0; j<N; j++) {
+//    n[pick(this->mt)] += 1;
+//  }
+//  cout << "DEBUG" << endl;
+//  for (int j=0; j<ps.size(); j++) {
+//    cout << picks[j] << ":" << double(n[j])/N << endl;
+//  }
+
+
+//  for (int j=0; j<ps.size(); j++) {
+//    cout << ps[j] << ":" << picks[j] << endl;
+//  }
+
+  int i;
+
+  while (true) {
+    i = pick(this->mt);
+    this->counter[pl.pos(i)] += 1;
+    if (this->counter[pl.pos(i)] >= this->threshold) {
+      this->counter[pl.pos(i)] = 0;
+      return pl.at(i);
+    }
+  }
+}
+
 
 //  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 //  shuffle(pl.plist.begin(), pl.plist.end(), std::default_random_engine(seed));
@@ -223,7 +258,7 @@ PosVal DBM::select(PList& pl) {
 //      }
 //    }
 //  }
-}
+//}
 
 void DBM::update_perimeters(const Pos& pos) {
   const auto new_peri = get_perimeter(pos);
@@ -276,8 +311,10 @@ void DBM::write(const string& f) {
       bofs << this->b.cluster(i, j) << " ";
 
       if (this->b.cluster(i, j)) {
+        /* DEBUG */
         newj = j + ((i%2)-0.5)/2.0;
-          hofs << newj << " " << i << endl;
+//        hofs << newj << " " << i << endl;
+        hofs << j << " " << i << endl;
       }
     }
     gofs << endl;

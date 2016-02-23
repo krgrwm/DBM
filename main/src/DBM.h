@@ -32,7 +32,9 @@ class DBM {
 
 
   public:
-    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
+//    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
+/* DEBUG */
+    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor);
     int init();
     int solve();
     void  write(const string& f);
@@ -48,11 +50,16 @@ class DBM {
     const int    size;
     const double eta;
     const int    N;     // steps
-    SOR          sor;
+    /* DEBUG */
+//    SOR          sor;
+    SOR_Square          sor;
 
     Rand01      r;
-    Grid<double>  grid;
-    Grid<double>  __carvature;
+//    Grid<double>  grid;
+//    Grid<double>  __carvature;
+/* DEBUG */
+    Grid_Square<double>  grid;
+    Grid_Square<double>  __carvature;
     Boundary      b;
     Perimeter   peri;  // candidates to stick
 
@@ -62,5 +69,8 @@ class DBM {
 
     // surface tension
     const double      sigma;
+
+    // random engine
+    std::mt19937 mt;
 };
 

@@ -36,13 +36,13 @@ class RandInt {
 };
 
 class Pick {
-  private:
-    std::default_random_engine generator;
+//  private:
+public:
     std::discrete_distribution<double> distribution;
   public:
     Pick(const std::vector<double>& vec) : distribution(vec.begin(), vec.end()) {}
-    int operator()() {
-      return this->distribution(generator);
+    int operator()(std::mt19937 &mt) {
+      return this->distribution(mt);
     }
 };
 

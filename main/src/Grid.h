@@ -13,11 +13,6 @@ class Grid {
     int size;
     std::vector< std::vector<Val> > grid;
 
-    /* unit vector */
-    const Vec2D x1;
-    const Vec2D x2;
-    const Vec2D x3;
-
   public:
 
     Grid(const int size, const Val init);
@@ -29,18 +24,13 @@ class Grid {
     std::vector<Pos> get_neighborhood(int i, int j);
     int              count_nn(const int i, const int j, const Val &val);
     double           curvature(int i, int j, const Val &occupied);
-    Vec2D            grad(int i, int j);
-    double           grad_abs(int i, int j);
 };
 
 
 template<typename Val>
 Grid<Val>::Grid(const int size, const Val init) :
   size(size),
-  grid(std::vector< std::vector<Val> >(size, std::vector<Val>(size, init))),
-  x1(Vec2D( 1.0,   0.0)),
-  x2(Vec2D(-0.5,  sqrt(3.0)/2.0)),
-  x3(Vec2D(-0.5, -sqrt(3.0)/2.0))
+  grid(std::vector< std::vector<Val> >(size, std::vector<Val>(size, init)))
 {
 }
 
@@ -114,31 +104,21 @@ double Grid<Val>::curvature(int i, int j, const Val &occupied) {
 }
 
 template<typename Val>
-Vec2D Grid<Val>::grad(int i, int j) {
-  const bool even = i%2 == 0;
-  double dx1, dx2, dx3;
+class Grid_Square : public Grid<Val> {
+  private:
+  public:
+    Grid_Square(const int size, const Val init);
+    std::vector<Pos> get_neighborhood(int i, int j);
 
-  dx1 = 0.5 * (this->get(i, j+1) - this->get(i, j-1));
-
-  if (even) {
-    dx2 = 0.5 * (this->get(i-1, j-1) - this->get(i+1, j));
-    dx3 = 0.5 * (this->get(i+1, j-1) - this->get(i-1, j));
-  } else {
-    dx2 = 0.5 * (this->get(i-1, j) - this->get(i+1, j+1));
-    dx3 = 0.5 * (this->get(i+1, j) - this->get(i-1, j+1));
-  }
-  double X1 = dx1*this->x1.first + dx2*this->x2.first + dx3*this->x3.first;
-  double X2 = dx1*this->x1.second + dx2*this->x2.second + dx3*this->x3.second;
-  return Vec2D(X1, X2);
-}
+};
 
 template<typename Val>
-double Grid<Val>::grad_abs(int i, int j) {
-  auto grad = this->grad(i, j);
-  double x1 = grad.first;
-  double x2 = grad.second;
+Grid_Square<Val>::Grid_Square(const int size, const Val init) : Grid<Val>(size, init)
+{}
 
-  return sqrt(x1*x1 + x2*x2);
+template<typename Val>
+std::vector<Pos> Grid_Square<Val>::get_neighborhood(int i, int j) {
+  return {Pos(i, j-1), Pos(i, j+1), Pos(i+1, j), Pos(i-1, j)};
 }
 
 #endif

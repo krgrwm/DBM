@@ -2,7 +2,8 @@
 #include "Boundary.h"
 
 class SOR {
-  private:
+//  private:
+  public:
     double omega;
     double epsilon;
 
@@ -15,4 +16,13 @@ class SOR {
     int _solve_max(int size, Grid<double> &grid, Boundary &boundary);
     double get_omega() const;
     double get_epsilon() const;
+};
+
+class SOR_Square : public SOR {
+  private:
+    double sum(Grid_Square<double> &grid, int i, int j);
+  public:
+    SOR_Square(const double omega, const double epsilon);
+    int _solve_max(int size, Grid_Square<double> &grid, Boundary &boundary);
+int SOR_Square::_solve_max(int size, Grid_Square<double> &grid, Boundary &boundary) {
 };
