@@ -64,24 +64,7 @@ bool Grid<Val>::check_array_bound(int i, int j) {
 
 template<typename Val>
 std::vector<Pos> Grid<Val>::get_neighborhood(int i, int j) {
-  const bool even = i%2 == 0;
-
-  /* hexagonal grid
-   ___ ___ ___ ___ ___
-  [___|___|___|___|___|
-    [___|___|___|___|___|
-  [___|___|___|___|___|
-    [___|___|___|___|___|
-  [___|___|___|___|___|
-
-  */
-  if (even) {
-    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j-1), Pos(i-1, j), Pos(i+1, j-1), Pos(i+1, j) };
-  } else {
-    return { Pos(i, j-1), Pos(i, j+1), Pos(i-1, j), Pos(i-1, j+1), Pos(i+1, j), Pos(i+1, j+1) };
-  }
-  // square grid
-//  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
+  return { Pos(i-1, j), Pos(i+1, j), Pos(i, j-1), Pos(i, j+1) };
 }
 
 template<typename Val>
@@ -101,24 +84,6 @@ template<typename Val>
 double Grid<Val>::curvature(int i, int j, const Val &occupied) {
   int count = this->count_nn(i, j, occupied);
   return (4-count)/3.0;
-}
-
-template<typename Val>
-class Grid_Square : public Grid<Val> {
-  private:
-  public:
-    Grid_Square(const int size, const Val init);
-    std::vector<Pos> get_neighborhood(int i, int j);
-
-};
-
-template<typename Val>
-Grid_Square<Val>::Grid_Square(const int size, const Val init) : Grid<Val>(size, init)
-{}
-
-template<typename Val>
-std::vector<Pos> Grid_Square<Val>::get_neighborhood(int i, int j) {
-  return {Pos(i, j-1), Pos(i, j+1), Pos(i+1, j), Pos(i-1, j)};
 }
 
 #endif

@@ -48,7 +48,7 @@ void DBM::set_cluster_potential() {
 /* Public */
 /* DEBUG */
 //DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
-DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor):
+DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
   size(size),
   eta(eta),
   N(N),
