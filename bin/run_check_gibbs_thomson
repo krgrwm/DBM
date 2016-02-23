@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash -u
+
+./bin/runout $1 ./build/check_gibbs_thomson/check_gibbs_thomson

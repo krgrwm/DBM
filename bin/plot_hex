@@ -4,5 +4,4 @@ file=$(readlink -f $1)
 size=$2
 
 cd `dirname $0`
-pwd
 ./plot $file image hex x $size

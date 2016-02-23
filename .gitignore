@@ -1,2 +1,14 @@
 data/
 omega_data/
+build/
+CMakeLists.txt.bk
+GPATH
+GRTAGS
+GTAGS
+TODO.org
+gmon.log
+hanpuku/
+main.gmon
+omega/
+check_gibbs_thomson/
+fractal/

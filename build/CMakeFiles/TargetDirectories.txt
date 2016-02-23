@@ -1,2 +1,0 @@
-/home/t.sato/Work/DBM/build/omega/CMakeFiles/omega.dir
-/home/t.sato/Work/DBM/build/main/CMakeFiles/main.dir

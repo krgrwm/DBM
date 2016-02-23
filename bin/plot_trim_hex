@@ -1,8 +1,11 @@
 #!/usr/local/bin/zsh -u
 
 param=$1
+data=$(bin/param2data $param).hex
 data_trimmed="/tmp/"$(basename $param).hex.trimmed
 echo "written to "$data_trimmed
 
-bin/trim_outer_interface $param > $data_trimmed
+
+head -n 1 $data > $data_trimmed
+bin/trim_outer_interface $param >> $data_trimmed
 bin/plot_hex $data_trimmed 1

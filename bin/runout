@@ -17,6 +17,8 @@ fi
 logfile=$logdir/$(basename $param_file).log
 touch $logfile
 
+echo "./$exe $size $N $eta $threshold $sigma $output_file >> $logdir/$(basename $param_file).log"
+
 date > $logfile
 ./$exe $size $N $eta $threshold $sigma $output_file >> $logdir/$(basename $param_file).log
 date >> $logfile

@@ -1,9 +1,10 @@
 #include "plist.h"
 
-PList::PList(const int size) : plist(size) {}
+PList::PList(const int size) : poslist(size), plist(size) {}
 
-void PList::append(const int i, const PosVal pv) {
-  this->plist[i] = pv;
+void PList::append(const int i, const Pos &pos, const double p) {
+  this->poslist[i] = pos;
+  this->plist[i] = p;
 }
 
 int PList::size() const {
@@ -11,13 +12,17 @@ int PList::size() const {
 }
 
 double PList::p(const int i) const {
-  return this->plist[i].second;
+  return this->plist[i];
 }
 
 Pos PList::pos(const int i) const {
-  return this->plist[i].first;
+  return this->poslist[i];
 }
 
 PosVal PList::at(const int i) const {
-  return this->plist[i];
+  return PosVal(this->poslist[i], this->plist[i]);
+}
+
+const std::vector<double> PList::get_plist() {
+  return this->plist;
 }

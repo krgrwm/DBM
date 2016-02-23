@@ -26,4 +26,6 @@ case "$output" in
         exit 1
 esac
 
-cat <(./$output $file $with) <(./plot_script $file $with $lattice $size) | gnuplot -p
+echo "# "$file
+head -n 1 $file
+cat <(./$output $file $with) <(./plot_script $file $with $lattice $size)

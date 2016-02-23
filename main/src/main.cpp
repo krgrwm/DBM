@@ -17,14 +17,16 @@ int main(int argc, char const* argv[])
   }
   const int    size      = atoi(argv[1]);
   const int    N         = atoi(argv[2]);
-  const double eta       = atoi(argv[3]);
+  const double eta       = atof(argv[3]);
   const int    threshold = atoi(argv[4]);
-  const double sigma     = atoi(argv[5]);
+  const double sigma     = atof(argv[5]);
   const string file      = string(argv[6]);
 
   const double omega = 1.97;
-  const double epsilon = 1E-5;
-  auto dbm = DBM(size, eta, N, threshold, sigma, SOR(omega, epsilon));
+//  const double epsilon = 1E-5;
+  // DEBUG
+  const double epsilon = 1E-3;
+  auto dbm = DBM(size, eta, N, threshold, sigma, SOR_Square(omega, epsilon));
 
   cout << "Initialize DBM" << endl;
   dbm.init();
@@ -33,11 +35,7 @@ int main(int argc, char const* argv[])
 
   for (int i=0; i<N; i++ ) {
     dbm.step();
-    // print progress
-//    if (0 == i % (N/100)) {
-//      cout << getpid() << ": " << 100*i/N << endl;
-      cout << getpid() << ": " << i << endl;
-//    }
+    cout << getpid() << ": " << 100.0*double(i)/N << endl;
   }
   cout << getpid() << ": " << "DONE" << endl;
   dbm.write(file);

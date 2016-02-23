@@ -1,0 +1,48 @@
+#!/usr/local/bin/zsh -u
+
+local -A opthash
+zparseopts -D -A opthash -- opts ps: width: pdf
+
+param=$1
+data=$(bin/param2data $param).hex
+ps=0.5
+width=100
+terminal=""
+
+if [[ -n "${opthash[(i)-ps]}" ]]; then
+    ps=${opthash[-ps]}
+fi
+
+if [[ -n "${opthash[(i)-width]}" ]]; then
+    width=${opthash[-width]}
+    width=$(( width/2 ))
+fi
+
+if [[ -n "${opthash[(i)-pdf]}" ]]; then
+    pdfdir=${param:h:h}/pdf
+    if [[ ! -d $pdfdir ]]; then
+        mkdir $pdfdir
+    fi
+    terminal=$(cat << EOF
+set terminal postscript eps enhanced
+set output '| epstopdf -f -o=$pdfdir/${param:t}.pdf'
+EOF
+)
+fi
+
+source $param
+center=$(( size/2 ))
+
+header=$(head -n 1 $data)
+
+script=$(cat << EOF
+$terminal
+set size square
+set title '$header'
+set xrange[$((center-width)):$((center+width))]
+set yrange[$((center-width)):$((center+width))]
+plot '$data' pt 7 ps $ps notitle
+EOF
+)
+
+echo $script
