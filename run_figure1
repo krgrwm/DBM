@@ -1,0 +1,14 @@
+#!/usr/local/bin/bash -u
+
+paramdir="./data/figure1/param"
+for param in data/figure1/param/eta*; do
+    ./bin/run $param &
+done
+
+#for eta in ${eta[@]}; do
+#    for s in $(seq -w 0 20 150); do
+#        param=$paramdir/eta_$eta\sigma_0s_$s
+#        [ -e $param ] && ./bin/run $param &
+#    done
+#    wait
+#done
