@@ -34,7 +34,7 @@ class DBM {
   public:
 //    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
 /* DEBUG */
-    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor);
+    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
     int init();
     int solve();
     void  write(const string& f);
@@ -52,20 +52,21 @@ class DBM {
     const int    N;     // steps
     /* DEBUG */
 //    SOR          sor;
-    SOR_Square          sor;
+    SOR          sor;
 
     Rand01      r;
 //    Grid<double>  grid;
 //    Grid<double>  __carvature;
 /* DEBUG */
-    Grid_Square<double>  grid;
-    Grid_Square<double>  __carvature;
+    Grid<double>  grid;
+    Grid<double>  __carvature;
     Boundary      b;
     Perimeter   peri;  // candidates to stick
 
     // noise-reduction
     int   threshold;
-    map<Pos, int> counter;
+//    map<Pos, int> counter;
+    Grid<int> counter;
 
     // surface tension
     const double      sigma;

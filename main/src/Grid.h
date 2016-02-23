@@ -103,22 +103,5 @@ double Grid<Val>::curvature(int i, int j, const Val &occupied) {
   return (4-count)/3.0;
 }
 
-template<typename Val>
-class Grid_Square : public Grid<Val> {
-  private:
-  public:
-    Grid_Square(const int size, const Val init);
-    std::vector<Pos> get_neighborhood(int i, int j);
-
-};
-
-template<typename Val>
-Grid_Square<Val>::Grid_Square(const int size, const Val init) : Grid<Val>(size, init)
-{}
-
-template<typename Val>
-std::vector<Pos> Grid_Square<Val>::get_neighborhood(int i, int j) {
-  return {Pos(i, j-1), Pos(i, j+1), Pos(i+1, j), Pos(i-1, j)};
-}
 
 #endif

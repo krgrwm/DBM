@@ -48,7 +48,7 @@ void DBM::set_cluster_potential() {
 /* Public */
 /* DEBUG */
 //DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
-DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor):
+DBM::DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor):
   size(size),
   eta(eta),
   N(N),
@@ -59,6 +59,7 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   b(size, 0.0, 100.0),
   peri(),
   threshold(threshold),
+  counter(size, 0),
   sigma(sigma)
 {
   std::random_device seedgen;
@@ -218,12 +219,20 @@ PosVal DBM::select(PList& pl) {
 //  }
 
   int i;
+  Pos p;
+  int pi, pj;
+  int c;
 
   while (true) {
     i = pick(this->mt);
-    this->counter[pl.pos(i)] += 1;
-    if (this->counter[pl.pos(i)] >= this->threshold) {
-      this->counter[pl.pos(i)] = 0;
+//    this->counter[pl.pos(i)] += 1;
+    p = pl.pos(i);
+    pi = p.first;
+    pj = p.second;
+    c = this->counter(pi, pj);
+    this->counter(pi, pj, c+1);
+    if (this->counter(pi, pj) >= this->threshold) {
+      this->counter(pi, pj, 0);
       return pl.at(i);
     }
   }
@@ -262,6 +271,11 @@ PosVal DBM::select(PList& pl) {
 
 void DBM::update_perimeters(const Pos& pos) {
   const auto new_peri = get_perimeter(pos);
+
+//  for(auto& var : new_peri ) {
+//    this->counter(var.first, var.second, 0);
+//  }
+
   this->peri.insert(new_peri.begin(), new_peri.end());
 }
 
@@ -311,10 +325,8 @@ void DBM::write(const string& f) {
       bofs << this->b.cluster(i, j) << " ";
 
       if (this->b.cluster(i, j)) {
-        /* DEBUG */
         newj = j + ((i%2)-0.5)/2.0;
-//        hofs << newj << " " << i << endl;
-        hofs << j << " " << i << endl;
+        hofs << newj << " " << i << endl;
       }
     }
     gofs << endl;
