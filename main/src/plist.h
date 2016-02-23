@@ -5,7 +5,8 @@ using Pos       = std::pair<int, int>;
 using PosVal    = std::pair<Pos, double>;
 
 class PList {
-  private:
+//  private:
+  public:
     std::vector<PosVal> plist;
   public:
     PList(const int size);

@@ -5,12 +5,19 @@
 #include <cmath>
 
 using Pos = std::pair<int, int>;
+using Vec2D = std::pair<double, double>;
 
 template<typename Val>
 class Grid {
   private:
     int size;
     std::vector< std::vector<Val> > grid;
+
+    /* unit vector */
+    const Vec2D x1;
+    const Vec2D x2;
+    const Vec2D x3;
+
   public:
 
     Grid(const int size, const Val init);
@@ -22,14 +29,19 @@ class Grid {
     std::vector<Pos> get_neighborhood(int i, int j);
     int              count_nn(const int i, const int j, const Val &val);
     double           curvature(int i, int j, const Val &occupied);
+    Vec2D            grad(int i, int j);
     double           grad_abs(int i, int j);
 };
 
 
 template<typename Val>
-Grid<Val>::Grid(const int size, const Val init) {
-  this->size = size;
-  this->grid = std::vector< std::vector<Val> >(size, std::vector<Val>(size, init));
+Grid<Val>::Grid(const int size, const Val init) :
+  size(size),
+  grid(std::vector< std::vector<Val> >(size, std::vector<Val>(size, init))),
+  x1(Vec2D( 1.0,   0.0)),
+  x2(Vec2D(-0.5,  sqrt(3.0)/2.0)),
+  x3(Vec2D(-0.5, -sqrt(3.0)/2.0))
+{
 }
 
 template<typename Val>
@@ -102,22 +114,31 @@ double Grid<Val>::curvature(int i, int j, const Val &occupied) {
 }
 
 template<typename Val>
-double Grid<Val>::grad_abs(int i, int j) {
+Vec2D Grid<Val>::grad(int i, int j) {
   const bool even = i%2 == 0;
   double dx1, dx2, dx3;
-  double grad_abs;
 
-  dx1 = this->get(i, j+1) - this->get(i, j-1);
+  dx1 = 0.5 * (this->get(i, j+1) - this->get(i, j-1));
 
   if (even) {
-    dx2 = this->get(i-1, j-1) - this->get(i+1, j);
-    dx3 = this->get(i+1, j-1) - this->get(i-1, j);
+    dx2 = 0.5 * (this->get(i-1, j-1) - this->get(i+1, j));
+    dx3 = 0.5 * (this->get(i+1, j-1) - this->get(i-1, j));
   } else {
-    dx2 = this->get(i-1, j) - this->get(i+1, j+1);
-    dx3 = this->get(i+1, j) - this->get(i-1, j+1);
+    dx2 = 0.5 * (this->get(i-1, j) - this->get(i+1, j+1));
+    dx3 = 0.5 * (this->get(i+1, j) - this->get(i-1, j+1));
   }
-  grad_abs = 2.0/3.0 * sqrt(dx1*dx1 + dx2*dx2 + dx3*dx3);
-  return grad_abs;
+  double X1 = dx1*this->x1.first + dx2*this->x2.first + dx3*this->x3.first;
+  double X2 = dx1*this->x1.second + dx2*this->x2.second + dx3*this->x3.second;
+  return Vec2D(X1, X2);
+}
+
+template<typename Val>
+double Grid<Val>::grad_abs(int i, int j) {
+  auto grad = this->grad(i, j);
+  double x1 = grad.first;
+  double x2 = grad.second;
+
+  return sqrt(x1*x1 + x2*x2);
 }
 
 #endif

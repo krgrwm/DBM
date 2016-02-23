@@ -19,7 +19,7 @@ class DBM {
     PList          plist(Perimeter& peri);
 
     // select site to stick according to rule
-    PosVal         select(const PList& ps);
+    PosVal         select(PList& ps);
 
     // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);
@@ -38,7 +38,6 @@ class DBM {
     void  write(const string& f);
     void  write_hex(const string& f);
     Pos   select_from_perimeters();
-    void  normalize_sigma();
     void  step();
 
     int  center();
@@ -62,8 +61,6 @@ class DBM {
     map<Pos, int> counter;
 
     // surface tension
-    double      sigma;
-    const double      sigma_unnormalized;
-    const double      normalization_sigma; // normalization sigma parameter
+    const double      sigma;
 };
 
