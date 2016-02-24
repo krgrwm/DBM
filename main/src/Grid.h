@@ -3,13 +3,15 @@
 
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 using Pos = std::pair<int, int>;
 using Vec2D = std::pair<double, double>;
 
 template<typename Val>
 class Grid {
-  private:
+//  private:
+  public:
     int size;
     std::vector< std::vector<Val> > grid;
 
@@ -24,6 +26,7 @@ class Grid {
     std::vector<Pos> get_neighborhood(int i, int j);
     int              count_nn(const int i, const int j, const Val &val);
     double           curvature(int i, int j, const Val &occupied);
+    void             print(const Val &x);
 };
 
 
@@ -84,6 +87,29 @@ template<typename Val>
 double Grid<Val>::curvature(int i, int j, const Val &occupied) {
   int count = this->count_nn(i, j, occupied);
   return (4-count)/3.0;
+}
+
+template<typename Val>
+void Grid<Val>::print(const Val &x) {
+  const int Y = this->grid.size();
+  const int X = this->grid[0].size();
+  const int c = int(X/2);
+  char p='.';
+
+  for(int i=0; i<Y; i++) {
+    for(int j=0; j<X; j++) {
+      if (this->get(i,j)==x) {
+        p = 'O';
+      } else {
+        p = '.';
+      }
+      if (i==c && j==c) {
+        p = 'X';
+      }
+      std::cout << p << ' ';
+    }
+    std::cout << std::endl;
+  }
 }
 
 #endif

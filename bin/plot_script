@@ -11,19 +11,24 @@ param=$(head -n 1 $file)
 case "$lattice" in
     square)
         plot="splot '$file' matrix w $with notitle"
-        set_view="set contour base; unset surface; set view 0,0;"
-        set_view=$set_view"set cntrparam levels incremental 0,1,120"
-#        set_view=$set_view"set view map"
+#        set_view="set contour base; unset surface; set view 0,0;"
+#        set_view=$set_view"set cntrparam levels incremental 0,1,120"
+        set_view=$(cat << EOF
+set pm3d
+set pm3d map
+EOF
+        )
         ;;
     hex)
         set_view=$(cat << EOF
-set grid
+#set grid
 EOF
 )
         plot="plot '$file' pt 5 ps $size notitle"
         ;;
     color)
-        set_view="set pm3d; set pm3d map; set palette gray"
+#        set_view="set pm3d; set pm3d map; set palette gray"
+        set_view=""
         plot="splot '$file' matrix w $with notitle"
         ;;
     *)

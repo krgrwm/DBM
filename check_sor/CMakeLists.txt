@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 2.8)
+
+set (SRC ./src)
+include_directories(${SRC})
+add_executable(check_sor ${SRC}/check_sor.cpp ${SRC}/DBM.cpp ${SRC}/plist.cpp ${SRC}/SOR.cpp ${SRC}/Boundary.cpp)
+
+
+add_definitions( -std=c++11 -stdlib=libc++ -Wall )
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+set(CMAKE_BUILD_TYPE Release)

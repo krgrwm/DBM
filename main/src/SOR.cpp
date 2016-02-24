@@ -8,10 +8,38 @@ int SOR::solve(int size, Grid<double> &grid, Boundary &boundary) {
   return this->_solve_max(size, grid, boundary);
 }
 
+//int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
+//  double gij       = 0.0;
+//  double new_gij   = 0.0;
+//  double sum       = 0.0;
+//  int count=0;
+//
+//  double max       = 0.0;
+//  double err       = 0.0;
+//
+//  do {
+//    max = 0.0;
+//    for (int i = 1; i < size-1; i++) {
+//      for (int j = 1; j < size-1; j++) {
+//        if ( !boundary.is_boundary(i, j) ) {
+//          gij = grid(i, j);
+//          sum = this->sum(grid, i, j);
+//          new_gij = gij + omega * ( sum /4.0 - gij );
+//          grid(i, j, new_gij);
+//
+//          err = fabs(new_gij - gij);
+//          max = fmax(err, max);
+//        }
+//      }
+//    }
+//    count++;
+//  } while(max >= this->epsilon);
+//  return count;
+//}
+
+/* DEBUG */
 int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
   double gij       = 0.0;
-  double new_gij   = 0.0;
-  double sum       = 0.0;
   int count=0;
 
   double max       = 0.0;
@@ -21,13 +49,11 @@ int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
     max = 0.0;
     for (int i = 1; i < size-1; i++) {
       for (int j = 1; j < size-1; j++) {
-        if ( !boundary.is_boundary(i, j) ) {
-          gij = grid(i, j);
-          sum = this->sum(grid, i, j);
-          new_gij = gij + omega * ( sum /4.0 - gij );
-          grid(i, j, new_gij);
+        if (boundary.outer.grid[i][j]==false && boundary.cluster.grid[i][j]==false) {
+          gij = grid.grid[i][j];
+          grid.grid[i][j] = 0.25 * (grid.grid[i+1][j]+grid.grid[i-1][j]+grid.grid[i][j+1]+grid.grid[i][j-1]);
 
-          err = fabs(new_gij - gij);
+          err = fabs(grid.grid[i][j] - gij);
           max = fmax(err, max);
         }
       }

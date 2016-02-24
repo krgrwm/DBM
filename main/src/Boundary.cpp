@@ -12,7 +12,7 @@ Boundary::Boundary(const int size, const double val_outer, const double val_clus
   this->R_outer = this->center - 2;
 
   // set seed
-  this->cluster(center, center, true);
+//  this->cluster(center, center, true);
 }
 
 bool Boundary::is_boundary(const int i, const int j) {

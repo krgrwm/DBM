@@ -15,7 +15,7 @@ using Perimeter = set<Pos>;
 
 class DBM {
   private:
-    Perimeter      get_perimeter(Pos p);
+    Perimeter      get_perimeter(const Pos &p);
     PList          plist(Perimeter& peri);
 
     // select site to stick according to rule

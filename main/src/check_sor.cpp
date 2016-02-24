@@ -4,6 +4,7 @@
 #include "DBM.h"
 #include <sys/types.h>
 #include <unistd.h>
+#include <map>
 
 
 using namespace std;
@@ -23,21 +24,25 @@ int main(int argc, char const* argv[])
   const string file      = string(argv[6]);
 
   const double omega = 1.97;
-//  const double epsilon = 1E-5;
-  // DEBUG
-  const double epsilon = 1E-5;
+  const double epsilon = 1E-3;
   auto dbm = DBM(size, eta, N, threshold, sigma, SOR(omega, epsilon));
 
   cout << "Initialize DBM" << endl;
-  dbm.init();
 
-  cout << "0 - " << N << endl;
+  const int center = dbm.center();
 
-  for (int i=0; i<N; i++ ) {
-    dbm.step();
-    cout << getpid() << ": " << 100.0*double(i)/N << endl;
+  int r = 30;
+  for (int i=center-r; i<center+r; i++) {
+    for (int j=center-r; j<center+r; j++) {
+      if (pow(i-center, 2) + pow(j-center, 2) < r) {
+        dbm.add_particle(Pos(i, j));
+      }
+    }
   }
-  cout << getpid() << ": " << "DONE" << endl;
+
+  int count = dbm.init();
+  cout << count << endl;
+
   dbm.write(file);
 
   return 0;
