@@ -169,23 +169,23 @@ double DBM::grad_phi(const Pos& pos) {
 PList DBM::plist(Perimeter& peri) {
   cout << "plist" << endl;
 
-//  double C = 0.0;  // Normalization constant
+  double C = 0.0;  // Normalization constant
 
   PList plist(peri.size());
 
-//  // calc normalization constant C
-//  for (const auto& pos : peri) {
-////    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
-////    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
-//    C += pow(A*this->grad_phi(pos), this->eta);
-//  }
+  // calc normalization constant C
+  for (const auto& pos : peri) {
+//    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
+//    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
+    C += pow(this->grad_phi(pos), this->eta);
+  }
 //  cout << "C=" << C << endl;
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
 //    cout << this->grad_phi(pos) << endl;
-//    double p = pow(A*this->grad_phi(pos), this->eta) / C ;
-    double p = pow(this->grad_phi(pos), this->eta);
+    double p = pow(this->grad_phi(pos), this->eta) / C ;
+//    double p = pow(this->grad_phi(pos), this->eta);
     plist.append(i, pos, p);
     i++;
   }
@@ -195,7 +195,8 @@ PList DBM::plist(Perimeter& peri) {
 PosVal DBM::select(PList& pl) {
   cout << "select" << endl;
   
-  Pick pick(pl.get_plist());
+//  Pick pick(pl.get_plist());
+  Pick_vicsec pick(pl.get_plist());
 
 //  /* DEBUG */
 //  auto ps    = pl.get_plist();
