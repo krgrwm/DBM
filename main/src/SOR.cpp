@@ -4,8 +4,8 @@
 
 SOR::SOR(const double omega, const double epsilon) : omega(omega), epsilon(epsilon){} 
 
-int SOR::solve(int size, Grid<double> &grid, Boundary &boundary) {
-  return this->_solve_max(size, grid, boundary);
+int SOR::solve(int size, Grid<double> &grid, Boundary &boundary, Grid<bool> &peri) {
+  return this->_solve_max(size, grid, boundary, peri);
 }
 
 //int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
@@ -38,7 +38,7 @@ int SOR::solve(int size, Grid<double> &grid, Boundary &boundary) {
 //}
 
 /* DEBUG */
-int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
+int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary, Grid<bool> &peri) {
   double gij       = 0.0;
   int count=0;
 
@@ -49,7 +49,7 @@ int SOR::_solve_max(int size, Grid<double> &grid, Boundary &boundary) {
     max = 0.0;
     for (int i = 1; i < size-1; i++) {
       for (int j = 1; j < size-1; j++) {
-        if (boundary.outer.grid[i][j]==false && boundary.cluster.grid[i][j]==false) {
+        if (boundary.outer.grid[i][j]==false && boundary.cluster.grid[i][j]==false && peri.grid[i][j]==false) {
           gij = grid.grid[i][j];
           grid.grid[i][j] = 0.25 * (grid.grid[i+1][j]+grid.grid[i-1][j]+grid.grid[i][j+1]+grid.grid[i][j-1]);
 

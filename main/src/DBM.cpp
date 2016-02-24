@@ -33,7 +33,12 @@ void DBM::set_cluster_potential() {
     for (int j = 0; j < this->size; j++) {
       // !this->b.outer(i, j) は不要 (clusterとouterが排他的なら)
       // clusterが大きくなりすぎた場合を考えて一応条件に含めている
-      if (this->b.cluster(i, j) && (!this->b.outer(i, j))) {
+//      if (this->b.cluster(i, j) && (!this->b.outer(i, j))) {
+//        new_value = calc_cluster_potential(i, j);
+//        this->grid(i, j, new_value);
+//      }
+      /* DEBUG */
+      if (this->peri_grid(i, j) || (this->b.cluster(i, j) && (!this->b.outer(i, j)))) {
         new_value = calc_cluster_potential(i, j);
         this->grid(i, j, new_value);
       }
@@ -61,6 +66,7 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   // 1.0 to 0.0 wo gyacu ni sita
   b(size, 1.0, 0.0),
   peri(),
+  peri_grid(size, false),
   threshold(threshold),
   counter(size, 0),
   sigma(sigma)
@@ -122,7 +128,7 @@ int DBM::solve() {
   int count;
 
   this->set_cluster_potential();
-  count = this->sor.solve(this->size, this->grid, this->b);
+  count = this->sor.solve(this->size, this->grid, this->b, this->peri_grid);
   return count;
 }
 
@@ -134,6 +140,49 @@ double DBM::grad_phi(const Pos& pos) {
 }
 
 // calculate probability from potential
+//PList DBM::plist(Perimeter& peri) {
+//  cout << "plist" << endl;
+//
+//  double C = 0.0;  // Normalization constant
+//
+//  PList plist(peri.size());
+//
+//  // calc normalization constant C
+//  for (const auto& pos : peri) {
+////    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
+////    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
+//    C += pow(this->grad_phi(pos), this->eta);
+//  }
+////  cout << "C=" << C << endl;
+//  // calc probability
+//  int i=0;
+//  for (const auto& pos : peri) {
+////    cout << this->grad_phi(pos) << endl;
+//    double p = pow(this->grad_phi(pos), this->eta) / C ;
+////    double p = pow(this->grad_phi(pos), this->eta);
+//    plist.append(i, pos, p);
+//    i++;
+//  }
+//
+//  /* DEBUG */
+////  for(auto& var : plist.plist ) {
+////    cout << var*100 << endl;
+////  }
+//  return plist;
+//}
+/* DEBUG */
+
+double DBM::calc_p(const Pos& pos) {
+  /* DEBUG */
+  /* eta = 1.0 */
+  int i = pos.first;
+  int j = pos.second;
+  double sum = (this->grid(i+1, j) + this->grid(i-1, j) + this->grid(i, j+1) + this->grid(i, j-1));
+
+  double p = 0.25 * sum - this->grid(i, j);
+  return p;
+}
+
 PList DBM::plist(Perimeter& peri) {
   cout << "plist" << endl;
 
@@ -145,14 +194,14 @@ PList DBM::plist(Perimeter& peri) {
   for (const auto& pos : peri) {
 //    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
 //    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
-    C += pow(this->grad_phi(pos), this->eta);
+    C += calc_p(pos);
   }
 //  cout << "C=" << C << endl;
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
 //    cout << this->grad_phi(pos) << endl;
-    double p = pow(this->grad_phi(pos), this->eta) / C ;
+    double p = calc_p(pos) / C ;
 //    double p = pow(this->grad_phi(pos), this->eta);
     plist.append(i, pos, p);
     i++;
@@ -235,6 +284,9 @@ void DBM::update_perimeters(const Pos& pos) {
 
   // add new perimeter sites
   this->peri.insert(new_peri.begin(), new_peri.end());
+  for(auto& var : new_peri ) {
+    this->peri_grid(var.first, var.second, true);
+  }
 }
 
 void DBM::add_particle(const Pos& p) {
@@ -246,6 +298,7 @@ void DBM::add_particle(const Pos& p) {
 
   // delete site to stick from perimeters
   this->peri.erase(p);
+  this->peri_grid(p.first, p.second, false);
 }
 
 void DBM::write_header(ofstream &ofs) {

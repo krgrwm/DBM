@@ -45,6 +45,7 @@ class DBM {
     int  center();
     void           set_cluster_potential();
     void           add_particle(const Pos& p);
+    double         calc_p(const Pos& p);
 
   private:
     const int    size;
@@ -61,7 +62,9 @@ class DBM {
     Grid<double>  grid;
     Grid<double>  __carvature;
     Boundary      b;
+    /* DEBUG */
     Perimeter   peri;  // candidates to stick
+    Grid<bool>  peri_grid;
 
     // noise-reduction
     int   threshold;
