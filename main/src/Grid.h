@@ -9,7 +9,8 @@ using Vec2D = std::pair<double, double>;
 
 template<typename Val>
 class Grid {
-  private:
+//  private:
+  public:
     int size;
     std::vector< std::vector<Val> > grid;
 
@@ -100,6 +101,7 @@ int Grid<Val>::count_nn(const int i, const int j, const Val &val) {
 template<typename Val>
 double Grid<Val>::curvature(int i, int j, const Val &occupied) {
   int count = this->count_nn(i, j, occupied);
+  /* DEBUG */
   return (4-count)/3.0;
 }
 

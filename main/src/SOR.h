@@ -12,8 +12,8 @@ class SOR {
   public:
 //    SOR();
     SOR(const double omega, const double epsilon);
-    int solve(int size, Grid<double> &grid, Boundary &boundary);
-    int _solve_max(int size, Grid<double> &grid, Boundary &boundary);
+    int solve(int size, Grid<double> &grid, Boundary &boundary, Grid<bool> &peri);
+    int _solve_max(int size, Grid<double> &grid, Boundary &boundary, Grid<bool> &peri);
     double get_omega() const;
     double get_epsilon() const;
 };

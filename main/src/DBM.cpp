@@ -23,7 +23,8 @@ double DBM::calc_cluster_potential(const int i, const int j) {
   double curvature = this->b.cluster.curvature(i, j, true);
   double T_M       = this->b.val_cluster;
 
-  return T_M * (1 - sigma*curvature);
+//  return T_M * (1 - sigma*curvature);
+  return T_M  - sigma*curvature;
 }
 
 void DBM::set_cluster_potential() {
@@ -33,7 +34,12 @@ void DBM::set_cluster_potential() {
     for (int j = 0; j < this->size; j++) {
       // !this->b.outer(i, j) は不要 (clusterとouterが排他的なら)
       // clusterが大きくなりすぎた場合を考えて一応条件に含めている
-      if (this->b.cluster(i, j) && (!this->b.outer(i, j))) {
+//      if (this->b.cluster(i, j) && (!this->b.outer(i, j))) {
+//        new_value = calc_cluster_potential(i, j);
+//        this->grid(i, j, new_value);
+//      }
+      /* DEBUG */
+      if (this->peri_grid(i, j) || (this->b.cluster(i, j) && (!this->b.outer(i, j)))) {
         new_value = calc_cluster_potential(i, j);
         this->grid(i, j, new_value);
       }
@@ -56,8 +62,9 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
   r(),
   grid(size, 0.0), 
   __carvature(size, 0.0),
-  b(size, 0.0, 100.0),
+  b(size, 0.0, 1.0),
   peri(),
+  peri_grid(size, false),
   threshold(threshold),
   counter(size, 0),
   sigma(sigma)
@@ -75,33 +82,22 @@ DBM::DBM(const int size, const double eta, const int N, const int threshold, con
     endl;
 }
 
-Perimeter DBM::get_perimeter(Pos p) {
+Perimeter DBM::get_perimeter(const Pos &p) {
   int i = p.first;
   int j = p.second;
 
   const vector<Pos> candidates = this->grid.get_neighborhood(i, j);
-  Perimeter peris;
+  Perimeter peri;
+  int pi, pj;
 
-  // if pos is not boundary and inside grid -> add site as candidate
-  auto f = [&](Perimeter& acc, const Pos& pos) 
-  {
-    const int i = pos.first;
-    const int j = pos.second;
-    const bool ok = this->grid.check_array_bound(i, j);
-    bool add = false;
-
-    if (ok) {
-      add = !(this->b.is_boundary(i, j));
+  for(auto& var : candidates ) {
+    pi = var.first;
+    pj = var.second;
+    if (this->grid.check_array_bound(pi, pj) && !this->b.is_boundary(pi, pj)) {
+      peri.insert(var);
     }
-
-    if (add) {
-      acc.insert(pos);
-    }
-    return acc;
-  };
-
-  peris = accumulate(candidates.begin(), candidates.end(), peris, f);
-  return peris;
+  }
+  return peri;
 }
 
 int DBM::init()
@@ -131,7 +127,7 @@ int DBM::solve() {
   int count;
 
   this->set_cluster_potential();
-  count = this->sor.solve(this->size, this->grid, this->b);
+  count = this->sor.solve(this->size, this->grid, this->b, this->peri_grid);
   return count;
 }
 
@@ -161,9 +157,54 @@ double DBM::grad_phi(const Pos& pos) {
 //  return this->grid(i, j) - this->b.val_cluster;
   double grad_max = fabs(max - this->grid(i, j));
 
-//  cout << "grad=" << grad << "  grad_max=" << grad_max << endl;
+//  cout << "grad_max=" << grad_max << endl;
   return grad_max;
 }
+
+double DBM::calc_p(const Pos& pos) {
+  int i = pos.first;
+  int j = pos.second;
+  double diff = 0.0;
+
+  const auto nn = this->grid.get_neighborhood(i, j);
+
+  double grad_max=0.0;
+  int _i, _j;
+  for(auto& var : nn ) {
+    _i = var.first;
+    _j = var.second;
+    diff = fabs(this->grid(_i, _j) - this->grid(i, j));
+    if ( (!this->b.cluster(_i, _j)) && diff > grad_max) {
+      grad_max = diff;
+    }
+  }
+  return pow(grad_max, this->eta);
+}
+
+/* DEBUG */
+//double DBM::calc_p(const Pos& pos) {
+//  int i = pos.first;
+//  int j = pos.second;
+//  double sum=0.0;
+//  int z = 0;
+//
+//  const auto nn = this->grid.get_neighborhood(i, j);
+//
+//  int _i, _j;
+//  for(auto& var : nn ) {
+//    _i = var.first;
+//    _j = var.second;
+//    if (!this->b.cluster(_i, _j)) {
+//      z++;
+//      sum += this->grid(i, j) - this->grid(_i, _j);
+//    }
+//  }
+//  if (z==0) {
+//    return 0.0;
+//  } else {
+//    return pow(fabs(sum)/z, this->eta);
+//  }
+//}
 
 // calculate probability from potential
 PList DBM::plist(Perimeter& peri) {
@@ -177,14 +218,18 @@ PList DBM::plist(Perimeter& peri) {
   for (const auto& pos : peri) {
 //    cout << "grad_phi=" << this->grid(pos.first, pos.second) << endl;
 //    cout << "A*grad_phi=" << A * this->grid(pos.first, pos.second) << endl;
-    C += pow(this->grad_phi(pos), this->eta);
+/* DEBUG */
+//    C += pow(this->grad_phi(pos), this->eta);
+    C += this->calc_p(pos);
   }
 //  cout << "C=" << C << endl;
   // calc probability
   int i=0;
   for (const auto& pos : peri) {
 //    cout << this->grad_phi(pos) << endl;
-    double p = pow(this->grad_phi(pos), this->eta) / C ;
+//    double p = pow(this->grad_phi(pos), this->eta) / C ;
+    /* DEBUG */
+    double p = this->calc_p(pos) / C ;
 //    double p = pow(this->grad_phi(pos), this->eta);
     plist.append(i, pos, p);
     i++;
@@ -195,8 +240,8 @@ PList DBM::plist(Perimeter& peri) {
 PosVal DBM::select(PList& pl) {
   cout << "select" << endl;
   
-//  Pick pick(pl.get_plist());
-  Pick_vicsec pick(pl.get_plist());
+  Pick pick(pl.get_plist());
+//  Pick_vicsec pick(pl.get_plist());
 
 //  /* DEBUG */
 //  auto ps    = pl.get_plist();
@@ -277,6 +322,9 @@ void DBM::update_perimeters(const Pos& pos) {
 //    this->counter(var.first, var.second, 0);
 //  }
 
+  for(auto& var : new_peri ) {
+    this->peri_grid(var.first, var.second, true);
+  }
   this->peri.insert(new_peri.begin(), new_peri.end());
 }
 
@@ -289,6 +337,7 @@ void DBM::add_particle(const Pos& p) {
 
   // delete site to stick from perimeters
   this->peri.erase(p);
+  this->peri_grid(p.first, p.second, false);
 }
 
 void DBM::write_header(ofstream &ofs) {
@@ -307,17 +356,20 @@ void DBM::write(const string& f) {
   const string gridfile = f + ".grid";
   const string boundaryfile = f + ".boundary";
   const string hexfile = f + ".hex";
+  const string hexallfile = f + ".hex_all";
 
   double newj = 0;
 
   ofstream gofs(gridfile);
   ofstream bofs(boundaryfile);
   ofstream hofs(hexfile);
+  ofstream haofs(hexallfile);
 
   // write header
   write_header(gofs);
   write_header(bofs);
   write_header(hofs);
+  write_header(haofs);
 
   // write data
   for (int i = 0; i < this->size; i++) {
@@ -325,11 +377,14 @@ void DBM::write(const string& f) {
       gofs << this->grid(i, j) << " ";
       bofs << this->b.cluster(i, j) << " ";
 
+      newj = j + ((i%2)-0.5)/2.0;
       if (this->b.cluster(i, j)) {
-        newj = j + ((i%2)-0.5)/2.0;
         hofs << newj << " " << i << endl;
       }
+      haofs << newj << " " << i << " " << ((this->b.cluster(i, j))? 1:0) << endl;
     }
+    haofs << endl;
+
     gofs << endl;
     bofs << endl;
   }

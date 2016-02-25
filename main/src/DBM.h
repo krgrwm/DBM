@@ -15,7 +15,7 @@ using Perimeter = set<Pos>;
 
 class DBM {
   private:
-    Perimeter      get_perimeter(Pos p);
+    Perimeter      get_perimeter(const Pos &p);
     PList          plist(Perimeter& peri);
 
     // select site to stick according to rule
@@ -24,6 +24,7 @@ class DBM {
     // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);
     double         grad_phi(const Pos& pos);
+    double         calc_p(const Pos& pos);
     void           write_header(ofstream &ofs);
     bool           is_outer_interface(const int i, const int j);
     double         gibbs_thomson(const int i, const int j); // calculate change of potential (T)
@@ -62,6 +63,7 @@ class DBM {
     Grid<double>  __carvature;
     Boundary      b;
     Perimeter   peri;  // candidates to stick
+    Grid<bool>  peri_grid;
 
     // noise-reduction
     int   threshold;
