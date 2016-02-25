@@ -39,9 +39,34 @@ void DBM::set_cluster_potential() {
 //        this->grid(i, j, new_value);
 //      }
       /* DEBUG */
-      if (this->peri_grid(i, j) || (this->b.cluster(i, j) && (!this->b.outer(i, j)))) {
-        new_value = calc_cluster_potential(i, j);
-        this->grid(i, j, new_value);
+//      if (this->peri_grid(i, j) || (this->b.cluster(i, j) && (!this->b.outer(i, j)))) {
+//        new_value = calc_cluster_potential(i, j);
+//        this->grid(i, j, new_value);
+//      }
+
+//      if (this->peri_grid(i, j)) {
+//        auto nn = this->grid.get_neighborhood(i, j);
+//        double sum_TM = 0.0;
+//        int    count  = 0;
+//        for(auto& var : nn ) {
+//          if (this->b.cluster(var.first, var.second)) {
+//            sum_TM += this->calc_cluster_potential(var.first, var.second);
+//            count++;
+//          }
+//        }
+//        new_value = sum_TM/count;
+//        this->grid(i, j, new_value);
+//      }
+
+      if (this->peri_grid(i, j)) {
+        auto nn = this->grid.get_neighborhood(i, j);
+        double min_TM = 1E5;
+        for(auto& var : nn ) {
+          if (this->b.cluster(var.first, var.second)) {
+            min_TM = fmin(min_TM, this->calc_cluster_potential(var.first, var.second));
+          }
+        }
+        this->grid(i, j, min_TM);
       }
     }
   }
