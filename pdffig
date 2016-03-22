@@ -1,0 +1,13 @@
+#!/usr/local/bin/zsh -u
+
+rot=$(( 1.0/6.0 ))
+echo $rot
+
+dir=data/test_figure
+for i in $dir/param/fig{1,2}{a,b,c}; do
+    echo ${i:t}
+#    bin/plot_pdf -pdf -rot $(( 1.0/6.0 )) -width 200 -ps 0.33 $i | gnuplot -p
+    bin/plot_pdf -pdf -width 200 -ps 0.33 -rot $rot $i | gnuplot -p
+done
+
+pdftk $dir/pdf/fig{1,2}{a,b,c}.pdf cat output $dir/pdf/merge.pdf

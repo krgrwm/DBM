@@ -1,0 +1,61 @@
+#!/usr/local/bin/zsh -u
+
+local -A opthash
+zparseopts -D -A opthash -- opts ps: width: pdf rot:
+
+param=$(readlink -f $1)
+
+cd `dirname $0`
+data=$(./param2data $param).hex
+ps=0.5
+width=100
+terminal=""
+
+if [[ -n "${opthash[(i)-ps]}" ]]; then
+    ps=${opthash[-ps]}
+fi
+
+if [[ -n "${opthash[(i)-width]}" ]]; then
+    width=${opthash[-width]}
+    width=$(( width/2 ))
+fi
+
+if [[ -n "${opthash[(i)-pdf]}" ]]; then
+    pdfdir=${param:h:h}/pdf
+    if [[ ! -d $pdfdir ]]; then
+        mkdir $pdfdir
+    fi
+    terminal=$(cat << EOF
+set terminal postscript eps enhanced
+set output '| epstopdf -f -o=$pdfdir/${param:t}.pdf'
+EOF
+)
+fi
+
+(( rot=0.0 ))
+if [[ -n "${opthash[(i)-rot]}" ]]; then
+    rot=$(( ${opthash[-rot]} ))
+fi
+
+source $param
+zmodload -i zsh/mathfunc
+yscale=$(( sqrt(3) / 2.0 ))
+xcenter=$(( size/2.0 ))
+ycenter=$(( size/2.0 * yscale ))
+
+header=$(head -n 1 $data)
+
+X="\$1*cos(pi*$rot)-\$2*sin(pi*$rot) + $xcenter - $xcenter*cos(pi*$rot) + $ycenter*sin(pi*$rot)"
+Y="\$1*sin(pi*$rot)+\$2*cos(pi*$rot) + $ycenter - $xcenter*sin(pi*$rot) - $ycenter*cos(pi*$rot)"
+script=$(cat << EOF
+$terminal
+set size square
+set title '$header'
+set xrange[$((xcenter-width)):$((xcenter+width))]
+set yrange[$((ycenter-width)):$((ycenter+width))]
+#plot '$data' u (\$1*cos(pi*$rot)-\$2*sin(pi*$rot)):(\$1*sin(pi*$rot)+\$2*cos(pi*$rot)) pt 7 ps $ps notitle
+plot '$data' u ($X):($Y) pt 7 ps $ps notitle
+EOF
+)
+
+echo $script

@@ -12,7 +12,7 @@ case "$lattice" in
     square)
         plot="splot '$file' matrix w $with notitle"
         set_view="set contour base; unset surface; set view 0,0;"
-        set_view=$set_view"set cntrparam levels incremental 0,1,120"
+        set_view=$set_view"set cntrparam levels incremental 0,0.1,1"
 #        set_view=$set_view"set view map"
         ;;
     hex)

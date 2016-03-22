@@ -1,7 +1,9 @@
 #!/usr/local/bin/zsh -u
 
-file=$(bin/param2data $1).hex
-size=$2
+file=$(readlink -f $1)
 
 cd `dirname $0`
+file=$(./param2data $file).hex
+size=$2
+
 ./plot $file image hex x $size

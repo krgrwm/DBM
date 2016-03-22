@@ -15,7 +15,7 @@ using Perimeter = set<Pos>;
 
 class DBM {
   private:
-    Perimeter      get_perimeter(Pos p);
+    Perimeter      get_perimeter(const Pos &p);
     PList          plist(Perimeter& peri);
 
     // select site to stick according to rule
@@ -24,6 +24,7 @@ class DBM {
     // add new perimeters(candidates)
     void           update_perimeters(const Pos& pos);
     double         grad_phi(const Pos& pos);
+    double         calc_p(const Pos& pos);
     void           write_header(ofstream &ofs);
     bool           is_outer_interface(const int i, const int j);
     double         gibbs_thomson(const int i, const int j); // calculate change of potential (T)
@@ -34,7 +35,7 @@ class DBM {
   public:
 //    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
 /* DEBUG */
-    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR_Square sor);
+    DBM(const int size, const double eta, const int N, const int threshold, const double sigma, SOR sor);
     int init();
     int solve();
     void  write(const string& f);
@@ -52,20 +53,22 @@ class DBM {
     const int    N;     // steps
     /* DEBUG */
 //    SOR          sor;
-    SOR_Square          sor;
+    SOR          sor;
 
     Rand01      r;
 //    Grid<double>  grid;
 //    Grid<double>  __carvature;
 /* DEBUG */
-    Grid_Square<double>  grid;
-    Grid_Square<double>  __carvature;
+    Grid<double>  grid;
+    Grid<double>  __carvature;
     Boundary      b;
     Perimeter   peri;  // candidates to stick
+    Grid<bool>  peri_grid;
 
     // noise-reduction
     int   threshold;
-    map<Pos, int> counter;
+//    map<Pos, int> counter;
+    Grid<int> counter;
 
     // surface tension
     const double      sigma;

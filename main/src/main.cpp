@@ -23,10 +23,10 @@ int main(int argc, char const* argv[])
   const string file      = string(argv[6]);
 
   const double omega = 1.97;
-//  const double epsilon = 1E-5;
+  const double epsilon = 1E-5;
   // DEBUG
-  const double epsilon = 1E-3;
-  auto dbm = DBM(size, eta, N, threshold, sigma, SOR_Square(omega, epsilon));
+//  const double epsilon = 1E-3;
+  auto dbm = DBM(size, eta, N, threshold, sigma, SOR(omega, epsilon));
 
   cout << "Initialize DBM" << endl;
   dbm.init();
