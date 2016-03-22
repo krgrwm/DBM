@@ -44,6 +44,7 @@ void DBM::set_cluster_potential() {
 //        this->grid(i, j, new_value);
 //      }
 
+//      // 平均を採用
 //      if (this->peri_grid(i, j)) {
 //        auto nn = this->grid.get_neighborhood(i, j);
 //        double sum_TM = 0.0;
@@ -58,6 +59,7 @@ void DBM::set_cluster_potential() {
 //        this->grid(i, j, new_value);
 //      }
 
+      // 最小値を採用
       if (this->peri_grid(i, j)) {
         auto nn = this->grid.get_neighborhood(i, j);
         double min_TM = 1E5;
@@ -68,6 +70,20 @@ void DBM::set_cluster_potential() {
         }
         this->grid(i, j, min_TM);
       }
+//      if (this->peri_grid(i, j)) {
+//        auto nn = this->grid.get_neighborhood(i, j);
+//        double max = -1E5;
+//        double abs = 0.0;
+//        double potential = 0.0;
+//        for(auto& var : nn ) {
+//          if (this->b.cluster(var.first, var.second)) {
+//            potential = this->calc_cluster_potential(var.first, var.second);
+//            abs = fabs(this->b.val_cluster - potential);
+//            max = (abs > max)? potential:max;
+//          }
+//        }
+//        this->grid(i, j, potential);
+//      }
     }
   }
 }
@@ -303,7 +319,7 @@ PosVal DBM::select(PList& pl) {
     c = this->counter(pi, pj);
     this->counter(pi, pj, c+1);
     if (this->counter(pi, pj) >= this->threshold) {
-      this->counter(pi, pj, 0);
+//      this->counter(pi, pj, 0);
       return pl.at(i);
     }
   }
@@ -360,6 +376,7 @@ void DBM::add_particle(const Pos& p) {
   this->grid(p.first, p.second, this->b.val_cluster);
   update_perimeters(p);
 
+
   // delete site to stick from perimeters
   this->peri.erase(p);
   this->peri_grid(p.first, p.second, false);
@@ -382,33 +399,40 @@ void DBM::write(const string& f) {
   const string boundaryfile = f + ".boundary";
   const string hexfile = f + ".hex";
   const string hexallfile = f + ".hex_all";
+  const string counterfile = f + ".counter";
 
+  double newi = 0;
   double newj = 0;
 
   ofstream gofs(gridfile);
   ofstream bofs(boundaryfile);
   ofstream hofs(hexfile);
-  ofstream haofs(hexallfile);
+  ofstream cofs(counterfile);
 
   // write header
   write_header(gofs);
   write_header(bofs);
   write_header(hofs);
-  write_header(haofs);
+  write_header(cofs);
 
   // write data
+//  double yscale = 2.0/sqrt(3);
+  double yscale = sqrt(3)/2.0;
+  double xoffset = 0.5;
   for (int i = 0; i < this->size; i++) {
     for (int j = 0; j < this->size; j++) {
       gofs << this->grid(i, j) << " ";
       bofs << this->b.cluster(i, j) << " ";
 
-      newj = j + ((i%2)-0.5)/2.0;
+//      newj = j + ((i%2)-0.5)/2.0;
+      newi = i * yscale;
+      newj = j + (i%2)*xoffset;
       if (this->b.cluster(i, j)) {
-        hofs << newj << " " << i << endl;
+        hofs << newj << " " << newi << endl;
       }
-      haofs << newj << " " << i << " " << ((this->b.cluster(i, j))? 1:0) << endl;
+      cofs << newj << " " << newi << " " << this->counter(newj, i) << endl;
     }
-    haofs << endl;
+    cofs << endl;
 
     gofs << endl;
     bofs << endl;

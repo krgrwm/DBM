@@ -1,0 +1,16 @@
+#!/usr/local/bin/zsh -u
+
+dir=../data/soturon/param
+
+eta=1
+sigma=0
+s=50
+sigma_list=(0 0.001 0.002 0.003 0.004 0.005)
+
+
+width=100
+ps=0.7
+
+for i in $sigma_list; do
+    ../bin/plot_pdf -pdf -width $width -ps $ps $dir/param3_eta$eta\_sigma$i\_s$s | gnuplot -p
+done
